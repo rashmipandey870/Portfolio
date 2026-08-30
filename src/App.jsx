@@ -571,22 +571,29 @@ function App() {
 
             <div className="lg:col-span-7">
               <form 
-                onSubmit={(e) => { e.preventDefault(); alert("Thanks for your message! This form serves as a front-end shell interface. I've received your inquiry details."); }} 
+                action="https://formsubmit.co/rashmipd870@gmail.com" 
+                method="POST"
                 className="space-y-4"
               >
+                {/* FormSubmit configurations */}
+                <input type="hidden" name="_subject" value="New Portfolio Client Inquiry!" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value="https://rashmipandey870.github.io/Portfolio/" />
+                <input type="hidden" name="_captcha" value="false" />
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-400 uppercase font-mono mb-2">Name</label>
-                    <input required type="text" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" />
+                    <input required type="text" name="name" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-400 uppercase font-mono mb-2">Email</label>
-                    <input required type="email" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" />
+                    <input required type="email" name="email" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 uppercase font-mono mb-2">Project Brief</label>
-                  <textarea required rows={4} className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" placeholder="Explain what you need compiled..."></textarea>
+                  <textarea required rows={4} name="message" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" placeholder="Explain what you need compiled..."></textarea>
                 </div>
                 <button type="submit" className="w-full py-3 bg-eco-500 hover:bg-eco-400 transition-colors text-dark-950 font-bold rounded-lg shadow-md hover:scale-102">
                   Send Project Proposal
