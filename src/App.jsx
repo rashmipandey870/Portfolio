@@ -20,7 +20,7 @@ import {
   Unlock,
   AlertCircle
 } from 'lucide-react';
-import DVQSimulator from './components/DVQSimulator';
+import AttendanceDashboard from './components/AttendanceDashboard';
 import DeveloperTerminal from './components/DeveloperTerminal';
 import AICopilot from './components/AICopilot';
 import ResumeModal from './components/ResumeModal';
@@ -72,13 +72,14 @@ function App() {
       tagline: 'A distributed, MERN-stack system for intelligent workload routing across AWS cloud infrastructure.',
       category: 'backend',
       tech: ['Node.js', 'Express.js', 'React.js', 'MongoDB', 'AWS (EC2, CloudWatch)', 'REST APIs', 'PM2'],
-      github: 'https://github.com/rashmipandey870/aws-carbon-routing',
+      github: null, // Removed as it is not public
       description: 'Built as part of an ongoing research internship at NIAMT (National Institute of Advanced Manufacturing Technology). A decoupled 6-microservice Node.js/Express backend (routing, telemetry, state, RTT, and metrics services) with MongoDB for data storage, and a React frontend visualizing live routing decisions across a 7-region AWS deployment. Ingests real-time telemetry from AWS CloudWatch and third-party APIs. Runs in a PM2-supervised production environment with sub-100 microsecond routing-decision latency. Includes fault-injection and robustness testing under simulated regional outages.',
       bullets: [
-        'Built a decoupled 6-microservice architecture (routing, telemetry, state, RTT, metrics) handling multi-region AWS tasks.',
-        'Ingests real-time telemetry from AWS CloudWatch and third-party APIs for dynamic scheduling.',
+        'Decoupled 6-microservice Node.js/Express backend (routing, telemetry, state, RTT, and metrics services).',
+        'React frontend visualizing live routing decisions across a 7-region AWS deployment.',
+        'Ingests real-time telemetry from AWS CloudWatch and third-party APIs.',
         'Runs in a PM2-supervised production environment with sub-100 microsecond routing-decision latency.',
-        'Includes fault-injection and robustness testing under simulated regional grid outages.'
+        'Includes fault-injection and robustness testing under simulated regional outages.'
       ],
       underReview: true
     },
@@ -92,10 +93,10 @@ function App() {
       githubBackend: 'https://github.com/rashmipandey870/Sangathan-Backend',
       description: 'A role-based sports management Android app where captains select/reject players, coordinators manage teams, and students view team status. Built 10+ RESTful APIs (Node.js/Express) with MongoDB achieving sub-200ms response time. Automated round-robin and knockout bracket generation, eliminating manual scheduling. Implemented real-time score updates via Retrofit HTTP client, reducing tournament coordination overhead by ~80% compared to the prior spreadsheet-based workflow.',
       bullets: [
-        'Role-based Android app with player selection, coordinator management, and student view status workflows.',
-        'Built 10+ RESTful APIs with MongoDB achieving sub-200ms response times.',
-        'Automated tournament round-robin and knockout bracket generation to eliminate manual scheduling.',
-        'Implemented real-time score updates via Retrofit, reducing coordination overhead by ~80%.'
+        'Role-based sports management Android app where captains select/reject players, coordinators manage teams, and students view team status.',
+        'Built 10+ RESTful APIs (Node.js/Express) with MongoDB achieving sub-200ms response time.',
+        'Automated round-robin and knockout bracket generation, eliminating manual scheduling.',
+        'Implemented real-time score updates via Retrofit HTTP client, reducing tournament coordination overhead by ~80%.'
       ]
     },
     {
@@ -107,10 +108,10 @@ function App() {
       github: 'https://github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-',
       description: 'Takes subject, topic, time, deadline, and priority as input and generates a dynamic weekly schedule, distributing workload efficiently across available time. Tracks progress and ensures balanced study with dedicated revision time for better time management. A small, focused project demonstrating algorithmic/scheduling logic — present it modestly as a personal utility, not a large production system.',
       bullets: [
-        'Accepts subject, topic, time, deadline, and priority inputs to compute optimized weekly schedules.',
-        'Distributes student workload efficiently across available time blocks.',
-        'Ensures balanced learning with built-in, dedicated revision and review time slots.',
-        'Modest, focused personal utility implementing custom algorithmic scheduling logic in pure Java.'
+        'Takes subject, topic, time, deadline, and priority as input and generates a dynamic weekly schedule.',
+        'Distributes workload efficiently across available time blocks.',
+        'Tracks progress and ensures balanced study with dedicated revision time for better time management.',
+        'Focused personal utility demonstrating algorithmic/scheduling logic in pure Java.'
       ]
     },
     {
@@ -190,7 +191,7 @@ function App() {
           
           <nav className="hidden items-center gap-8 md:flex">
             <a href="#about" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">About</a>
-            <a href="#simulator" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">DVQ Simulator</a>
+            <a href="#attendance" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Attendance System</a>
             <a href="#projects" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Projects</a>
             <a href="#console" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">API Console</a>
             <a href="#contact" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Contact</a>
@@ -355,15 +356,15 @@ function App() {
           </div>
         </section>
 
-        {/* DVQ SIMULATOR (HIGH INTENSITY) */}
-        <section id="simulator" className="py-20 border-t border-white/5">
+        {/* ATTENDANCE SYSTEM SHOWCASE */}
+        <section id="attendance" className="py-20 border-t border-white/5">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">DVQ Carbon-Aware Simulation</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Attendance Management Showcase</h2>
             <p className="mx-auto max-w-2xl text-slate-400">
-              Interactive demonstration of the carbon-aware Lyapunov routing engine. Tweak real-time parameters to see how the system dynamically shifts workload packets to minimize grid carbon intensity.
+              An interactive administration dashboard built for the Student Management System (SMS). Register class lists, inspect attendance percentages, or filter students with low attendance (below 75%) to demonstrate database index schema handling.
             </p>
           </div>
-          <DVQSimulator />
+          <AttendanceDashboard />
         </section>
 
         {/* PROJECTS SECTION */}
@@ -421,7 +422,7 @@ function App() {
                           <input 
                             required 
                             type="text" 
-                            placeholder="e.g. Online assessment portal"
+                            placeholder="e.g. Online exam portal"
                             value={examoraInputs.purpose}
                             onChange={(e) => setExamoraInputs({...examoraInputs, purpose: e.target.value})}
                             className="w-full bg-dark-900 border border-white/10 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-500"
@@ -500,14 +501,16 @@ function App() {
 
                 <div className="border-t border-white/5 pt-4 flex flex-wrap gap-3 items-center justify-between">
                   <div className="flex gap-4">
-                    <a 
-                      href={p.github} 
-                      target="_blank" 
-                      rel="noreferrer" 
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-eco-400 transition-colors"
-                    >
-                      GitHub Repo <ExternalLink className="h-3 w-3" />
-                    </a>
+                    {p.github && (
+                      <a 
+                        href={p.github} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-eco-400 transition-colors"
+                      >
+                        GitHub Repo <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
                     {p.githubBackend && (
                       <a 
                         href={p.githubBackend} 
