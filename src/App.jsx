@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   Github, 
   Linkedin, 
@@ -15,8 +16,9 @@ import {
   Database, 
   ExternalLink, 
   ChevronRight,
-  Download,
-  X
+  Lock,
+  Unlock,
+  AlertCircle
 } from 'lucide-react';
 import DVQSimulator from './components/DVQSimulator';
 import DeveloperTerminal from './components/DeveloperTerminal';
@@ -25,10 +27,18 @@ import ResumeModal from './components/ResumeModal';
 
 function App() {
   const [resumeOpen, setResumeOpen] = useState(false);
-  const [terminalOpen, setTerminalOpen] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorHovered, setCursorHovered] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
+
+  // Examora local state confirmation
+  const [examoraConfirmed, setExamoraConfirmed] = useState(false);
+  const [examoraInputs, setExamoraInputs] = useState({
+    purpose: '',
+    users: '',
+    pdfFeature: ''
+  });
+  const [showExamoraForm, setShowExamoraForm] = useState(false);
 
   // Track mouse coordinates for custom cursor
   useEffect(() => {
@@ -57,24 +67,92 @@ function App() {
 
   const projects = [
     {
-      title: 'DVQ — Carbon-Aware Edge Routing System',
+      id: 'dvq',
+      title: 'DVQ — Distributed Cloud Workload Routing System',
+      tagline: 'A distributed, MERN-stack system for intelligent workload routing across AWS cloud infrastructure.',
       category: 'backend',
-      year: '2026',
-      tech: ['Node.js', 'Express.js', 'MongoDB', 'AWS (7-region)', 'REST APIs', 'Lyapunov Optimization'],
-      description: 'A decoupled 6-microservice backend routing system for AWS cloud infrastructure. Formulates workload placement as a Lyapunov drift-plus-penalty optimization to balance SLA latency constraints and real-time grid carbon intensity.',
-      metrics: ['35.87% Carbon Saved', '61µs Decision Time', '0.0% SLA Violations'],
-      github: 'https://github.com/rashmipandey870/Portfolio'
+      tech: ['Node.js', 'Express.js', 'React.js', 'MongoDB', 'AWS (EC2, CloudWatch)', 'REST APIs', 'PM2'],
+      github: 'https://github.com/rashmipandey870/aws-carbon-routing',
+      description: 'Built as part of an ongoing research internship at NIAMT (National Institute of Advanced Manufacturing Technology). A decoupled 6-microservice Node.js/Express backend (routing, telemetry, state, RTT, and metrics services) with MongoDB for data storage, and a React frontend visualizing live routing decisions across a 7-region AWS deployment. Ingests real-time telemetry from AWS CloudWatch and third-party APIs. Runs in a PM2-supervised production environment with sub-100 microsecond routing-decision latency. Includes fault-injection and robustness testing under simulated regional outages.',
+      bullets: [
+        'Built a decoupled 6-microservice architecture (routing, telemetry, state, RTT, metrics) handling multi-region AWS tasks.',
+        'Ingests real-time telemetry from AWS CloudWatch and third-party APIs for dynamic scheduling.',
+        'Runs in a PM2-supervised production environment with sub-100 microsecond routing-decision latency.',
+        'Includes fault-injection and robustness testing under simulated regional grid outages.'
+      ],
+      underReview: true
     },
     {
-      title: 'Sports Fixture Management System',
+      id: 'sports',
+      title: 'Sports Fixture Management System (Sangathan)',
+      tagline: 'A full-stack Android tournament management platform used by 100+ participants.',
       category: 'mobile',
-      year: '2025',
-      tech: ['Android Studio', 'Java', 'Node.js', 'Express.js', 'MongoDB', 'Retrofit'],
-      description: 'A full-stack Android application managing end-to-end tournament workflows for 100+ participants, automating round-robin and knockout bracket generation with sub-200ms API response times.',
-      metrics: ['100+ Active Users', '80% Lower Overhead', 'Sub-200ms Latency'],
-      github: 'https://github.com/rashmipandey870/Portfolio'
+      tech: ['Java (Android)', 'Node.js', 'Express.js', 'MongoDB', 'Retrofit', 'REST APIs'],
+      github: 'https://github.com/rashmipandey870/Sangathan-sports-management-Android-application-',
+      githubBackend: 'https://github.com/rashmipandey870/Sangathan-Backend',
+      description: 'A role-based sports management Android app where captains select/reject players, coordinators manage teams, and students view team status. Built 10+ RESTful APIs (Node.js/Express) with MongoDB achieving sub-200ms response time. Automated round-robin and knockout bracket generation, eliminating manual scheduling. Implemented real-time score updates via Retrofit HTTP client, reducing tournament coordination overhead by ~80% compared to the prior spreadsheet-based workflow.',
+      bullets: [
+        'Role-based Android app with player selection, coordinator management, and student view status workflows.',
+        'Built 10+ RESTful APIs with MongoDB achieving sub-200ms response times.',
+        'Automated tournament round-robin and knockout bracket generation to eliminate manual scheduling.',
+        'Implemented real-time score updates via Retrofit, reducing coordination overhead by ~80%.'
+      ]
+    },
+    {
+      id: 'planner',
+      title: 'Study Planner — Scheduling Algorithm',
+      tagline: 'A Java-based tool that auto-generates balanced weekly study schedules.',
+      category: 'backend',
+      tech: ['Java'],
+      github: 'https://github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-',
+      description: 'Takes subject, topic, time, deadline, and priority as input and generates a dynamic weekly schedule, distributing workload efficiently across available time. Tracks progress and ensures balanced study with dedicated revision time for better time management. A small, focused project demonstrating algorithmic/scheduling logic — present it modestly as a personal utility, not a large production system.',
+      bullets: [
+        'Accepts subject, topic, time, deadline, and priority inputs to compute optimized weekly schedules.',
+        'Distributes student workload efficiently across available time blocks.',
+        'Ensures balanced learning with built-in, dedicated revision and review time slots.',
+        'Modest, focused personal utility implementing custom algorithmic scheduling logic in pure Java.'
+      ]
+    },
+    {
+      id: 'examora',
+      title: 'EXAMORA — Jakarta Enterprise Application',
+      tagline: examoraConfirmed ? `An enterprise web application confirming raw JSP/Servlet document processes.` : 'Java enterprise web application deployed on Apache Tomcat (WAR).',
+      category: 'backend',
+      tech: ['Java (Jakarta Servlet + JSP + JSTL)', 'MySQL', 'BCrypt', 'Jackson', 'Apache PDFBox', 'Tomcat'],
+      github: 'https://github.com/rashmipandey870/EXAMORA',
+      description: examoraConfirmed 
+        ? `Confirmed Functionality: ${examoraInputs.purpose}. Built for: ${examoraInputs.users}. PDF Parsing: ${examoraInputs.pdfFeature}. This raw Servlet/JSP app uses MySQL for storage, BCrypt for secure hashing, and Apache PDFBox to process exam/study material, making it the most active repository with 61 commits.`
+        : '[PENDING CONFIRMATION] Based on the codebase, this appears to be a Java enterprise web application using raw Servlets/JSP, with MySQL for data storage, BCrypt for secure password hashing, and Apache PDFBox for extracting text from PDF files (exam papers or study material). This is the most actively developed project with 61 commits.',
+      bullets: examoraConfirmed 
+        ? [
+            `Purpose: ${examoraInputs.purpose}`,
+            `Target Audience: ${examoraInputs.users}`,
+            `PDF Parser role: ${examoraInputs.pdfFeature}`,
+            'Most active project repository with 61 sequential commits.'
+          ]
+        : [
+            'Java enterprise web application using raw Jakarta Servlets and JSP (no Spring framework).',
+            'Uses MySQL for structured database storage and BCrypt for secure password hashing.',
+            'Uses Apache PDFBox library to extract text and process PDF documents.',
+            'Most active project repository with 61 sequential commits.'
+          ],
+      locked: !examoraConfirmed
     }
   ];
+
+  const handleExamoraSubmit = (e) => {
+    e.preventDefault();
+    if (examoraInputs.purpose && examoraInputs.users && examoraInputs.pdfFeature) {
+      setExamoraConfirmed(true);
+      setShowExamoraForm(false);
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#10b981', '#06b6d4', '#ffffff']
+      });
+    }
+  };
 
   const filteredProjects = activeTab === 'all' 
     ? projects 
@@ -282,7 +360,7 @@ function App() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">DVQ Carbon-Aware Simulation</h2>
             <p className="mx-auto max-w-2xl text-slate-400">
-              Interactive demonstration of the carbon-aware Lyapunov routing engine. Tweak real-time parameters to see how the system dynamically shifts packet workloads to minimize grid carbon intensity.
+              Interactive demonstration of the carbon-aware Lyapunov routing engine. Tweak real-time parameters to see how the system dynamically shifts workload packets to minimize grid carbon intensity.
             </p>
           </div>
           <DVQSimulator />
@@ -293,7 +371,7 @@ function App() {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">Featured Projects</h2>
-              <p className="text-slate-400">Production-grade systems built from scratch.</p>
+              <p className="text-slate-400">Factual and verifiable project implementations.</p>
             </div>
             <div className="flex items-center gap-2 mt-4 md:mt-0 bg-white/5 rounded-lg p-1 border border-white/5">
               {['all', 'backend', 'mobile'].map((tab) => (
@@ -314,36 +392,132 @@ function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((p, idx) => (
-              <div key={idx} className="glass-panel glass-panel-hover rounded-xl p-8 flex flex-col justify-between h-full relative overflow-hidden group">
-                <div className="absolute top-0 right-0 bg-white/5 border-l border-b border-white/5 px-3 py-1 font-mono text-xs text-white/50">{p.year}</div>
+              <div key={p.id} className="glass-panel rounded-xl p-8 flex flex-col justify-between h-full relative overflow-hidden group">
+                
+                {/* Out-of-the-box Confirmation lock logic for EXAMORA */}
+                {p.locked && (
+                  <div className="absolute inset-0 bg-dark-950/95 backdrop-blur-md z-20 flex flex-col p-6 items-center justify-center text-center">
+                    {!showExamoraForm ? (
+                      <div className="space-y-4 max-w-[280px]">
+                        <Lock className="h-10 w-10 text-yellow-500 mx-auto" />
+                        <h4 className="font-mono text-sm font-bold text-white uppercase tracking-wider">Verification Required</h4>
+                        <p className="text-slate-400 text-xs leading-relaxed">
+                          This project card is locked until the developer provides project functionality metadata.
+                        </p>
+                        <button
+                          onClick={() => setShowExamoraForm(true)}
+                          className="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-dark-950 text-xs font-bold rounded-lg transition-all"
+                        >
+                          Configure Metadata
+                        </button>
+                      </div>
+                    ) : (
+                      <form onSubmit={handleExamoraSubmit} className="space-y-3 w-full text-left font-mono">
+                        <div className="flex items-center gap-2 text-xs font-bold text-yellow-400 mb-2">
+                          <AlertCircle className="h-4 w-4" /> Verify EXAMORA Metadata
+                        </div>
+                        <div>
+                          <label className="block text-[9px] uppercase tracking-wide text-slate-400 mb-1">1. What does the app do?</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. Online assessment portal"
+                            value={examoraInputs.purpose}
+                            onChange={(e) => setExamoraInputs({...examoraInputs, purpose: e.target.value})}
+                            className="w-full bg-dark-900 border border-white/10 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[9px] uppercase tracking-wide text-slate-400 mb-1">2. Who are the target users?</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. Students and teachers"
+                            value={examoraInputs.users}
+                            onChange={(e) => setExamoraInputs({...examoraInputs, users: e.target.value})}
+                            className="w-full bg-dark-900 border border-white/10 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[9px] uppercase tracking-wide text-slate-400 mb-1">3. What is the PDF-parsing for?</label>
+                          <input 
+                            required 
+                            type="text" 
+                            placeholder="e.g. Extract exam questions"
+                            value={examoraInputs.pdfFeature}
+                            onChange={(e) => setExamoraInputs({...examoraInputs, pdfFeature: e.target.value})}
+                            className="w-full bg-dark-900 border border-white/10 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-500"
+                          />
+                        </div>
+                        <div className="flex gap-2 pt-2">
+                          <button 
+                            type="button" 
+                            onClick={() => setShowExamoraForm(false)} 
+                            className="flex-1 py-1.5 border border-white/10 text-white hover:bg-white/5 rounded text-xs"
+                          >
+                            Cancel
+                          </button>
+                          <button 
+                            type="submit" 
+                            className="flex-1 py-1.5 bg-eco-500 text-dark-950 font-bold rounded text-xs"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    )}
+                  </div>
+                )}
+
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-4">{p.title}</h3>
-                  <div className="flex flex-wrap gap-1.5 mb-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-lg font-bold text-white group-hover:text-eco-400 transition-colors leading-tight mr-4">{p.title}</h3>
+                    {p.underReview && (
+                      <span className="shrink-0 bg-eco-500/10 border border-eco-500/20 text-[9px] font-semibold text-eco-400 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Under Review
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-eco-400/90 font-medium mb-4 italic">{p.tagline}</p>
+                  
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {p.tech.map(t => (
                       <span key={t} className="bg-white/5 px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 border border-white/5">{t}</span>
                     ))}
                   </div>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-6">{p.description}</p>
+
+                  <p className="text-slate-400 text-xs leading-relaxed mb-5">{p.description}</p>
+                  
+                  <div className="space-y-2 mb-6">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">Key Implementations:</div>
+                    <ul className="list-disc pl-4 text-xs text-slate-400 space-y-1">
+                      {p.bullets.map((b, bIdx) => (
+                        <li key={bIdx}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
-                <div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-white/5 pt-4 mb-6">
-                    {p.metrics.map(m => (
-                      <div key={m} className="text-center">
-                        <div className="text-[10px] text-slate-500 uppercase tracking-widest">Metric</div>
-                        <div className="text-xs font-bold text-eco-400">{m}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between">
+                <div className="border-t border-white/5 pt-4 flex flex-wrap gap-3 items-center justify-between">
+                  <div className="flex gap-4">
                     <a 
                       href={p.github} 
                       target="_blank" 
                       rel="noreferrer" 
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-white group-hover:text-eco-400 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-eco-400 transition-colors"
                     >
-                      Inspect Source <ExternalLink className="h-4 w-4" />
+                      GitHub Repo <ExternalLink className="h-3 w-3" />
                     </a>
+                    {p.githubBackend && (
+                      <a 
+                        href={p.githubBackend} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-eco-400 transition-colors"
+                      >
+                        Backend <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
