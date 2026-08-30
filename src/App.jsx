@@ -20,11 +20,9 @@ import {
   Unlock,
   AlertCircle,
   Calculator,
-  Compass,
   ArrowRight,
-  UserCheck,
   CheckCircle,
-  Star
+  Network
 } from 'lucide-react';
 import AttendanceDashboard from './components/AttendanceDashboard';
 import DeveloperTerminal from './components/DeveloperTerminal';
@@ -63,6 +61,9 @@ function App() {
   // Contact Form State
   const [contactMessage, setContactMessage] = useState('');
 
+  // Node Grid State for interactive graphic
+  const [hoveredNode, setHoveredNode] = useState(null);
+
   // Track mouse coordinates for custom cursor
   useEffect(() => {
     const updateMouse = (e) => {
@@ -88,7 +89,7 @@ function App() {
     return () => window.removeEventListener('mouseover', handleMouseOver);
   }, []);
 
-  // Hero Canvas Particle Animation (Distributed System Graphic)
+  // Hero Canvas Particle Animation (Distributed System Network Lines)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -98,50 +99,47 @@ function App() {
 
     const handleResize = () => {
       canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight || 500;
+      canvas.height = canvas.parentElement.clientHeight || 550;
     };
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Initialize particles
-    const particleCount = 45;
+    const particleCount = 35;
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 2 + 1
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 1.5 + 1
       });
     }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(16, 185, 129, 0.05)';
       
-      // Draw grid connections
+      // Draw grid lines
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         p1.x += p1.vx;
         p1.y += p1.vy;
 
-        // Boundary bounce
         if (p1.x < 0 || p1.x > canvas.width) p1.vx *= -1;
         if (p1.y < 0 || p1.y > canvas.height) p1.vy *= -1;
 
         ctx.beginPath();
         ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(16, 185, 129, 0.4)';
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
         ctx.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-          if (dist < 100) {
+          if (dist < 110) {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 - dist / 800})`;
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.12 - dist / 900})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -166,7 +164,7 @@ function App() {
     if (projectType === 'mobile') {
       basePrice = 1200;
       baseHours = 45;
-      techStack = 'Java (Android Studio) + Retrofit';
+      techStack = 'Java (Android) + Retrofit';
     } else if (projectType === 'cloud') {
       basePrice = 1000;
       baseHours = 40;
@@ -177,7 +175,6 @@ function App() {
       techStack = 'Node.js + Express + MongoDB';
     }
 
-    // Complexity multiplier
     if (complexity === 'standard') {
       basePrice *= 1.4;
       baseHours *= 1.3;
@@ -186,7 +183,6 @@ function App() {
       baseHours *= 2.0;
     }
 
-    // Features addition
     let extraPrice = 0;
     let extraHours = 0;
     if (features.auth) { extraPrice += 150; extraHours += 6; }
@@ -198,11 +194,10 @@ function App() {
     let totalPrice = Math.round(basePrice + extraPrice);
     let totalHours = Math.round(baseHours + extraHours);
 
-    // Timeline modifier
     if (timeline === 'rush') {
-      totalPrice = Math.round(totalPrice * 1.25); // 25% rush charge
+      totalPrice = Math.round(totalPrice * 1.25);
     } else if (timeline === 'flexible') {
-      totalPrice = Math.round(totalPrice * 0.9); // 10% flexible discount
+      totalPrice = Math.round(totalPrice * 0.9);
     }
 
     setCalculatorResults({
@@ -216,7 +211,6 @@ function App() {
     const briefText = `Hi Rashmi,\n\nI calculated an estimate on your website for a project:\n• Project Type: ${projectType.toUpperCase()}\n• Complexity: ${complexity.toUpperCase()}\n• Features: ${Object.keys(features).filter(k => features[k]).join(', ') || 'None'}\n• Timeline: ${timeline.toUpperCase()}\n• Estimated Budget: ${calculatorResults.budget}\n• Expected Hours: ${calculatorResults.hours}\n\nLet's discuss how we can build this.`;
     setContactMessage(briefText);
     
-    // Smooth scroll to contact form
     const contactSection = document.getElementById('contact');
     contactSection?.scrollIntoView({ behavior: 'smooth' });
     
@@ -235,7 +229,7 @@ function App() {
       tagline: 'A distributed, MERN-stack system for intelligent workload routing across AWS cloud infrastructure.',
       category: 'backend',
       tech: ['Node.js', 'Express.js', 'React.js', 'MongoDB', 'AWS (EC2, CloudWatch)', 'REST APIs', 'PM2'],
-      github: null, // Removed as it is not public
+      github: null,
       description: 'Built as part of an ongoing research internship at NIAMT (National Institute of Advanced Manufacturing Technology). A decoupled 6-microservice Node.js/Express backend (routing, telemetry, state, RTT, and metrics services) with MongoDB for data storage, and a React frontend visualizing live routing decisions across a 7-region AWS deployment. Ingests real-time telemetry from AWS CloudWatch and third-party APIs. Runs in a PM2-supervised production environment with sub-100 microsecond routing-decision latency. Includes fault-injection and robustness testing under simulated regional outages.',
       bullets: [
         'Decoupled 6-microservice Node.js/Express backend (routing, telemetry, state, RTT, and metrics services).',
@@ -364,7 +358,7 @@ function App() {
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setResumeOpen(true)}
-              className="relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-eco-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-dark-950 shadow-md transition-all hover:scale-105 hover:shadow-eco-500/20 animate-pulse"
+              className="relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-eco-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-dark-950 shadow-md transition-all hover:scale-105 hover:shadow-eco-500/20"
             >
               Resume
             </button>
@@ -375,7 +369,7 @@ function App() {
       <main className="mx-auto max-w-7xl px-6 pb-24 pt-12">
         
         {/* HERO SECTION */}
-        <section id="hero" className="grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:py-24 relative min-h-[500px]">
+        <section id="hero" className="grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:py-24 relative min-h-[550px]">
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
           
           <div className="space-y-6 lg:col-span-7 z-10 relative">
@@ -391,20 +385,20 @@ function App() {
               Engineering <span className="bg-gradient-to-r from-eco-400 to-cyan-400 bg-clip-text text-transparent">Carbon-Aware</span> Cloud Infrastructure
             </h1>
             
-            <p className="max-w-xl text-lg text-slate-400">
+            <p className="max-w-xl text-lg text-slate-400 leading-relaxed">
               I am a CSE undergraduate specializing in distributed systems, high-performance backends, and carbon-efficient resource routing. I formulate optimization algorithms to reduce environmental impact without sacrificing SLA latency constraints.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-4">
               <a 
                 href="#projects" 
-                className="inline-flex items-center gap-2 rounded-lg bg-white/5 border border-white/10 px-6 py-3 font-semibold text-white transition-all hover:bg-white/10 hover:border-white/20"
+                className="inline-flex items-center gap-2 rounded-lg bg-white/5 border border-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-white/20"
               >
                 Inspect My Work <ChevronRight className="h-4 w-4" />
               </a>
               <a 
                 href="#calculator" 
-                className="inline-flex items-center gap-2 rounded-lg bg-eco-500 px-6 py-3 font-semibold text-dark-950 shadow-md transition-all hover:bg-eco-400 hover:scale-102"
+                className="inline-flex items-center gap-2 rounded-lg bg-eco-500 px-6 py-3 text-sm font-semibold text-dark-950 shadow-md transition-all hover:bg-eco-400 hover:scale-102"
               >
                 Estimate Project
               </a>
@@ -423,20 +417,78 @@ function App() {
             </div>
           </div>
 
+          {/* Interactive Distributed Architecture Node Grid (Replacing simple CPU icon) */}
           <div className="flex justify-center lg:col-span-5 z-10 relative">
-            <div className="relative w-full max-w-[400px] aspect-square rounded-2xl border border-white/10 bg-gradient-to-br from-dark-900 to-dark-950 p-1">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-eco-500 to-cyan-500 rounded-2xl opacity-30 blur-lg animate-pulse-slow pointer-events-none" />
-              <div className="relative w-full h-full rounded-2xl bg-dark-950 overflow-hidden flex flex-col items-center justify-center p-6">
-                <div className="absolute top-4 left-4 font-mono text-xs text-white/40">&lt;System_Node&gt;</div>
-                <Cpu className="h-20 w-20 text-eco-500 animate-float mb-6" />
-                <h3 className="font-mono text-lg font-bold text-white mb-2">Lyapunov Opt Engine</h3>
-                <p className="text-center text-xs text-slate-500 max-w-[280px]">
-                  Solving: min (Carbon(t)) s.t. queueing delay &lt; V * SLA(t)
-                </p>
-                <div className="w-full bg-white/5 h-2 rounded-full mt-6 overflow-hidden">
-                  <div className="bg-gradient-to-r from-eco-500 to-cyan-400 h-full w-[80%] rounded-full animate-pulse" />
+            <div className="relative w-full max-w-[420px] aspect-square rounded-2xl border border-white/10 bg-dark-900/60 p-6 flex flex-col justify-between">
+              <div className="absolute top-4 left-4 font-mono text-[10px] text-white/30 uppercase tracking-widest">&lt;Distributed_System_Model&gt;</div>
+              
+              <div className="flex justify-between items-center mt-6">
+                {/* Gateway node */}
+                <div 
+                  onMouseEnter={() => setHoveredNode('gateway')}
+                  onMouseLeave={() => setHoveredNode(null)}
+                  className={`rounded-xl border p-4 bg-dark-950/80 transition-all z-15 cursor-crosshair text-center flex-1 mx-2 flex flex-col items-center justify-center ${
+                    hoveredNode === 'gateway' ? 'border-eco-500 shadow-md shadow-eco-500/20' : 'border-white/5'
+                  }`}
+                >
+                  <Network className="h-5 w-5 text-eco-400 mb-1" />
+                  <span className="font-mono text-[10px] text-white font-bold">API Gateway</span>
+                  <span className="text-[8px] text-slate-500 font-mono">RTT: 61µs</span>
                 </div>
               </div>
+
+              <div className="flex justify-between items-center my-4">
+                {/* Auth Service node */}
+                <div 
+                  onMouseEnter={() => setHoveredNode('auth')}
+                  onMouseLeave={() => setHoveredNode(null)}
+                  className={`rounded-xl border p-3 bg-dark-950/80 transition-all z-15 cursor-crosshair text-center flex-1 mx-2 flex flex-col items-center justify-center ${
+                    hoveredNode === 'auth' ? 'border-eco-500 shadow-md shadow-eco-500/20' : 'border-white/5'
+                  }`}
+                >
+                  <Cpu className="h-4 w-4 text-cyan-400 mb-1" />
+                  <span className="font-mono text-[9px] text-white font-bold">Auth Service</span>
+                  <span className="text-[8px] text-slate-500 font-mono">JWT Secure</span>
+                </div>
+                
+                {/* Telemetry node */}
+                <div 
+                  onMouseEnter={() => setHoveredNode('telemetry')}
+                  onMouseLeave={() => setHoveredNode(null)}
+                  className={`rounded-xl border p-3 bg-dark-950/80 transition-all z-15 cursor-crosshair text-center flex-1 mx-2 flex flex-col items-center justify-center ${
+                    hoveredNode === 'telemetry' ? 'border-eco-500 shadow-md shadow-eco-500/20' : 'border-white/5'
+                  }`}
+                >
+                  <Cpu className="h-4 w-4 text-eco-400 mb-1" />
+                  <span className="font-mono text-[9px] text-white font-bold">Telemetry</span>
+                  <span className="text-[8px] text-slate-500 font-mono">RTT Prober</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center">
+                {/* Database node */}
+                <div 
+                  onMouseEnter={() => setHoveredNode('db')}
+                  onMouseLeave={() => setHoveredNode(null)}
+                  className={`rounded-xl border p-4 bg-dark-950/80 transition-all z-15 cursor-crosshair text-center flex-1 mx-2 flex flex-col items-center justify-center ${
+                    hoveredNode === 'db' ? 'border-eco-500 shadow-md shadow-eco-500/20' : 'border-white/5'
+                  }`}
+                >
+                  <Database className="h-5 w-5 text-cyan-400 mb-1" />
+                  <span className="font-mono text-[10px] text-white font-bold">Database</span>
+                  <span className="text-[8px] text-slate-500 font-mono">MongoDB / SQL</span>
+                </div>
+              </div>
+
+              {/* Floating Status Card */}
+              <div className="bg-dark-950 border border-white/5 rounded-xl p-3 min-h-[50px] font-mono text-[10px] text-slate-400 flex items-center justify-center">
+                {hoveredNode === 'gateway' && <span className="text-white">API Gateway: Manages rate limits and routes workloads across 7 AWS nodes.</span>}
+                {hoveredNode === 'auth' && <span className="text-cyan-400">Auth Service: Secures routes with JWT validation and role-based policies.</span>}
+                {hoveredNode === 'telemetry' && <span className="text-eco-400">Telemetry Module: Queries Electricity Maps API and handles RTT statistics.</span>}
+                {hoveredNode === 'db' && <span className="text-white">Database: Stores indexes, user activity logs, and attendance schemas.</span>}
+                {!hoveredNode && <span>Hover over nodes to inspect architectural service states.</span>}
+              </div>
+
             </div>
           </div>
         </section>
@@ -448,27 +500,24 @@ function App() {
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 Technical Stack & Expertise
               </h2>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed text-sm">
                 As a Computer Science & Engineering undergraduate at Amity University (CGPA 8.00/10), my research and engineering are aligned around high-performance systems and eco-friendly web architecture.
               </p>
-              <div className="rounded-lg border border-white/5 bg-white/5 p-6 space-y-4">
-                <h4 className="font-mono text-sm font-semibold text-white flex items-center gap-2">
-                  <Award className="h-4 w-4 text-eco-500" /> Key Certifications
-                </h4>
-                <ul className="space-y-3 text-xs text-slate-400">
-                  <li className="flex items-start gap-2">
-                    <span className="text-eco-500">•</span>
-                    <span>Microsoft Data Pro — SQL Server AI Capabilities</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-eco-500">•</span>
-                    <span>NPTEL — Joy of Computing Using Python (IIT Madras)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-eco-500">•</span>
-                    <span>Infosys Springboard — Java Programming Fundamentals</span>
-                  </li>
-                </ul>
+              
+              {/* Timeline widget */}
+              <div className="border-l border-white/10 pl-6 space-y-6 py-2 relative">
+                <div className="relative">
+                  <div className="absolute -left-[30px] top-1 h-3.5 w-3.5 rounded-full bg-eco-500 border border-dark-950" />
+                  <div className="text-[10px] font-mono font-bold text-eco-400 uppercase">June 1, 2026</div>
+                  <h4 className="text-xs font-bold text-white">Joined NIAMT Research</h4>
+                  <p className="text-[10px] text-slate-500">Began under supervision of Dr. Rahul Mishra.</p>
+                </div>
+                <div className="relative">
+                  <div className="absolute -left-[30px] top-1 h-3.5 w-3.5 rounded-full bg-eco-500 border border-dark-950" />
+                  <div className="text-[10px] font-mono font-bold text-eco-400 uppercase">July 15, 2026</div>
+                  <h4 className="text-xs font-bold text-white">Completed Internship</h4>
+                  <p className="text-[10px] text-slate-500">Validated 35% carbon routing footprint reductions.</p>
+                </div>
               </div>
             </div>
             
@@ -480,7 +529,7 @@ function App() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {['Java', 'Python', 'C/C++', 'JavaScript', 'SQL'].map(s => (
-                    <span key={s} className="rounded bg-white/5 px-2.5 py-1 text-xs text-white border border-white/5">{s}</span>
+                    <span key={s} className="rounded-full bg-eco-500/10 px-3 py-1 text-[11px] font-semibold text-eco-400 border border-eco-500/20">{s}</span>
                   ))}
                 </div>
               </div>
@@ -491,7 +540,7 @@ function App() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {['Node.js', 'Express.js', 'React.js', 'REST APIs', 'XML'].map(s => (
-                    <span key={s} className="rounded bg-white/5 px-2.5 py-1 text-xs text-white border border-white/5">{s}</span>
+                    <span key={s} className="rounded-full bg-eco-500/10 px-3 py-1 text-[11px] font-semibold text-eco-400 border border-eco-500/20">{s}</span>
                   ))}
                 </div>
               </div>
@@ -501,8 +550,8 @@ function App() {
                   <Database className="h-4 w-4" /> Databases & DevOps
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {['MongoDB', 'MySQL', 'Oracle Developer', 'AWS (EC2/CloudWatch)', 'Multi-region deployment'].map(s => (
-                    <span key={s} className="rounded bg-white/5 px-2.5 py-1 text-xs text-white border border-white/5">{s}</span>
+                  {['MongoDB', 'MySQL', 'Oracle Developer', 'AWS (EC2/CloudWatch)', 'Multi-region'].map(s => (
+                    <span key={s} className="rounded-full bg-eco-500/10 px-3 py-1 text-[11px] font-semibold text-eco-400 border border-eco-500/20">{s}</span>
                   ))}
                 </div>
               </div>
@@ -513,7 +562,7 @@ function App() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {['Carbon-aware edge routing', 'Lyapunov optimization', 'Git/GitHub', 'Android Studio', 'Postman', 'Retrofit'].map(s => (
-                    <span key={s} className="rounded bg-white/5 px-2.5 py-1 text-xs text-white border border-white/5">{s}</span>
+                    <span key={s} className="rounded-full bg-eco-500/10 px-3 py-1 text-[11px] font-semibold text-eco-400 border border-eco-500/20">{s}</span>
                   ))}
                 </div>
               </div>
@@ -526,7 +575,7 @@ function App() {
         <section id="attendance" className="py-20 border-t border-white/5">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">Attendance Management Showcase</h2>
-            <p className="mx-auto max-w-2xl text-slate-400">
+            <p className="mx-auto max-w-2xl text-slate-400 text-sm leading-relaxed">
               An interactive administration dashboard built for the Student Management System (SMS). Register class lists, inspect attendance percentages, or filter students with low attendance (below 75%) to demonstrate database index schema handling.
             </p>
           </div>
@@ -538,7 +587,7 @@ function App() {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">Featured Projects</h2>
-              <p className="text-slate-400">Factual and verifiable project implementations.</p>
+              <p className="text-slate-400 text-sm">Factual and verifiable project implementations.</p>
             </div>
             <div className="flex items-center gap-2 mt-4 md:mt-0 bg-white/5 rounded-lg p-1 border border-white/5">
               {['all', 'backend', 'mobile'].map((tab) => (
@@ -568,7 +617,7 @@ function App() {
                       <div className="space-y-4 max-w-[280px]">
                         <Lock className="h-10 w-10 text-yellow-500 mx-auto" />
                         <h4 className="font-mono text-sm font-bold text-white uppercase tracking-wider">Verification Required</h4>
-                        <p className="text-slate-400 text-xs leading-relaxed">
+                        <p className="text-slate-400 text-xs leading-relaxed font-sans">
                           This project card is locked until the developer provides project functionality metadata.
                         </p>
                         <button
@@ -657,7 +706,7 @@ function App() {
                   
                   <div className="space-y-2 mb-6">
                     <div className="text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">Key Implementations:</div>
-                    <ul className="list-disc pl-4 text-xs text-slate-400 space-y-1">
+                    <ul className="list-disc pl-4 text-xs text-slate-400 space-y-1 font-sans">
                       {p.bullets.map((b, bIdx) => (
                         <li key={bIdx}>{b}</li>
                       ))}
@@ -694,7 +743,7 @@ function App() {
           </div>
         </section>
 
-        {/* FREELANCE PROJECT CALCULATOR */}
+        {/* SYSTEM SCOPER (ESTIMATOR) */}
         <section id="calculator" className="py-20 border-t border-white/5">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -854,7 +903,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5 space-y-6">
               <h2 className="text-3xl font-bold text-white">Let's build something significant together</h2>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed text-sm">
                 If you are looking for a backend architect, cloud systems specialist, or full-stack software engineer who understands performance, design, and environmental impact, let's talk.
               </p>
               
@@ -915,7 +964,7 @@ function App() {
                     placeholder="Explain what you need compiled..."
                   ></textarea>
                 </div>
-                <button type="submit" className="w-full py-3 bg-eco-500 hover:bg-eco-400 transition-colors text-dark-950 font-bold rounded-lg shadow-md hover:scale-102">
+                <button type="submit" className="w-full py-3 bg-eco-500 hover:bg-eco-400 transition-colors text-dark-950 font-bold rounded-lg shadow-md hover:scale-102 font-mono text-xs uppercase tracking-wider">
                   Send Project Proposal
                 </button>
               </form>
@@ -929,7 +978,7 @@ function App() {
       <footer className="border-t border-white/5 bg-dark-900 py-8">
         <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500">&copy; {new Date().getFullYear()} Rashmi Pandey. All rights reserved.</p>
-          <div className="flex gap-6 text-xs text-slate-500">
+          <div className="flex gap-6 text-xs text-slate-500 font-mono">
             <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" className="hover:text-white">GitHub</a>
             <a href="https://linkedin.com/in/rashmi-pandey-590a22340" target="_blank" rel="noreferrer" className="hover:text-white">LinkedIn</a>
           </div>
