@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { 
@@ -18,7 +18,13 @@ import {
   ChevronRight,
   Lock,
   Unlock,
-  AlertCircle
+  AlertCircle,
+  Calculator,
+  Compass,
+  ArrowRight,
+  UserCheck,
+  CheckCircle,
+  Star
 } from 'lucide-react';
 import AttendanceDashboard from './components/AttendanceDashboard';
 import DeveloperTerminal from './components/DeveloperTerminal';
@@ -30,6 +36,7 @@ function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorHovered, setCursorHovered] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
+  const canvasRef = useRef(null);
 
   // Examora local state confirmation
   const [examoraConfirmed, setExamoraConfirmed] = useState(false);
@@ -39,6 +46,22 @@ function App() {
     pdfFeature: ''
   });
   const [showExamoraForm, setShowExamoraForm] = useState(false);
+
+  // Freelance Calculator State
+  const [projectType, setProjectType] = useState('web'); // web, mobile, cloud, api
+  const [complexity, setComplexity] = useState('standard'); // simple, standard, enterprise
+  const [features, setFeatures] = useState({
+    auth: false,
+    db: false,
+    realtime: false,
+    pdf: false,
+    ai: false
+  });
+  const [timeline, setTimeline] = useState('standard'); // rush, standard, flexible
+  const [calculatorResults, setCalculatorResults] = useState({ budget: '$1,200 - $1,800', hours: '40 - 60 hrs', tech: 'React + Node.js + Express' });
+  
+  // Contact Form State
+  const [contactMessage, setContactMessage] = useState('');
 
   // Track mouse coordinates for custom cursor
   useEffect(() => {
@@ -64,6 +87,146 @@ function App() {
     window.addEventListener('mouseover', handleMouseOver);
     return () => window.removeEventListener('mouseover', handleMouseOver);
   }, []);
+
+  // Hero Canvas Particle Animation (Distributed System Graphic)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+
+    const handleResize = () => {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight || 500;
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // Initialize particles
+    const particleCount = 45;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2 + 1
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.05)';
+      
+      // Draw grid connections
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        // Boundary bounce
+        if (p1.x < 0 || p1.x > canvas.width) p1.vx *= -1;
+        if (p1.y < 0 || p1.y > canvas.height) p1.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.4)';
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 - dist / 800})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Update Freelance Project Estimate
+  useEffect(() => {
+    let basePrice = 800;
+    let baseHours = 30;
+    let techStack = 'React + Tailwind';
+
+    if (projectType === 'mobile') {
+      basePrice = 1200;
+      baseHours = 45;
+      techStack = 'Java (Android Studio) + Retrofit';
+    } else if (projectType === 'cloud') {
+      basePrice = 1000;
+      baseHours = 40;
+      techStack = 'AWS (EC2, CloudWatch) + PM2';
+    } else if (projectType === 'api') {
+      basePrice = 700;
+      baseHours = 25;
+      techStack = 'Node.js + Express + MongoDB';
+    }
+
+    // Complexity multiplier
+    if (complexity === 'standard') {
+      basePrice *= 1.4;
+      baseHours *= 1.3;
+    } else if (complexity === 'enterprise') {
+      basePrice *= 2.2;
+      baseHours *= 2.0;
+    }
+
+    // Features addition
+    let extraPrice = 0;
+    let extraHours = 0;
+    if (features.auth) { extraPrice += 150; extraHours += 6; }
+    if (features.db) { extraPrice += 200; extraHours += 8; }
+    if (features.realtime) { extraPrice += 250; extraHours += 10; }
+    if (features.pdf) { extraPrice += 150; extraHours += 6; }
+    if (features.ai) { extraPrice += 350; extraHours += 12; }
+
+    let totalPrice = Math.round(basePrice + extraPrice);
+    let totalHours = Math.round(baseHours + extraHours);
+
+    // Timeline modifier
+    if (timeline === 'rush') {
+      totalPrice = Math.round(totalPrice * 1.25); // 25% rush charge
+    } else if (timeline === 'flexible') {
+      totalPrice = Math.round(totalPrice * 0.9); // 10% flexible discount
+    }
+
+    setCalculatorResults({
+      budget: `\$${Math.round(totalPrice * 0.9)} - \$${Math.round(totalPrice * 1.15)}`,
+      hours: `${Math.round(totalHours * 0.9)} - ${Math.round(totalHours * 1.1)} hrs`,
+      tech: techStack
+    });
+  }, [projectType, complexity, features, timeline]);
+
+  const copyEstimateToBrief = () => {
+    const briefText = `Hi Rashmi,\n\nI calculated an estimate on your website for a project:\n• Project Type: ${projectType.toUpperCase()}\n• Complexity: ${complexity.toUpperCase()}\n• Features: ${Object.keys(features).filter(k => features[k]).join(', ') || 'None'}\n• Timeline: ${timeline.toUpperCase()}\n• Estimated Budget: ${calculatorResults.budget}\n• Expected Hours: ${calculatorResults.hours}\n\nLet's discuss how we can build this.`;
+    setContactMessage(briefText);
+    
+    // Smooth scroll to contact form
+    const contactSection = document.getElementById('contact');
+    contactSection?.scrollIntoView({ behavior: 'smooth' });
+    
+    confetti({
+      particleCount: 50,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+  };
 
   const projects = [
     {
@@ -193,6 +356,7 @@ function App() {
             <a href="#about" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">About</a>
             <a href="#attendance" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Attendance System</a>
             <a href="#projects" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Projects</a>
+            <a href="#calculator" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Estimation</a>
             <a href="#console" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">API Console</a>
             <a href="#contact" className="text-sm font-medium text-slate-400 transition-colors hover:text-eco-400">Contact</a>
           </nav>
@@ -200,7 +364,7 @@ function App() {
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setResumeOpen(true)}
-              className="relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-eco-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-dark-950 shadow-md transition-all hover:scale-105 hover:shadow-eco-500/20"
+              className="relative inline-flex items-center justify-center rounded-full bg-gradient-to-r from-eco-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-dark-950 shadow-md transition-all hover:scale-105 hover:shadow-eco-500/20 animate-pulse"
             >
               Resume
             </button>
@@ -211,8 +375,10 @@ function App() {
       <main className="mx-auto max-w-7xl px-6 pb-24 pt-12">
         
         {/* HERO SECTION */}
-        <section id="hero" className="grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:py-24">
-          <div className="space-y-6 lg:col-span-7">
+        <section id="hero" className="grid grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12 lg:py-24 relative min-h-[500px]">
+          <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
+          
+          <div className="space-y-6 lg:col-span-7 z-10 relative">
             <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-4 py-1.5 font-mono text-xs font-semibold text-eco-400">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
@@ -237,10 +403,10 @@ function App() {
                 Inspect My Work <ChevronRight className="h-4 w-4" />
               </a>
               <a 
-                href="#contact" 
+                href="#calculator" 
                 className="inline-flex items-center gap-2 rounded-lg bg-eco-500 px-6 py-3 font-semibold text-dark-950 shadow-md transition-all hover:bg-eco-400 hover:scale-102"
               >
-                Hire Me
+                Estimate Project
               </a>
             </div>
 
@@ -257,7 +423,7 @@ function App() {
             </div>
           </div>
 
-          <div className="flex justify-center lg:col-span-5">
+          <div className="flex justify-center lg:col-span-5 z-10 relative">
             <div className="relative w-full max-w-[400px] aspect-square rounded-2xl border border-white/10 bg-gradient-to-br from-dark-900 to-dark-950 p-1">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-eco-500 to-cyan-500 rounded-2xl opacity-30 blur-lg animate-pulse-slow pointer-events-none" />
               <div className="relative w-full h-full rounded-2xl bg-dark-950 overflow-hidden flex flex-col items-center justify-center p-6">
@@ -392,7 +558,7 @@ function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProjects.map((p, idx) => (
+            {filteredProjects.map((p) => (
               <div key={p.id} className="glass-panel rounded-xl p-8 flex flex-col justify-between h-full relative overflow-hidden group">
                 
                 {/* Out-of-the-box Confirmation lock logic for EXAMORA */}
@@ -474,12 +640,12 @@ function App() {
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-lg font-bold text-white group-hover:text-eco-400 transition-colors leading-tight mr-4">{p.title}</h3>
                     {p.underReview && (
-                      <span className="shrink-0 bg-eco-500/10 border border-eco-500/20 text-[9px] font-semibold text-eco-400 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      <span className="shrink-0 bg-eco-500/10 border border-eco-500/20 text-[9px] font-semibold text-eco-400 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
                         Under Review
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-eco-400/90 font-medium mb-4 italic">{p.tagline}</p>
+                  <p className="text-xs text-eco-400/90 font-medium mb-4 italic font-sans">{p.tagline}</p>
                   
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     {p.tech.map(t => (
@@ -525,6 +691,152 @@ function App() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* FREELANCE PROJECT CALCULATOR */}
+        <section id="calculator" className="py-20 border-t border-white/5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-5 space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-4 py-1.5 font-mono text-xs font-semibold text-eco-400">
+                <Calculator className="h-4 w-4" /> Custom Estimate Generator
+              </div>
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+                Scope Your Custom System
+              </h2>
+              <p className="text-slate-400 leading-relaxed text-sm">
+                Need an Android app, a custom scheduler algorithm, or a high-performance microservices API? Tweak the selectors to estimate the timeline, budget, and technologies for your next project.
+              </p>
+              
+              {/* Output widget */}
+              <div className="glass-panel p-6 rounded-xl border border-eco-500/10 space-y-4 bg-dark-900/60">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500">Estimated Budget</span>
+                    <div className="text-xl font-extrabold text-eco-400 mt-1">{calculatorResults.budget}</div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500">Estimated Effort</span>
+                    <div className="text-xl font-extrabold text-white mt-1">{calculatorResults.hours}</div>
+                  </div>
+                </div>
+                <div className="border-t border-white/5 pt-4">
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-slate-500">Stack Architecture</span>
+                  <div className="text-xs font-semibold text-slate-300 mt-1">{calculatorResults.tech}</div>
+                </div>
+                <button
+                  onClick={copyEstimateToBrief}
+                  className="w-full py-2.5 bg-eco-500 hover:bg-eco-400 text-dark-950 font-bold text-xs font-mono uppercase rounded-lg flex items-center justify-center gap-2 transition-all mt-4"
+                >
+                  Apply to Project Brief <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+              
+              {/* Choice 1: Project type */}
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase font-mono mb-3">1. Project Framework</label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    { id: 'web', label: 'Web Portal' },
+                    { id: 'mobile', label: 'Android Application' },
+                    { id: 'cloud', label: 'AWS Infrastructure' },
+                    { id: 'api', label: 'Rest APIs' }
+                  ].map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setProjectType(t.id)}
+                      className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all ${
+                        projectType === t.id 
+                          ? 'border-eco-500 bg-eco-500/10 text-eco-400' 
+                          : 'border-white/10 hover:border-white/20 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Choice 2: Complexity */}
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase font-mono mb-3">2. System Complexity</label>
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { id: 'simple', label: 'Simple / MVP' },
+                    { id: 'standard', label: 'Production Ready' },
+                    { id: 'enterprise', label: 'Distributed / Microservices' }
+                  ].map(c => (
+                    <button
+                      key={c.id}
+                      onClick={() => setComplexity(c.id)}
+                      className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all ${
+                        complexity === c.id 
+                          ? 'border-eco-500 bg-eco-500/10 text-eco-400' 
+                          : 'border-white/10 hover:border-white/20 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {c.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Choice 3: Features */}
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase font-mono mb-3">3. Advanced Features</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { id: 'auth', label: 'JWT Authentication' },
+                    { id: 'db', label: 'MongoDB / SQL' },
+                    { id: 'realtime', label: 'Socket.IO / Retrofit' },
+                    { id: 'pdf', label: 'Apache PDFBox Parsing' },
+                    { id: 'ai', label: 'Semantic Moderation / RAG' }
+                  ].map(f => (
+                    <button
+                      key={f.id}
+                      onClick={() => setFeatures({...features, [f.id]: !features[f.id]})}
+                      className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all text-left flex justify-between items-center ${
+                        features[f.id] 
+                          ? 'border-eco-500 bg-eco-500/10 text-eco-400' 
+                          : 'border-white/10 hover:border-white/20 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span>{f.label}</span>
+                      <span className={`h-1.5 w-1.5 rounded-full ${features[f.id] ? 'bg-eco-500' : 'bg-slate-600'}`} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Choice 4: Timeline */}
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase font-mono mb-3">4. Delivery Schedule</label>
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { id: 'flexible', label: 'Flexible (4+ weeks)' },
+                    { id: 'standard', label: 'Standard (2-4 weeks)' },
+                    { id: 'rush', label: 'Express (1-2 weeks)' }
+                  ].map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTimeline(t.id)}
+                      className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all ${
+                        timeline === t.id 
+                          ? 'border-eco-500 bg-eco-500/10 text-eco-400' 
+                          : 'border-white/10 hover:border-white/20 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
         </section>
 
@@ -593,7 +905,15 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 uppercase font-mono mb-2">Project Brief</label>
-                  <textarea required rows={4} name="message" className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" placeholder="Explain what you need compiled..."></textarea>
+                  <textarea 
+                    required 
+                    rows={6} 
+                    name="message" 
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
+                    className="w-full bg-dark-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-eco-500 transition-colors" 
+                    placeholder="Explain what you need compiled..."
+                  ></textarea>
                 </div>
                 <button type="submit" className="w-full py-3 bg-eco-500 hover:bg-eco-400 transition-colors text-dark-950 font-bold rounded-lg shadow-md hover:scale-102">
                   Send Project Proposal
