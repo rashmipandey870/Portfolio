@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rashmi Pandey | Software Development Engineer & Cloud Systems</title>
+  <meta name="description" content="Portfolio of Rashmi Pandey — Computer Science Undergraduate targeting SDE and Cloud Systems Engineer roles. Specializing in Java (Jakarta EE), AWS Cloud Infrastructure, Distributed Systems, and Carbon-Aware Optimization." />
+  <meta name="keywords" content="Rashmi Pandey, Software Development Engineer, SDE, Amazon, AWS, Distributed Systems, Java, Jakarta EE, Cloud Engineer, Azure Database Administrator, Machine Learning" />
+  <meta name="author" content="Rashmi Pandey" />
+  <meta name="theme-color" content="#FAFAF7" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rashmipandey870.github.io/Portfolio/" />
+  <meta property="og:title" content="Rashmi Pandey | Software Development Engineer & Cloud Systems" />
+  <meta property="og:description" content="I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- JSON-LD Person Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Rashmi Pandey",
+    "jobTitle": "Software Development Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Amity University Jharkhand"
+    },
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "Amity University Jharkhand"
+    },
+    "url": "https://rashmipandey870.github.io/Portfolio/",
+    "sameAs": [
+      "https://www.linkedin.com/in/rashmi-pandey-590a22340/",
+      "https://github.com/rashmipandey870"
+    ],
+    "knowsAbout": [
+      "Distributed Systems",
+      "Cloud Computing",
+      "Amazon Web Services (AWS)",
+      "Java",
+      "Jakarta EE",
+      "Microservices",
+      "Database Administration",
+      "Machine Learning"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Sticky Minimal Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" aria-label="Rashmi Pandey Home">
+        <span class="bracket-accent">&lt;</span>Rashmi Pandey<span class="slash-accent">/&gt;</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-sm">Resume (PDF)</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span>SDE Candidate • Cloud Systems & Distributed Architecture</span>
+        </div>
+
+        <h1 class="hero-headline">
+          Hi, I'm <span class="gradient-text">Rashmi Pandey</span>.
+        </h1>
+
+        <p class="hero-value-prop">
+          I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
+        </p>
+
+        <p class="hero-subtext">
+          Computer Science undergraduate at Amity University (CGPA 8.00/10) with hands-on research in distributed systems, Lyapunov workload optimization, and production Java backends.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#projects" class="btn btn-primary">
+            View Projects
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Download Resume
+          </a>
+        </div>
+
+        <div class="hero-social-links">
+          <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/rashmi-pandey-590a22340" target="_blank" rel="noreferrer" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn
+          </a>
+          <button class="social-link btn-copy" id="copyEmailBtn" aria-label="Copy email address">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span id="copyEmailText">rashmipd870@gmail.com</span>
+          </button>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value color-indigo">61 µs</div>
+            <div class="metric-label">Gateway Decision Latency</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value color-teal">35.8%</div>
+            <div class="metric-label">Cloud Carbon Cut</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value color-sky">0.0%</div>
+            <div class="metric-label">SLA Breach Rate</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value color-coral">8.00 / 10</div>
+            <div class="metric-label">B.Tech CSE CGPA</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. ABOUT SECTION -->
+    <section id="about" class="content-section">
+      <div class="section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        About Me
+      </div>
+
+      <div class="about-grid">
+        <div class="about-narrative">
+          <h2 class="section-title">Engineered for High-Scale, Low-Latency Problem Solving</h2>
+          <div class="narrative-body">
+            <p>
+              I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a verified 0.0% SLA breach rate.
+            </p>
+            <p>
+              My engineering philosophy focuses on building from fundamental principles: I write clean, raw Jakarta Servlets on Apache Tomcat 11 with ACID relational databases rather than relying on heavy abstractions, and design combinatorial graph algorithms to eliminate scheduling bottlenecks.
+            </p>
+            <p>
+              As a Microsoft Certified Azure Database Administrator with over 1,200 GitHub contributions, I combine rigorous systems thinking with practical delivery across Java, Python, AWS, and modern data architectures.
+            </p>
+          </div>
+        </div>
+
+        <aside class="leadership-card">
+          <h3 class="card-kicker">Amazon Leadership Principles Alignment</h3>
+          <ul class="lp-list">
+            <li>
+              <strong>Dive Deep:</strong> Profiled microsecond-level gateway latency in Node.js event loops and formulated Lyapunov drift-plus-penalty queue bounds.
+            </li>
+            <li>
+              <strong>Invent &amp; Simplify:</strong> Built lightweight native Jakarta Servlets on Tomcat 11 with zero framework bloat, accelerating cold start throughput.
+            </li>
+            <li>
+              <strong>Deliver Results:</strong> Sustained 0.0% SLA breaches under synthetic traffic surges while publishing reproducible open-source research and tools.
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 3. SKILLS SECTION -->
+    <section id="skills" class="content-section">
+      <div class="section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        Technical Competencies
+      </div>
+
+      <h2 class="section-title">Grouped Technical Skills</h2>
+      <p class="section-subtitle">Curated capabilities verified across production repositories, research benchmarks, and professional certifications.</p>
+
+      <div class="skills-grid">
+        <!-- Languages -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-indigo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            Languages
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-indigo">Java 17</span>
+            <span class="pill pill-indigo">Python 3</span>
+            <span class="pill pill-indigo">C / C++</span>
+            <span class="pill pill-indigo">JavaScript (ES6+)</span>
+            <span class="pill pill-indigo">TypeScript</span>
+            <span class="pill pill-indigo">SQL (DDL/DML)</span>
+          </div>
+        </div>
+
+        <!-- Cloud & Systems -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-sky">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+            Cloud &amp; Infrastructure
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-sky">AWS (EC2, CloudWatch, S3, IAM)</span>
+            <span class="pill pill-sky">Multi-Region Architecture</span>
+            <span class="pill pill-sky">Microsoft Azure</span>
+            <span class="pill pill-sky">Linux / Unix CLI</span>
+            <span class="pill pill-sky">Bash Scripting</span>
+            <span class="pill pill-sky">PM2 Supervision</span>
+          </div>
+        </div>
+
+        <!-- Backend & Distributed Systems -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            Backend &amp; Systems
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-teal">Jakarta Servlets 6.0</span>
+            <span class="pill pill-teal">Apache Tomcat 11</span>
+            <span class="pill pill-teal">Node.js &amp; Express.js</span>
+            <span class="pill pill-teal">RESTful API Design</span>
+            <span class="pill pill-teal">Microservices</span>
+            <span class="pill pill-teal">Lyapunov Optimization</span>
+          </div>
+        </div>
+
+        <!-- Databases & Storage -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-coral">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            Databases &amp; Storage
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-coral">Azure SQL</span>
+            <span class="pill pill-coral">MySQL (ACID, Migrations)</span>
+            <span class="pill pill-coral">MongoDB (Aggregations)</span>
+            <span class="pill pill-coral">Schema Normalization</span>
+            <span class="pill pill-coral">Indexing &amp; Tuning</span>
+          </div>
+        </div>
+
+        <!-- Data Science & Machine Learning -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-indigo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Data Science &amp; ML
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-indigo">Scikit-learn</span>
+            <span class="pill pill-indigo">XGBoost</span>
+            <span class="pill pill-indigo">Random Forest</span>
+            <span class="pill pill-indigo">Pandas &amp; NumPy</span>
+            <span class="pill pill-indigo">Feature Engineering</span>
+            <span class="pill pill-indigo">Matplotlib / Seaborn</span>
+          </div>
+        </div>
+
+        <!-- Tools & Practices -->
+        <div class="card skill-card">
+          <h3 class="skill-category color-teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Tools &amp; Practices
+          </h3>
+          <div class="pill-group">
+            <span class="pill pill-teal">Git &amp; GitHub</span>
+            <span class="pill pill-teal">Docker Basics</span>
+            <span class="pill pill-teal">Maven</span>
+            <span class="pill pill-teal">Postman</span>
+            <span class="pill pill-teal">Retrofit 2</span>
+            <span class="pill pill-teal">Apache PDFBox</span>
+            <span class="pill pill-teal">Object-Oriented Design</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PROJECTS SECTION -->
+    <section id="projects" class="content-section">
+      <div class="section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+        Engineering Showcase
+      </div>
+
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">Engineered using the STAR format with verifiable, benchmarked production metrics.</p>
+
+      <div class="projects-list">
+        
+        <!-- Project 1: DVQ -->
+        <article class="card project-card">
+          <div class="project-header">
+            <div>
+              <h3 class="project-title">DVQ — Carbon-Aware Cloud Workload Routing System</h3>
+              <p class="project-tagline">Multi-region intelligent workload router balancing real-time grid carbon intensity against strict latency SLAs across 7 AWS regions.</p>
+            </div>
+            <div class="metric-pill">
+              <span class="metric-pill-val">61 µs</span>
+              <span class="metric-pill-lbl">Decision Latency</span>
+            </div>
+          </div>
+
+          <div class="star-grid">
+            <div class="star-block">
+              <span class="star-label color-coral">The Problem</span>
+              <p class="star-text">Global multi-region cloud workloads face erratic regional carbon emissions and unpredictable network latency under varying traffic bursts.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-teal">Architecture &amp; Solution</span>
+              <p class="star-text">Architected a decoupled 6-microservice system on AWS formulated via Lyapunov drift-plus-penalty optimization to route requests dynamically across 7 regions.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-indigo">Measurable Impact</span>
+              <p class="star-text">Cut workload carbon footprint by 35.87% (Interactive) and 30.28% (Realtime) with a 0.0% SLA violation rate and 61 µs median routing decision latency.</p>
+            </div>
+          </div>
+
+          <div class="highlights-box">
+            <h4 class="highlights-title">Key Technical Highlights</h4>
+            <ul class="highlights-list">
+              <li>Decoupled 6 microservices: Routing Gateway, Telemetry Ingestion, Carbon Matrix Prober, State Vector Store, CloudWatch Metrics Collector, Dispatcher.</li>
+              <li>Sustained 0.0% SLA violation rate across extensive synthetic traffic bursts and chaos experiments.</li>
+              <li>Validated automated failover resilience under simulated AWS regional grid outages.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="pill-group">
+              <span class="pill pill-sky">AWS (7 Regions)</span>
+              <span class="pill pill-sky">Node.js</span>
+              <span class="pill pill-sky">Express.js</span>
+              <span class="pill pill-sky">PM2</span>
+              <span class="pill pill-sky">CloudWatch API</span>
+              <span class="pill pill-sky">Electricity Maps API</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: EXAMORA -->
+        <article class="card project-card">
+          <div class="project-header">
+            <div>
+              <h3 class="project-title">EXAMORA — Enterprise Academic Assessment Platform</h3>
+              <p class="project-tagline">High-throughput Java enterprise web platform on Apache Tomcat 11 with ACID relational schema and streaming document extraction.</p>
+            </div>
+            <div class="metric-pill">
+              <span class="metric-pill-val">61 Commits</span>
+              <span class="metric-pill-lbl">Zero Framework Bloat</span>
+            </div>
+          </div>
+
+          <div class="star-grid">
+            <div class="star-block">
+              <span class="star-label color-coral">The Problem</span>
+              <p class="star-text">Academic institutions struggle with slow legacy examination portals, insecure student data, and laborious manual exam paper transcription.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-teal">Architecture &amp; Solution</span>
+              <p class="star-text">Built a lightweight Jakarta Servlets 6.0 enterprise engine on Tomcat 11 with the DAO pattern, BCrypt salted authentication, and Apache PDFBox streaming document extraction.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-indigo">Measurable Impact</span>
+              <p class="star-text">Achieved sub-100ms response times with near-zero memory footprint; maintained 100% ACID consistency across 10+ staged relational migrations.</p>
+            </div>
+          </div>
+
+          <div class="highlights-box">
+            <h4 class="highlights-title">Key Technical Highlights</h4>
+            <ul class="highlights-list">
+              <li>Constructed 61 sequential production commits adhering to clean MVC and DAO design patterns.</li>
+              <li>Engineered an ACID-compliant MySQL relational database with staged schema migration scripts.</li>
+              <li>Streamlined academic paper ingestion via Apache PDFBox streaming text extractors into structured question banks.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="pill-group">
+              <span class="pill pill-sky">Java 17</span>
+              <span class="pill pill-sky">Jakarta Servlets 6.0</span>
+              <span class="pill pill-sky">Apache Tomcat 11</span>
+              <span class="pill pill-sky">MySQL ACID</span>
+              <span class="pill pill-sky">Apache PDFBox</span>
+              <span class="pill pill-sky">BCrypt</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/rashmipandey870/EXAMORA" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: Sangathan -->
+        <article class="card project-card">
+          <div class="project-header">
+            <div>
+              <h3 class="project-title">Sangathan — Tournament Fixture &amp; Algorithmic Scheduling Platform</h3>
+              <p class="project-tagline">Full-stack mobile tournament platform featuring combinatorial round-robin and single-elimination bracket generation algorithms.</p>
+            </div>
+            <div class="metric-pill">
+              <span class="metric-pill-val">80% Less</span>
+              <span class="metric-pill-lbl">Admin Overhead</span>
+            </div>
+          </div>
+
+          <div class="star-grid">
+            <div class="star-block">
+              <span class="star-label color-coral">The Problem</span>
+              <p class="star-text">Managing athletic events manually with spreadsheets leads to schedule clashes, delayed score reporting, and high administrative chaos.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-teal">Architecture &amp; Solution</span>
+              <p class="star-text">Developed an Android client and Node.js REST backend executing combinatorial pairing algorithms for automated round-robin and knockout tournament brackets.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-indigo">Measurable Impact</span>
+              <p class="star-text">Orchestrated schedules and live scores for 100+ athletes across 6 sports; sustained sub-150ms API latency with Retrofit 2 reactive syncing.</p>
+            </div>
+          </div>
+
+          <div class="highlights-box">
+            <h4 class="highlights-title">Key Technical Highlights</h4>
+            <ul class="highlights-list">
+              <li>Automated tournament bracket math eliminating manual pairing collisions for 100+ participants.</li>
+              <li>Architected 10+ RESTful backend endpoints in Node.js/Express with sub-150ms response times.</li>
+              <li>Implemented Retrofit 2 with OkHttp interceptors for rock-solid mobile client synchronization.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="pill-group">
+              <span class="pill pill-sky">Android (Java)</span>
+              <span class="pill pill-sky">Node.js</span>
+              <span class="pill pill-sky">Express.js</span>
+              <span class="pill pill-sky">MongoDB</span>
+              <span class="pill pill-sky">Retrofit 2</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/rashmipandey870/Sangathan-sports-management-Android-application-" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                Mobile Repo
+              </a>
+              <a href="https://github.com/rashmipandey870/Sangathan-Backend" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">
+                Backend Repo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4: AI Crop Recommendation -->
+        <article class="card project-card">
+          <div class="project-header">
+            <div>
+              <h3 class="project-title">AI-Driven Crop Recommendation System (Machine Learning &amp; Soil Analytics)</h3>
+              <p class="project-tagline">Supervised machine learning classification pipeline analyzing soil NPK levels and climate metrics to maximize agricultural yield.</p>
+            </div>
+            <div class="metric-pill">
+              <span class="metric-pill-val">99.2%</span>
+              <span class="metric-pill-lbl">Model Accuracy</span>
+            </div>
+          </div>
+
+          <div class="star-grid">
+            <div class="star-block">
+              <span class="star-label color-coral">The Problem</span>
+              <p class="star-text">Farmers face severe yield loss and economic instability due to improper crop selection that fails to account for regional soil chemistry.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-teal">Architecture &amp; Solution</span>
+              <p class="star-text">Engineered an end-to-end data science pipeline benchmarking Random Forest, XGBoost, and Decision Tree classifiers on 2,200+ soil and weather data samples.</p>
+            </div>
+            <div class="star-block">
+              <span class="star-label color-indigo">Measurable Impact</span>
+              <p class="star-text">Achieved 99.2% classification accuracy; delivered actionable feature importance rankings across Nitrogen, Phosphorus, Potassium, rainfall, and temperature.</p>
+            </div>
+          </div>
+
+          <div class="highlights-box">
+            <h4 class="highlights-title">Key Technical Highlights</h4>
+            <ul class="highlights-list">
+              <li>Trained on multi-dimensional agricultural dataset (N, P, K, pH, humidity, temperature, rainfall).</li>
+              <li>Demonstrated highest precision and recall with Random Forest and XGBoost ensemble models.</li>
+              <li>Practical data science application connecting theoretical ML with sustainable agriculture.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="pill-group">
+              <span class="pill pill-sky">Python 3</span>
+              <span class="pill pill-sky">Scikit-learn</span>
+              <span class="pill pill-sky">XGBoost</span>
+              <span class="pill pill-sky">Random Forest</span>
+              <span class="pill pill-sky">Pandas</span>
+              <span class="pill pill-sky">NumPy</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 5. EXPERIENCE & EDUCATION TIMELINE -->
+    <section id="experience" class="content-section">
+      <div class="section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        Career Journey
+      </div>
+
+      <div class="experience-grid">
+        
+        <!-- Experience & Education Column -->
+        <div class="timeline-column">
+          <h2 class="section-title">Experience &amp; Education</h2>
+          
+          <div class="timeline">
+            
+            <!-- NIAMT -->
+            <div class="timeline-item">
+              <div class="timeline-dot dot-indigo"></div>
+              <div class="timeline-header">
+                <h3 class="timeline-role">Summer Research Intern — Distributed Systems</h3>
+                <span class="timeline-date">Jun 2026 – Jul 2026</span>
+              </div>
+              <div class="timeline-org">National Institute of Advanced Manufacturing Technology (NIAMT), Ranchi • Under Dr. Rahul Mishra</div>
+              <p class="timeline-desc">
+                Architected and evaluated <strong>DVQ</strong>, an intelligent carbon-aware edge routing platform deployed across 7 AWS geographic regions. Balanced latency SLAs and real-time grid emissions via Lyapunov optimization, achieving 35.87% carbon reduction with 0.0% SLA breach across all trials.
+              </p>
+            </div>
+
+            <!-- Education -->
+            <div class="timeline-item">
+              <div class="timeline-dot dot-teal"></div>
+              <div class="timeline-header">
+                <h3 class="timeline-role">B.Tech in Computer Science &amp; Engineering</h3>
+                <span class="timeline-date">2024 – 2028</span>
+              </div>
+              <div class="timeline-org">Amity University Jharkhand • Ranchi, India</div>
+              <div class="cgpa-pill">CGPA: 8.00 / 10.0</div>
+              <p class="timeline-desc">
+                Core Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing.
+              </p>
+            </div>
+
+            <!-- School -->
+            <div class="timeline-item">
+              <div class="timeline-dot dot-slate"></div>
+              <div class="timeline-header">
+                <h3 class="timeline-role">Senior Secondary (Class XII) &amp; Secondary (Class X)</h3>
+                <span class="timeline-date">2020 – 2023</span>
+              </div>
+              <div class="timeline-org">Sri Gurunanak Public School (CBSE)</div>
+              <p class="timeline-desc">
+                <strong>Class XII (PCM):</strong> 88.2% &nbsp;|&nbsp; <strong>Class X:</strong> 85.0%
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Certifications Column -->
+        <div class="certifications-column">
+          <h2 class="section-title">Verified Certifications</h2>
+
+          <div class="cert-list">
+            
+            <div class="card cert-card">
+              <div class="cert-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                <h3 class="cert-name">Microsoft Certified: Azure Database Administrator Associate</h3>
+              </div>
+              <p class="cert-desc">Validates core cloud database administration, Azure SQL architecture, query optimization, security, and performance tuning.</p>
+              <div class="cert-badge">Credential ID: 647C0C2C5B35FA32</div>
+            </div>
+
+            <div class="card cert-card">
+              <div class="cert-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                <h3 class="cert-name">Microsoft: Implement SQL Solutions Using AI-Assisted Tools</h3>
+              </div>
+              <p class="cert-desc">Advanced automated database design, intelligent query optimization, and AI-driven data modeling.</p>
+            </div>
+
+            <div class="card cert-card">
+              <div class="cert-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                <h3 class="cert-name">NPTEL: Python for Data Science / Joy of Computing</h3>
+              </div>
+              <p class="cert-desc">Conducted by <strong>IIT Madras</strong>. Scored <strong>87% (Elite Top Performer)</strong> covering data structures, algorithmic manipulation, and scientific computing.</p>
+            </div>
+
+            <div class="card cert-card">
+              <div class="cert-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                <h3 class="cert-name">Infosys Springboard: Java Programming Fundamentals</h3>
+              </div>
+              <p class="cert-desc">Comprehensive object-oriented programming, exception handling, data structures, and multithreading fundamentals.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. CONTACT SECTION (NO HEAVY FORM - DIRECT LINKS) -->
+    <section id="contact" class="content-section">
+      <div class="section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        Get In Touch
+      </div>
+
+      <div class="card contact-card">
+        <h2 class="contact-title">Let's Build Something Exceptional Together</h2>
+        <p class="contact-desc">
+          I am actively seeking Software Development Engineer (SDE) and Cloud Systems internship &amp; full-time opportunities. Reach out directly via email or LinkedIn.
+        </p>
+
+        <div class="contact-actions">
+          <a href="mailto:rashmipd870@gmail.com" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Email: rashmipd870@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/rashmi-pandey-590a22340" target="_blank" rel="noreferrer" class="btn btn-sky">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            Connect on LinkedIn
+          </a>
+          <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub Profile
+          </a>
+        </div>
+
+        <div class="contact-footer">
+          <span>📍 Bokaro / Ranchi, Jharkhand, India</span>
+          <span>•</span>
+          <span>📞 +91 87093 68696</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p>© 2026 Rashmi Pandey. Designed with semantic HTML5 &amp; zero-black architecture.</p>
+      <a href="#hero" class="back-to-top">Back to Top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
