@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   Github, 
   Linkedin, 
   Mail, 
   Phone, 
   Cpu, 
+  Terminal as TermIcon, 
+  MessageSquare, 
   Award, 
   BookOpen, 
   Briefcase, 
@@ -16,9 +20,11 @@ import {
   Zap,
   ArrowRight, 
   CheckCircle2, 
+  Network,
   Server,
   Layers,
   Sparkles,
+  Flame,
   Globe2,
   FileText,
   GraduationCap,
@@ -32,88 +38,131 @@ import {
   Download,
   Terminal,
   Activity,
-  Network,
   Command,
   CornerDownLeft,
   X,
   Play
 } from 'lucide-react';
+import DeveloperTerminal from './components/DeveloperTerminal';
+import AICopilot from './components/AICopilot';
 import ResumeModal from './components/ResumeModal';
+import AWSWorkloadSimulator from './components/AWSWorkloadSimulator';
+import ArchitectureModal from './components/ArchitectureModal';
 
 function App() {
   const [resumeOpen, setResumeOpen] = useState(false);
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [terminalInput, setTerminalInput] = useState('');
-  const [terminalOutput, setTerminalOutput] = useState([
-    'Antigravity Dev Console v2.6.4 — Rashmi Pandey [SDE Candidate]',
-    'Type "help" to view available diagnostic commands or click quick actions below.'
-  ]);
+  const [selectedArchProject, setSelectedArchProject] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
-  const [projectTab, setProjectTab] = useState({}); // { [projectId]: 'summary' | 'arch' | 'curl' }
+  const [projectTab, setProjectTab] = useState({}); // { [projectId]: 'star' | 'arch' | 'curl' }
   const [copiedKey, setCopiedKey] = useState(null);
   const [activeSection, setActiveSection] = useState('hero');
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [cursorHovered, setCursorHovered] = useState(false);
+  const canvasRef = useRef(null);
 
   const baseUrl = import.meta.env.BASE_URL || '/';
   const photoUrl = `${baseUrl}rashmi-photo.jpg`;
   const resumeUrl = `${baseUrl}Rashmi_Pandey_Resume.pdf`;
 
-  const copyToClipboard = (text, key) => {
-    navigator.clipboard.writeText(text);
-    setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 2200);
-  };
-
-  const handleCommand = (cmd) => {
-    const cleanCmd = (cmd || terminalInput).trim().toLowerCase();
-    let response = '';
-
-    switch (cleanCmd) {
-      case 'help':
-        response = 'Commands: "certs", "metrics", "projects", "resume", "contact", "clear"';
-        break;
-      case 'certs':
-        response = '1. NPTEL Python for Data Science (IIT Madras) [84% • TOPPER 2%]\n2. NPTEL Joy of Computing (IIT Ropar - Prof. Sudarshan) [87% • Silver Badge]\n3. Microsoft Azure DBA Associate [ID: 647C0C2C5B35FA32]\n4. Microsoft SQL AI Tools\n5. Infosys Java Fundamentals';
-        break;
-      case 'metrics':
-        response = 'System Telemetry: 61µs Gateway Decision Latency • 35.8% Carbon Reduction • 0.0% SLA Breach • 1,200+ GitHub Commits';
-        break;
-      case 'projects':
-        response = 'Active Repos: 1. DVQ (AWS Multi-Region) | 2. EXAMORA (Jakarta EE) | 3. Sangathan (Android/Java) | 4. Study-Planner (Java DSA)';
-        break;
-      case 'resume':
-        window.open(resumeUrl, '_blank');
-        response = 'Downloading ATS Resume PDF...';
-        break;
-      case 'contact':
-        response = 'Email: rashmipd870@gmail.com | Phone: +91 87093 68696 | LinkedIn: linkedin.com/in/rashmi-pandey-590a22340';
-        break;
-      case 'clear':
-        setTerminalOutput(['Terminal console cleared. Type "help" for options.']);
-        setTerminalInput('');
-        return;
-      default:
-        response = `Command not recognized: "${cleanCmd}". Type "help" for list of commands.`;
-    }
-
-    setTerminalOutput(prev => [...prev, `> ${cleanCmd}`, response]);
-    setTerminalInput('');
-  };
-
-  // Keyboard shortcut (⌘K or Ctrl+K) for Dev Terminal
+  // Custom Cursor tracking
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setTerminalOpen(prev => !prev);
-      }
+    const updateMouse = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('mousemove', updateMouse);
+    return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
 
   useEffect(() => {
+    const handleMouseOver = (e) => {
+      const target = e.target;
+      const isInteractive = 
+        target.tagName === 'BUTTON' || 
+        target.tagName === 'A' || 
+        target.closest('a') || 
+        target.closest('button');
+      setCursorHovered(!!isInteractive);
+    };
+    window.addEventListener('mouseover', handleMouseOver);
+    return () => window.removeEventListener('mouseover', handleMouseOver);
+  }, []);
+
+  // Hero Canvas Particle Animation (Distributed Cloud Mesh Nodes)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight || 580;
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    const particleCount = 42;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: Math.random() * 1.8 + 1,
+        color: i % 3 === 0 ? 'rgba(16, 185, 129, 0.6)' : i % 3 === 1 ? 'rgba(6, 182, 212, 0.6)' : 'rgba(139, 92, 246, 0.4)'
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 * (1 - dist / 110)})`;
+            ctx.lineWidth = 0.75;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  // Active section tracking on scroll
+  useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'tech-hud', 'about', 'skills', 'projects', 'experience', 'contact'];
+      const sections = ['hero', 'simulator', 'projects', 'terminal', 'amazon-standards', 'skills', 'credentials', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -133,6 +182,22 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const copyToClipboard = (text, key) => {
+    navigator.clipboard.writeText(text);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const triggerCelebration = () => {
+    confetti({
+      particleCount: 70,
+      spread: 60,
+      origin: { y: 0.8 },
+      colors: ['#10B981', '#06B6D4', '#8B5CF6']
+    });
+  };
+
+  // The 4 authentic engineering projects
   const projects = [
     {
       id: 'dvq',
@@ -145,7 +210,7 @@ function App() {
       metricPrimary: '61 µs',
       metricLabel: 'Decision Latency',
       architectureFlow: 'Ingress Traffic ➔ PM2 Decision Gateway (61 µs) ➔ Lyapunov Drift-Plus-Penalty Engine ➔ Live Carbon & RTT Telemetry (7 AWS Regions) ➔ Optimal Workload Dispatch (0% SLA Breach)',
-      curlExample: 'curl -X POST https://dvq-gateway.aws/v1/route \\\n  -H "Content-Type: application/json" \\\n  -d \'{"slaLatencyMs": 120, "tier": "interactive"}\' \\\n  # Returns optimal region in 61 µs with 0% SLA breach',
+      curlExample: 'curl -X POST https://dvq-gateway.aws.mesh/v1/route \\\n  -H "Content-Type: application/json" \\\n  -d \'{"slaLatencyMs": 120, "tier": "interactive"}\' \\\n  # Returns optimal region in 61 µs with 0% SLA breach',
       starProblem: 'Global multi-region cloud workloads face erratic regional carbon emissions and unpredictable network latency under varying traffic bursts.',
       starSolution: 'Architected a decoupled 6-microservice architecture on AWS formulated via Lyapunov drift-plus-penalty optimization to route requests dynamically across 7 AWS regions.',
       starImpact: 'Cut workload carbon footprint by 35.87% (Interactive) and 30.28% (Realtime) with a 0.0% SLA violation rate and 61 µs median routing decision latency.',
@@ -225,453 +290,335 @@ function App() {
     : projects.filter(p => p.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7] text-[#334155] font-sans selection:bg-indigo-100 selection:text-indigo-800 bg-light-pattern">
+    <div className="relative min-h-screen bg-dark-950 text-slate-300 font-sans selection:bg-eco-500/20 selection:text-eco-400 bg-grid-pattern">
       
-      {/* Background Radial Glows (Zero Black) */}
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-100/50 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[140px] pointer-events-none -z-10" />
+      {/* Custom Glowing Cyber Cursor Ring */}
+      <div 
+        className="hidden md:block fixed pointer-events-none z-50 rounded-full border border-eco-500/50 -translate-x-1/2 -translate-y-1/2 transition-all duration-75"
+        style={{
+          left: `${mousePos.x}px`,
+          top: `${mousePos.y}px`,
+          width: cursorHovered ? '48px' : '22px',
+          height: cursorHovered ? '48px' : '22px',
+          backgroundColor: cursorHovered ? 'rgba(16, 185, 129, 0.08)' : 'transparent',
+          boxShadow: cursorHovered ? '0 0 16px rgba(16, 185, 129, 0.35)' : 'none',
+        }}
+      />
 
-      {/* Sticky Minimal Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-[#E2E8F0] bg-[#FAFAF7]/92 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
-          <a href="#hero" className="flex items-center gap-2 font-mono text-base font-bold tracking-tight text-[#1E293B] group">
-            <span className="text-[#4F46E5] group-hover:text-[#0D9488] transition-colors">&lt;</span>
-            <span>Rashmi Pandey</span>
-            <span className="text-[#0EA5E9] group-hover:text-[#4F46E5] transition-colors">/&gt;</span>
+      {/* Background Decorative Gradient Orbs */}
+      <div className="absolute top-0 left-0 w-full h-[650px] bg-gradient-to-b from-eco-500/5 to-transparent pointer-events-none" />
+      <div className="absolute top-[18%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[130px] pointer-events-none" />
+      <div className="absolute top-[50%] left-[-10%] w-[550px] h-[550px] rounded-full bg-eco-500/5 blur-[140px] pointer-events-none" />
+
+      {/* TOP HACKER HUD STATUS BAR */}
+      <div className="bg-dark-950/90 border-b border-white/5 px-4 py-1.5 font-mono text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-40 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-eco-500"></span>
+          </span>
+          <span className="text-white font-semibold">~/rashmi-pandey</span>
+          <span className="text-slate-600">|</span>
+          <span className="text-eco-400">AWS-MESH::ACTIVE</span>
+          <span className="text-slate-600">|</span>
+          <span className="text-cyan-400">7 REGIONS MONITORED</span>
+        </div>
+        <div className="flex items-center gap-4 text-[10px]">
+          <span className="hidden sm:inline text-slate-400">PING: <strong className="text-white">18ms</strong></span>
+          <span className="hidden sm:inline text-slate-400">SLA: <strong className="text-eco-400">0.0% BREACH</strong></span>
+          <span className="text-slate-400">LATENCY: <strong className="text-cyan-400">61µs</strong></span>
+          <button 
+            onClick={() => setResumeOpen(true)}
+            className="text-eco-400 hover:text-eco-300 font-semibold underline decoration-eco-500/40"
+          >
+            [RESUME_ATS.PDF]
+          </button>
+        </div>
+      </div>
+
+      {/* MAIN NAVBAR */}
+      <header className="sticky top-[31px] z-30 bg-dark-900/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <a href="#hero" className="flex items-center gap-3 group">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-eco-500 to-cyan-600 flex items-center justify-center font-mono font-extrabold text-white text-sm shadow-md shadow-eco-500/20 group-hover:scale-105 transition-transform">
+              RP
+            </div>
+            <div>
+              <div className="font-bold text-white text-sm tracking-tight flex items-center gap-2">
+                Rashmi Pandey
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-eco-500/10 text-eco-400 font-mono border border-eco-500/20">SDE</span>
+              </div>
+              <div className="text-[11px] text-slate-400 font-mono">Distributed Systems &amp; AWS</div>
+            </div>
           </a>
-          
-          <nav className="hidden items-center gap-6 md:flex">
-            <a 
-              href="#about" 
-              className={`text-sm font-medium transition-colors ${activeSection === 'about' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
-            >
-              About
-            </a>
-            <a 
-              href="#skills" 
-              className={`text-sm font-medium transition-colors ${activeSection === 'skills' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
-            >
-              Skills
-            </a>
-            <a 
-              href="#projects" 
-              className={`text-sm font-medium transition-colors ${activeSection === 'projects' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
-            >
-              Projects
-            </a>
-            <a 
-              href="#experience" 
-              className={`text-sm font-medium transition-colors ${activeSection === 'experience' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
-            >
-              Experience
-            </a>
-            <a 
-              href="#contact" 
-              className={`text-sm font-medium transition-colors ${activeSection === 'contact' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
-            >
-              Contact
-            </a>
+
+          <nav className="hidden lg:flex items-center gap-1 font-mono text-xs">
+            {[
+              { id: 'hero', label: '// 01.root' },
+              { id: 'simulator', label: '// 02.aws_lab' },
+              { id: 'projects', label: '// 03.projects' },
+              { id: 'terminal', label: '// 04.terminal' },
+              { id: 'amazon-standards', label: '// 05.amazon_lp' },
+              { id: 'skills', label: '// 06.stack' },
+              { id: 'credentials', label: '// 07.certs' },
+              { id: 'contact', label: '// 08.contact' },
+            ].map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={`px-3 py-1.5 rounded-lg transition-colors ${
+                  activeSection === item.id
+                    ? 'text-eco-400 bg-eco-500/10 font-bold border border-eco-500/20'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-2.5">
-            {/* Dev Console Hack Pill */}
-            <button 
-              onClick={() => setTerminalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#CBD5E1] bg-white hover:bg-[#F4F6FB] px-2.5 py-1.5 text-xs font-mono font-medium text-[#1E293B] shadow-sm transition-all"
-              title="Open Developer Console (Ctrl+K / ⌘K)"
+            <button
+              onClick={() => {
+                const el = document.getElementById('terminal');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-800 text-slate-300 hover:text-white border border-white/10 text-xs font-mono transition-colors"
+              title="Jump to Interactive Terminal"
             >
-              <Terminal className="h-3.5 w-3.5 text-[#4F46E5]" />
-              <span className="hidden sm:inline">⌘K</span>
+              <Terminal className="h-3.5 w-3.5 text-eco-400" />
+              <span className="hidden sm:inline">Terminal</span>
             </button>
 
-            <a 
-              href={resumeUrl}
-              download="Rashmi_Pandey_Resume.pdf"
-              className="inline-flex items-center justify-center rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:shadow-indigo-500/20 active:scale-95"
+            <button
+              onClick={() => setResumeOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-medium text-xs shadow-md shadow-eco-500/20 hover:opacity-95 transition-opacity"
             >
-              <Download className="h-3.5 w-3.5 mr-1" />
-              Resume (PDF)
-            </a>
+              <FileText className="h-3.5 w-3.5" />
+              <span>Resume</span>
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 pb-24 pt-8 space-y-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 space-y-24 py-8">
         
-        {/* 1. HERO SECTION WITH PROFESSIONAL HEADSHOT */}
-        <section id="hero" className="py-4 md:py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-6">
-              
-              {/* Recruiter Ready Pill with Live Health Indicator */}
-              <div className="inline-flex flex-wrap items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/90 px-4 py-1.5 text-xs font-semibold text-[#4F46E5] shadow-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4F46E5]"></span>
-                </span>
-                <span>Targeting SDE &amp; Cloud Systems Roles</span>
-                <span className="text-slate-300">•</span>
-                <span className="text-[#0D9488] font-mono">AWS 7-Region Active</span>
-              </div>
-              
-              <h1 className="text-4xl font-extrabold tracking-tight text-[#1E293B] sm:text-5xl md:text-6xl leading-[1.12]">
-                Hi, I'm <span className="bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#0D9488] bg-clip-text text-transparent">Rashmi Pandey</span>.
+        {/* HERO SECTION */}
+        <section id="hero" className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[580px] relative pt-4">
+          <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
+
+          {/* Left Column: Hacker Pitch */}
+          <div className="lg:col-span-7 space-y-6 z-10 relative">
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/30 bg-eco-500/10 px-4 py-1.5 font-mono text-xs font-semibold text-eco-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-eco-500"></span>
+              </span>
+              <span>&gt;_ ROOT ACCESS // SDE &amp; DISTRIBUTED SYSTEMS</span>
+            </div>
+
+            <div className="space-y-3">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400">Rashmi Pandey</span>
               </h1>
-              
-              <p className="text-xl sm:text-2xl text-[#1E293B] font-semibold leading-relaxed">
-                I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
+              <p className="text-xl sm:text-2xl font-semibold text-slate-200">
+                I engineer <span className="text-eco-400">resilient, sub-100µs cloud distributed systems</span> and enterprise software.
               </p>
+            </div>
 
-              <p className="text-base text-[#64748B] leading-relaxed">
-                Computer Science &amp; Engineering undergraduate at <strong>Amity University (CGPA 8.00 / 10.0)</strong> with hands-on research in distributed systems at NIAMT Ranchi, Lyapunov workload optimization, and production Java backends.
-              </p>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+              Computer Science undergraduate (CGPA: 8.00/10) specializing in distributed algorithms, Java enterprise applications, and carbon-aware cloud routing. Researched Lyapunov optimization across 7 AWS regions during a research internship at <strong>NIAMT Ranchi</strong> under <strong>Dr. Rahul Mishra</strong>. <strong>NPTEL IIT Madras Topper (Top 2% Nationwide)</strong> and <strong>Microsoft Certified Azure Database Administrator</strong>.
+            </p>
 
-              {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-1">
-                <a 
-                  href="#projects" 
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 active:scale-95"
-                >
-                  View Featured Projects <ChevronRight className="h-4 w-4" />
-                </a>
-                <a 
-                  href={resumeUrl}
-                  download="Rashmi_Pandey_Resume.pdf"
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4F6FB] border border-[#CBD5E1] px-5 py-3 text-sm font-semibold text-[#1E293B] shadow-sm transition-all hover:-translate-y-0.5"
-                >
-                  <Download className="h-4 w-4 text-[#4F46E5]" /> Download Resume
-                </a>
-                <button 
-                  onClick={() => setTerminalOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#F4F6FB] hover:bg-[#E2E8F0] border border-[#E2E8F0] px-4 py-3 text-sm font-mono text-[#334155] transition-all"
-                >
-                  <Terminal className="h-4 w-4 text-[#0EA5E9]" /> Dev Console
-                </button>
+            {/* Quick Hacker Telemetry Pills */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+              <div className="glass-panel p-3 rounded-xl border border-white/5">
+                <div className="text-[10px] font-mono uppercase text-slate-400">Decision Latency</div>
+                <div className="text-xl font-bold font-mono text-eco-400">61 µs</div>
+                <div className="text-[10px] text-slate-500">AWS Multi-Region</div>
+              </div>
+              <div className="glass-panel p-3 rounded-xl border border-white/5">
+                <div className="text-[10px] font-mono uppercase text-slate-400">NPTEL Ranking</div>
+                <div className="text-xl font-bold font-mono text-cyan-400">TOP 2%</div>
+                <div className="text-[10px] text-slate-500">IIT Madras (84%)</div>
+              </div>
+              <div className="glass-panel p-3 rounded-xl border border-white/5">
+                <div className="text-[10px] font-mono uppercase text-slate-400">Joy of Computing</div>
+                <div className="text-xl font-bold font-mono text-indigo-400">87%</div>
+                <div className="text-[10px] text-slate-500">IIT Ropar (Silver)</div>
+              </div>
+              <div className="glass-panel p-3 rounded-xl border border-white/5">
+                <div className="text-[10px] font-mono uppercase text-slate-400">SLA Adherence</div>
+                <div className="text-xl font-bold font-mono text-emerald-400">100.0%</div>
+                <div className="text-[10px] text-slate-500">0.0% SLA Breach</div>
+              </div>
+            </div>
+
+            {/* Action CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="#simulator"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-semibold text-sm shadow-lg shadow-eco-500/25 hover:opacity-95 transition-all"
+              >
+                <Play className="h-4 w-4 fill-white" />
+                <span>Launch AWS Simulator</span>
+              </a>
+
+              <a
+                href="#projects"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-all"
+              >
+                <Code2 className="h-4 w-4 text-cyan-400" />
+                <span>View Engineering Projects</span>
+              </a>
+
+              <button
+                onClick={() => setResumeOpen(true)}
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white font-mono text-xs transition-all"
+              >
+                <Download className="h-4 w-4 text-slate-400" />
+                <span>Download Resume</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Holographic Terminal & Headshot */}
+          <div className="lg:col-span-5 space-y-4 z-10 relative">
+            <div className="glass-panel rounded-2xl border border-white/10 p-5 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-eco-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              {/* Headshot & Verification Badge */}
+              <div className="flex items-center gap-4 pb-4 border-b border-white/10">
+                <div className="relative">
+                  <img
+                    src={photoUrl}
+                    alt="Rashmi Pandey"
+                    className="w-16 h-16 rounded-xl object-cover object-top border-2 border-eco-500/40 shadow-lg"
+                  />
+                  <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-eco-500 border-2 border-dark-950 items-center justify-center text-[9px] text-white">✓</span>
+                  </span>
+                </div>
+                <div>
+                  <div className="text-white font-bold text-base">Rashmi Pandey</div>
+                  <div className="text-xs text-eco-400 font-mono flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Verified SDE Candidate
+                  </div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Amity Univ Jharkhand &bull; CGPA: 8.00</div>
+                </div>
               </div>
 
-              {/* Quick Contact & Social Icons */}
-              <div className="flex flex-wrap items-center gap-5 pt-2 text-[#64748B]">
+              {/* Interactive Micro-Terminal Display */}
+              <div className="mt-4 bg-dark-950/90 rounded-xl p-3.5 border border-white/5 font-mono text-[11px] space-y-2">
+                <div className="flex items-center justify-between text-slate-500 pb-2 border-b border-white/5 text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                    <span className="ml-1 text-slate-400">runtime_telemetry.sh</span>
+                  </div>
+                  <span className="text-eco-400">AWS EC2 (Linux)</span>
+                </div>
+
+                <div className="text-slate-400">
+                  <span className="text-eco-400">rashmi@aws-mesh</span>:<span className="text-cyan-400">~</span>$ ./benchmark_dvq.sh
+                </div>
+                <div className="text-slate-300 pl-2 border-l border-eco-500/30 space-y-1">
+                  <div>[OK] Region probe: <strong className="text-white">7 nodes active</strong></div>
+                  <div>[OK] Lyapunov optimal: <strong className="text-eco-400">eu-west-1 (142 gCO2/kWh)</strong></div>
+                  <div>[OK] Gateway overhead: <strong className="text-cyan-400">61 µs</strong></div>
+                  <div>[OK] SLA violation: <strong className="text-emerald-400">0.00% (0 / 50k req)</strong></div>
+                </div>
+
+                <div className="text-slate-400 pt-1">
+                  <span className="text-eco-400">rashmi@aws-mesh</span>:<span className="text-cyan-400">~</span>$ cat /etc/credentials
+                </div>
+                <div className="text-slate-300 pl-2 border-l border-cyan-500/30 space-y-0.5 text-[10.5px]">
+                  <div>• NPTEL Python Data Science: <strong className="text-cyan-400">84% [TOPPER 2%]</strong></div>
+                  <div>• NPTEL Joy of Computing: <strong className="text-indigo-400">87% [Silver Badge]</strong></div>
+                  <div>• Azure DBA Associate: <strong className="text-amber-400">ID: 647C0C2C5B35FA32</strong></div>
+                </div>
+              </div>
+
+              {/* Social Quick-Links */}
+              <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
                 <a 
                   href="https://github.com/rashmipandey870" 
                   target="_blank" 
-                  rel="noreferrer" 
-                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
                 >
-                  <Github className="h-4 w-4" /> GitHub (1,200+ Contributions)
+                  <Github className="h-4 w-4" /> github.com/rashmipandey870
                 </a>
                 <a 
-                  href="https://linkedin.com/in/rashmi-pandey-590a22340" 
+                  href="https://www.linkedin.com/in/rashmi-pandey-590a22340" 
                   target="_blank" 
-                  rel="noreferrer" 
-                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-400 transition-colors"
                 >
                   <Linkedin className="h-4 w-4" /> LinkedIn
                 </a>
-                <button 
-                  onClick={() => copyToClipboard('rashmipd870@gmail.com', 'email')}
-                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold focus:outline-none"
-                >
-                  {copiedKey === 'email' ? <Check className="h-4 w-4 text-[#0D9488]" /> : <Mail className="h-4 w-4" />}
-                  <span>{copiedKey === 'email' ? 'Email Copied!' : 'rashmipd870@gmail.com'}</span>
-                </button>
-              </div>
-
-              {/* Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="portfolio-card p-3.5">
-                  <div className="font-mono text-2xl font-bold text-[#4F46E5]">61 µs</div>
-                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">Gateway Decision Latency</div>
-                </div>
-                <div className="portfolio-card p-3.5">
-                  <div className="font-mono text-2xl font-bold text-[#0D9488]">35.8%</div>
-                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">Cloud Carbon Cut</div>
-                </div>
-                <div className="portfolio-card p-3.5">
-                  <div className="font-mono text-2xl font-bold text-[#0EA5E9]">0.0%</div>
-                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">SLA Violation Rate</div>
-                </div>
-                <div className="portfolio-card p-3.5">
-                  <div className="font-mono text-2xl font-bold text-[#F97316]">Top 2%</div>
-                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">NPTEL Topper Tag</div>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Right Headshot & Executive Badge Column */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center">
-              <div className="relative w-full max-w-[340px]">
-                
-                {/* Decorative Soft Glow Behind Card */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-indigo-200 via-sky-200 to-teal-100 rounded-3xl blur-xl opacity-60 pointer-events-none" />
-
-                {/* Profile Container Card */}
-                <div className="relative portfolio-card p-4 sm:p-5 bg-white border border-[#CBD5E1] shadow-xl text-center space-y-4">
-                  
-                  {/* Photo Frame */}
-                  <div className="relative mx-auto w-48 h-56 sm:w-56 sm:h-64 rounded-2xl overflow-hidden border-2 border-indigo-100 shadow-md bg-[#F4F6FB]">
-                    <img 
-                      src={photoUrl} 
-                      alt="Rashmi Pandey — Software Development Engineer Candidate" 
-                      className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-                    
-                    {/* Verified Candidate Overlay Tag */}
-                    <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-white/95 backdrop-blur-sm border border-slate-200 px-2 py-1 text-[11px] font-bold text-[#1E293B] shadow-sm flex items-center justify-center gap-1.5">
-                      <ShieldCheck className="h-3.5 w-3.5 text-[#0D9488]" />
-                      <span>Verified SDE Candidate</span>
-                    </div>
-                  </div>
-
-                  {/* Profile Header Details */}
-                  <div className="space-y-1">
-                    <h2 className="text-xl font-bold text-[#1E293B]">Rashmi Pandey</h2>
-                    <p className="text-xs font-semibold text-[#4F46E5]">B.Tech CSE • Amity University Jharkhand</p>
-                    <p className="text-[11px] text-[#64748B]">Bokaro Steel City / Ranchi, India</p>
-                  </div>
-
-                  {/* Floating Badges inside card */}
-                  <div className="grid grid-cols-2 gap-2 text-left pt-1 border-t border-[#E2E8F0]">
-                    <div className="p-2 rounded-lg bg-[#F4F6FB] border border-[#E2E8F0]">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#4F46E5] block">Certification</span>
-                      <span className="text-[11px] font-bold text-[#1E293B] line-clamp-1">Azure Database Admin</span>
-                    </div>
-                    <div className="p-2 rounded-lg bg-[#F4F6FB] border border-[#E2E8F0]">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D9488] block">NPTEL Ranking</span>
-                      <span className="text-[11px] font-bold text-[#1E293B] line-clamp-1">IIT Madras Topper 2%</span>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* LIVE SYSTEM HUD & RECRUITER QUICK-SCAN STRIP */}
-        <section id="tech-hud" className="portfolio-card p-5 sm:p-6 bg-gradient-to-r from-indigo-50/60 via-white to-sky-50/60 border border-indigo-200/80">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-slate-200">
-            
-            <div className="space-y-1 md:pr-4">
-              <span className="text-[10px] font-mono font-bold text-[#4F46E5] uppercase tracking-wider block">Target Role</span>
-              <p className="text-sm font-bold text-[#1E293B]">SDE &amp; Cloud Systems Engineer</p>
-              <p className="text-xs text-[#64748B]">Internship &amp; Full-Time (Immediate / 2026-28)</p>
-            </div>
-
-            <div className="space-y-1 pt-3 md:pt-0 md:px-4">
-              <span className="text-[10px] font-mono font-bold text-[#0D9488] uppercase tracking-wider block">Primary Competencies</span>
-              <p className="text-sm font-bold text-[#1E293B]">Java 17, AWS, Distributed Systems</p>
-              <p className="text-xs text-[#64748B]">Jakarta EE, Tomcat 11, MySQL ACID, Node.js</p>
-            </div>
-
-            <div className="space-y-1 pt-3 md:pt-0 md:px-4">
-              <span className="text-[10px] font-mono font-bold text-[#0EA5E9] uppercase tracking-wider block">Verified Credentials</span>
-              <p className="text-sm font-bold text-[#1E293B]">Microsoft Azure DBA Associate</p>
-              <p className="text-xs text-[#64748B]">NPTEL IIT Madras (Topper 2%) • NPTEL IIT Ropar (87%)</p>
-            </div>
-
-            <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
-              <span className="text-[10px] font-mono font-bold text-[#F97316] uppercase tracking-wider block">Location &amp; Work Auth</span>
-              <p className="text-sm font-bold text-[#1E293B]">India (Open to Relocation / Remote)</p>
-              <p className="text-xs text-[#64748B]">Indian Citizen • rashmipd870@gmail.com</p>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 2. ABOUT SECTION */}
-        <section id="about" className="space-y-6 pt-4 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-2 text-[#4F46E5] text-xs font-mono uppercase tracking-wider font-semibold">
-            <BookOpen className="h-4 w-4" /> About Me
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            <div className="md:col-span-8 space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#1E293B]">
-                Engineered for High-Scale, Low-Latency Problem Solving
-              </h2>
-              <div className="space-y-3 text-base text-[#334155] leading-relaxed">
-                <p>
-                  I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi under Dr. Rahul Mishra, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a verified 0.0% SLA breach rate.
-                </p>
-                <p>
-                  My engineering philosophy focuses on building from fundamental principles: I write clean, raw Jakarta Servlets on Apache Tomcat 11 with ACID relational databases rather than relying on heavy abstractions, and design combinatorial graph algorithms to eliminate scheduling bottlenecks.
-                </p>
-                <p>
-                  As a Microsoft Certified Azure Database Administrator with over 1,200 GitHub contributions and <strong>NPTEL Topper (Top 2% Nationwide)</strong> recognition, I combine rigorous systems thinking with practical delivery across Java, Python, AWS, and modern data architectures.
-                </p>
-              </div>
-            </div>
-
-            <div className="md:col-span-4 portfolio-card p-6 space-y-4 bg-[#F4F6FB]/70">
-              <h3 className="text-xs font-bold text-[#1E293B] uppercase tracking-wider font-mono">
-                Amazon Leadership Principles
-              </h3>
-              <div className="space-y-3 text-xs text-[#334155]">
-                <div className="border-l-2 border-[#4F46E5] pl-3 py-0.5">
-                  <span className="font-bold text-[#1E293B] block">Dive Deep</span>
-                  Profiled microsecond-level gateway latency in Node.js event loops and formulated Lyapunov drift-plus-penalty queue bounds.
-                </div>
-                <div className="border-l-2 border-[#0D9488] pl-3 py-0.5">
-                  <span className="font-bold text-[#1E293B] block">Invent &amp; Simplify</span>
-                  Constructed lightweight native Jakarta Servlets on Tomcat 11 with zero framework bloat, accelerating cold start throughput.
-                </div>
-                <div className="border-l-2 border-[#0EA5E9] pl-3 py-0.5">
-                  <span className="font-bold text-[#1E293B] block">Deliver Results</span>
-                  Sustained 0.0% SLA breaches under synthetic traffic surges while publishing reproducible open-source research and tools.
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. SKILLS SECTION */}
-        <section id="skills" className="space-y-6 pt-4 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-2 text-[#4F46E5] text-xs font-mono uppercase tracking-wider font-semibold">
-            <Code2 className="h-4 w-4" /> Technical Competencies
-          </div>
-          
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1E293B]">
-              Grouped Technical Skills
-            </h2>
-            <p className="text-sm text-[#64748B] mt-1">
-              Curated capabilities verified across production repositories, research benchmarks, and professional certifications.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            
-            {/* Languages */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#4F46E5]">
-                <Code2 className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Languages</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Java 17', 'Python 3', 'C / C++', 'JavaScript (ES6+)', 'TypeScript', 'SQL (DDL/DML)'].map((skill) => (
-                  <span key={skill} className="badge-indigo rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Cloud & Systems */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#0EA5E9]">
-                <Cloud className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Cloud &amp; Infrastructure</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['AWS (EC2, CloudWatch, S3, IAM)', 'Multi-Region Architecture', 'Microsoft Azure', 'Linux / Unix CLI', 'Bash Scripting', 'PM2 Process Supervisor'].map((skill) => (
-                  <span key={skill} className="badge-sky rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Backend & Distributed Systems */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#0D9488]">
-                <Server className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Backend &amp; Systems</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Jakarta Servlets 6.0', 'Apache Tomcat 11', 'Node.js & Express.js', 'RESTful API Design', 'Microservices', 'Lyapunov Optimization'].map((skill) => (
-                  <span key={skill} className="badge-teal rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Databases & Storage */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#F97316]">
-                <Database className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Databases &amp; Storage</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Azure SQL', 'MySQL (ACID, Migrations)', 'MongoDB (Aggregations)', 'Relational Schema Normalization', 'Database Indexing & Tuning'].map((skill) => (
-                  <span key={skill} className="badge-coral rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Data Science & Python Specialization */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#4F46E5]">
-                <Sparkles className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Data Science &amp; Python</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Python for Data Science (IIT-M Topper)', 'Joy of Computing (IIT-R)', 'Pandas & NumPy', 'Statistical EDA', 'Scikit-learn', 'Algorithmic Optimization'].map((skill) => (
-                  <span key={skill} className="badge-indigo rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Tools & Practices */}
-            <div className="portfolio-card p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#0D9488]">
-                <ShieldCheck className="h-5 w-5" />
-                <h3 className="text-base font-bold text-[#1E293B]">Tools &amp; Practices</h3>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {['Git & GitHub', 'Docker Basics', 'Maven', 'Postman', 'Retrofit 2', 'Apache PDFBox', 'Object-Oriented Design (OOP)'].map((skill) => (
-                  <span key={skill} className="badge-teal rounded-lg px-2.5 py-1 text-xs font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 4. PROJECTS SECTION WITH TECH TABS & API cURL HACKS */}
-        <section id="projects" className="space-y-6 pt-4 border-t border-[#E2E8F0]">
+        {/* SECTION 1: AWS DISTRIBUTED WORKLOAD & LYAPUNOV SIMULATOR */}
+        <section id="simulator" className="space-y-6 pt-10 border-t border-white/5">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-[#4F46E5] text-xs font-mono uppercase tracking-wider font-semibold">
-                <Cpu className="h-4 w-4" /> Engineering Showcase
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+                <Activity className="h-3.5 w-3.5 text-eco-400" />
+                <span>INTERACTIVE ENGINEERING LAB</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#1E293B] mt-1">
-                Featured Projects
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Live AWS Multi-Region Lyapunov Workload Simulator
               </h2>
-              <p className="text-sm text-[#64748B] mt-0.5">
-                Engineered in STAR format with verified production metrics and interactive architecture views.
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                Test the Lyapunov drift-plus-penalty algorithm across 7 AWS geographic regions. Inject regional grid outages, scale traffic, and observe sub-100µs decision telemetry.
+              </p>
+            </div>
+            <div className="font-mono text-xs text-slate-400 bg-dark-900 border border-white/10 px-3 py-2 rounded-lg">
+              Telemetry Status: <span className="text-eco-400 font-bold">ONLINE (61µs)</span>
+            </div>
+          </div>
+
+          {/* Embedded Full Interactive Simulator Component */}
+          <AWSWorkloadSimulator />
+        </section>
+
+        {/* SECTION 2: THE 4 AUTHENTIC PROJECTS MATRIX */}
+        <section id="projects" className="space-y-8 pt-10 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-3 py-1 font-mono text-xs font-semibold text-cyan-400 mb-2">
+                <Layers className="h-3.5 w-3.5 text-cyan-400" />
+                <span>VERIFIED PRODUCTION CODEBASES</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Featured Engineering Systems
+              </h2>
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                Engineered using clean architecture patterns, measured with production benchmarks, and ready for deep code inspection.
               </p>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-1.5 p-1 bg-[#F4F6FB] rounded-xl border border-[#E2E8F0] self-start sm:self-auto">
+            <div className="flex items-center gap-1.5 p-1 bg-dark-900 rounded-xl border border-white/10 font-mono text-xs">
               {[
-                { id: 'all', label: 'All Projects' },
-                { id: 'cloud', label: 'Cloud & Distributed' },
-                { id: 'java', label: 'Java Enterprise' },
-                { id: 'mobile', label: 'Mobile & Systems' }
-              ].map(tab => (
+                { id: 'all', label: 'All (4)' },
+                { id: 'cloud', label: 'Cloud / AWS' },
+                { id: 'java', label: 'Java EE' },
+                { id: 'mobile', label: 'Android / Algorithms' },
+              ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                    activeTab === tab.id 
-                      ? 'bg-[#FFFFFF] text-[#4F46E5] font-semibold shadow-sm' 
-                      : 'text-[#64748B] hover:text-[#1E293B]'
+                  className={`px-3 py-1.5 rounded-lg transition-colors ${
+                    activeTab === tab.id
+                      ? 'bg-eco-500 text-white font-bold shadow-sm'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   {tab.label}
@@ -680,504 +627,627 @@ function App() {
             </div>
           </div>
 
-          <div className="space-y-8">
-            {filteredProjects.map((p) => {
-              const currentTab = projectTab[p.id] || 'summary';
+          <div className="grid grid-cols-1 gap-8">
+            {filteredProjects.map((project) => {
+              const currentTab = projectTab[project.id] || 'star';
 
               return (
-                <div key={p.id} className="portfolio-card p-6 md:p-8 space-y-6">
-                  
-                  {/* Header */}
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 border-b border-[#E2E8F0] pb-5">
-                    <div className="space-y-1.5 max-w-2xl">
-                      <h3 className="text-xl md:text-2xl font-bold text-[#1E293B]">
-                        {p.title}
-                      </h3>
-                      <p className="text-sm text-[#64748B] leading-relaxed">
-                        {p.tagline}
+                <div
+                  key={project.id}
+                  className="glass-panel glass-panel-hover rounded-2xl border border-white/10 overflow-hidden p-6 sm:p-8 space-y-6"
+                >
+                  {/* Project Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-eco-500/10 text-eco-400 border border-eco-500/20 uppercase">
+                          {project.category}
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-bold text-white">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
+                        {project.tagline}
                       </p>
                     </div>
 
-                    {/* Metric Pill */}
-                    <div className="flex items-center md:flex-col items-end justify-between md:justify-center p-3 rounded-xl bg-indigo-50/80 border border-indigo-200/80 shrink-0">
-                      <span className="font-mono text-xl md:text-2xl font-extrabold text-[#4F46E5]">
-                        {p.metricPrimary}
-                      </span>
-                      <span className="text-[11px] font-semibold text-[#64748B] tracking-tight">
-                        {p.metricLabel}
-                      </span>
+                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-1 p-3 rounded-xl bg-dark-950/80 border border-white/5 shrink-0">
+                      <span className="font-mono text-xl font-extrabold text-eco-400">{project.metricPrimary}</span>
+                      <span className="text-[10px] uppercase font-mono text-slate-400">{project.metricLabel}</span>
                     </div>
                   </div>
 
-                  {/* Tech Explorer Sub-Tabs */}
-                  <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
-                    <button 
-                      onClick={() => setProjectTab(prev => ({ ...prev, [p.id]: 'summary' }))}
-                      className={`text-xs font-semibold px-3 py-1 rounded-md transition-all ${currentTab === 'summary' ? 'bg-[#4F46E5] text-white shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}
+                  {/* Sub-Tab Navigation Switcher */}
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2 text-xs font-mono">
+                    <button
+                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'star' }))}
+                      className={`px-3 py-1.5 rounded-lg transition-colors ${
+                        currentTab === 'star'
+                          ? 'bg-eco-500/15 text-eco-400 font-bold border border-eco-500/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
                     >
-                      STAR Impact
+                      ⭐ STAR Impact Breakdown
                     </button>
-                    <button 
-                      onClick={() => setProjectTab(prev => ({ ...prev, [p.id]: 'arch' }))}
-                      className={`text-xs font-semibold px-3 py-1 rounded-md transition-all ${currentTab === 'arch' ? 'bg-[#4F46E5] text-white shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}
+                    <button
+                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'arch' }))}
+                      className={`px-3 py-1.5 rounded-lg transition-colors ${
+                        currentTab === 'arch'
+                          ? 'bg-cyan-500/15 text-cyan-400 font-bold border border-cyan-500/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
                     >
-                      Architecture Pipeline
+                      📐 Architecture Pipeline Flow
                     </button>
-                    <button 
-                      onClick={() => setProjectTab(prev => ({ ...prev, [p.id]: 'curl' }))}
-                      className={`text-xs font-semibold px-3 py-1 rounded-md transition-all ${currentTab === 'curl' ? 'bg-[#4F46E5] text-white shadow-sm' : 'text-[#64748B] hover:text-[#1E293B]'}`}
+                    <button
+                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'curl' }))}
+                      className={`px-3 py-1.5 rounded-lg transition-colors ${
+                        currentTab === 'curl'
+                          ? 'bg-indigo-500/15 text-indigo-400 font-bold border border-indigo-500/30'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
                     >
-                      CLI / cURL Spec
+                      ⚡ CLI / cURL Spec
                     </button>
                   </div>
 
-                  {/* Tab Content 1: STAR Grid */}
-                  {currentTab === 'summary' && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                      <div className="p-4 rounded-xl bg-[#F4F6FB] border border-[#E2E8F0] space-y-1">
-                        <span className="font-mono font-bold text-[#F97316] uppercase tracking-wider block">
-                          The Problem
-                        </span>
-                        <p className="text-[#334155] leading-relaxed">
-                          {p.starProblem}
-                        </p>
+                  {/* Tab 1: STAR Impact */}
+                  {currentTab === 'star' && (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
+                          <span className="font-mono text-[10px] font-bold text-amber-400 uppercase tracking-wider block">The Challenge / Problem</span>
+                          <p className="text-xs text-slate-300 leading-relaxed">{project.starProblem}</p>
+                        </div>
+                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
+                          <span className="font-mono text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">Architecture / Solution</span>
+                          <p className="text-xs text-slate-300 leading-relaxed">{project.starSolution}</p>
+                        </div>
+                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
+                          <span className="font-mono text-[10px] font-bold text-eco-400 uppercase tracking-wider block">Quantified Impact</span>
+                          <p className="text-xs text-slate-300 leading-relaxed">{project.starImpact}</p>
+                        </div>
                       </div>
-                      <div className="p-4 rounded-xl bg-[#F4F6FB] border border-[#E2E8F0] space-y-1">
-                        <span className="font-mono font-bold text-[#0D9488] uppercase tracking-wider block">
-                          The Architecture / Solution
-                        </span>
-                        <p className="text-[#334155] leading-relaxed">
-                          {p.starSolution}
-                        </p>
-                      </div>
-                      <div className="p-4 rounded-xl bg-[#F4F6FB] border border-[#E2E8F0] space-y-1">
-                        <span className="font-mono font-bold text-[#4F46E5] uppercase tracking-wider block">
-                          Quantified Impact
-                        </span>
-                        <p className="text-[#334155] leading-relaxed">
-                          {p.starImpact}
-                        </p>
+
+                      <div className="space-y-2 pt-1">
+                        <div className="text-xs font-mono text-slate-400 font-bold">Key Technical Implementation Details:</div>
+                        <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-300">
+                          {project.highlights.map((h, i) => (
+                            <li key={i} className="flex items-start gap-2 p-2.5 rounded-lg bg-dark-950/40 border border-white/5">
+                              <CheckCircle2 className="h-4 w-4 text-eco-400 shrink-0 mt-0.5" />
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   )}
 
-                  {/* Tab Content 2: Architecture Pipeline */}
+                  {/* Tab 2: Architecture Pipeline */}
                   {currentTab === 'arch' && (
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
-                      <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#4F46E5] uppercase tracking-wider">
-                        <Network className="h-4 w-4" />
-                        <span>System Architecture Blueprint</span>
+                    <div className="space-y-3">
+                      <div className="p-4 rounded-xl bg-dark-950/80 border border-cyan-500/20 font-mono text-xs text-cyan-300 flex items-center gap-3">
+                        <Network className="h-5 w-5 text-cyan-400 shrink-0" />
+                        <div className="leading-relaxed">
+                          {project.architectureFlow}
+                        </div>
                       </div>
-                      <div className="font-mono text-xs text-[#1E293B] bg-white p-3 rounded-lg border border-slate-200 leading-relaxed overflow-x-auto">
-                        {p.architectureFlow}
+                      <div className="text-[11px] text-slate-400 italic">
+                        * End-to-end distributed data pipeline verified with synthetic load generators and zero dropped frames.
                       </div>
                     </div>
                   )}
 
-                  {/* Tab Content 3: cURL / CLI Spec */}
+                  {/* Tab 3: CLI / cURL Spec */}
                   {currentTab === 'curl' && (
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
-                      <div className="flex items-center justify-between font-mono text-[11px] font-bold text-[#4F46E5] uppercase tracking-wider">
-                        <span className="flex items-center gap-1.5">
-                          <Terminal className="h-4 w-4" />
-                          <span>Terminal API Call Snippet</span>
-                        </span>
-                        <button 
-                          onClick={() => copyToClipboard(p.curlExample, `curl-${p.id}`)}
-                          className="flex items-center gap-1 text-[#4F46E5] hover:underline normal-case font-sans font-medium"
+                    <div className="space-y-3">
+                      <div className="relative bg-dark-950 rounded-xl p-4 border border-white/10 font-mono text-xs text-slate-200 overflow-x-auto">
+                        <button
+                          onClick={() => copyToClipboard(project.curlExample, project.id)}
+                          className="absolute top-3 right-3 p-1.5 rounded-lg bg-dark-800 text-slate-400 hover:text-white border border-white/10 text-xs flex items-center gap-1 transition-colors"
                         >
-                          {copiedKey === `curl-${p.id}` ? <Check className="h-3.5 w-3.5 text-[#0D9488]" /> : <Copy className="h-3.5 w-3.5" />}
-                          <span>{copiedKey === `curl-${p.id}` ? 'Copied!' : 'Copy cURL'}</span>
+                          {copiedKey === project.id ? <Check className="h-3.5 w-3.5 text-eco-400" /> : <Copy className="h-3.5 w-3.5" />}
+                          <span>{copiedKey === project.id ? 'Copied' : 'Copy'}</span>
                         </button>
+                        <pre className="pr-16">{project.curlExample}</pre>
                       </div>
-                      <pre className="font-mono text-[11px] text-[#1E293B] bg-white p-3 rounded-lg border border-slate-200 overflow-x-auto whitespace-pre-wrap leading-relaxed">
-                        {p.curlExample}
-                      </pre>
                     </div>
                   )}
 
-                  {/* Highlights List */}
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold text-[#1E293B] uppercase tracking-wider font-mono">
-                      Key Technical Highlights
-                    </span>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#334155]">
-                      {p.highlights.map((h, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-[#0D9488] shrink-0 mt-0.5" />
-                          <span>{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Tech Tags & Links Footer */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#E2E8F0]">
+                  {/* Tech Stack Pills & Action Buttons */}
+                  <div className="pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
                     <div className="flex flex-wrap gap-1.5">
-                      {p.tech.map((t) => (
-                        <span key={t} className="badge-sky rounded-md px-2 py-0.5 text-[11px] font-medium">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="font-mono text-xs px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5"
+                        >
                           {t}
                         </span>
                       ))}
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <a 
-                        href={p.github} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-[#CBD5E1] bg-[#FFFFFF] hover:bg-[#F4F6FB] px-3.5 py-1.5 text-xs font-semibold text-[#1E293B] shadow-sm transition-all"
+                      <button
+                        onClick={() => setSelectedArchProject(project)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-cyan-500/30 text-cyan-300 hover:text-white hover:bg-cyan-500/10 text-xs font-mono transition-colors"
                       >
-                        <Github className="h-3.5 w-3.5" /> Repository
+                        <Layers className="h-3.5 w-3.5 text-cyan-400" />
+                        <span>Inspect Architecture</span>
+                      </button>
+
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 text-xs font-mono transition-colors"
+                      >
+                        <Github className="h-3.5 w-3.5 text-slate-400" />
+                        <span>Repository</span>
                       </a>
-                      {p.demo && (
-                        <a 
-                          href={p.demo} 
-                          target="_blank" 
-                          rel="noreferrer" 
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" /> Live Demo / Docs
-                        </a>
-                      )}
                     </div>
                   </div>
-
                 </div>
               );
             })}
           </div>
         </section>
 
-        {/* 5. EXPERIENCE, EDUCATION & CERTIFICATIONS (TIMELINE) */}
-        <section id="experience" className="space-y-8 pt-4 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-2 text-[#4F46E5] text-xs font-mono uppercase tracking-wider font-semibold">
-            <Briefcase className="h-4 w-4" /> Career Journey
+        {/* SECTION 3: INTERACTIVE DEVELOPER TERMINAL */}
+        <section id="terminal" className="space-y-6 pt-10 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+                <Terminal className="h-3.5 w-3.5 text-eco-400" />
+                <span>COMMAND LINE DIAGNOSTICS</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Developer CLI &amp; System Terminal
+              </h2>
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                Type live diagnostic commands: <code className="text-eco-400 bg-dark-950 px-1 py-0.5 rounded">amazon</code>, <code className="text-cyan-400 bg-dark-950 px-1 py-0.5 rounded">lp</code>, <code className="text-indigo-400 bg-dark-950 px-1 py-0.5 rounded">metrics</code>, <code className="text-amber-400 bg-dark-950 px-1 py-0.5 rounded">curl /api/aws</code>, <code className="text-slate-400 bg-dark-950 px-1 py-0.5 rounded">skills</code>.
+              </p>
+            </div>
+            <div className="font-mono text-xs text-slate-500">
+              Shortcut: Press <kbd className="px-1.5 py-0.5 bg-dark-900 border border-white/10 rounded text-slate-300">⌘K</kbd> / <kbd className="px-1.5 py-0.5 bg-dark-900 border border-white/10 rounded text-slate-300">Ctrl+K</kbd>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            {/* Left Column: Research Experience & Education Timeline */}
-            <div className="lg:col-span-7 space-y-6">
-              <h2 className="text-2xl font-bold text-[#1E293B]">
-                Experience &amp; Education
-              </h2>
-
-              <div className="relative pl-6 border-l-2 border-[#CBD5E1] space-y-8">
-                
-                {/* NIAMT Research Internship */}
-                <div className="relative space-y-2">
-                  <div className="absolute -left-[31px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-[#FFFFFF] bg-[#4F46E5]" />
-                  <div className="flex flex-wrap items-baseline justify-between gap-1">
-                    <h3 className="text-base font-bold text-[#1E293B]">
-                      Summer Research Intern — Distributed Systems &amp; Cloud Infrastructure
-                    </h3>
-                    <span className="text-xs font-semibold text-[#4F46E5] font-mono">
-                      Jun 2026 – Jul 2026
-                    </span>
-                  </div>
-                  <div className="text-xs font-semibold text-[#64748B]">
-                    National Institute of Advanced Manufacturing Technology (NIAMT), Ranchi • Guided by Dr. Rahul Mishra
-                  </div>
-                  <p className="text-xs text-[#334155] leading-relaxed pt-1">
-                    Architected and evaluated <strong>DVQ</strong>, an intelligent carbon-aware edge routing platform deployed across 7 AWS geographic regions. Formulated request routing via Lyapunov drift-plus-penalty optimization, achieving 35.87% carbon reduction with 0.0% SLA breach across all trials.
-                  </p>
-                </div>
-
-                {/* University Education */}
-                <div className="relative space-y-2">
-                  <div className="absolute -left-[31px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-[#FFFFFF] bg-[#0D9488]" />
-                  <div className="flex flex-wrap items-baseline justify-between gap-1">
-                    <h3 className="text-base font-bold text-[#1E293B]">
-                      B.Tech in Computer Science &amp; Engineering
-                    </h3>
-                    <span className="text-xs font-semibold text-[#0D9488] font-mono">
-                      2024 – 2028 (Currently Pursuing)
-                    </span>
-                  </div>
-                  <div className="text-xs font-semibold text-[#64748B]">
-                    Amity University Jharkhand • Ranchi, India
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-md bg-teal-50 border border-teal-200 px-2.5 py-1 text-xs font-bold text-[#0D9488]">
-                    CGPA: 8.00 / 10.0
-                  </div>
-                  <p className="text-xs text-[#334155] leading-relaxed">
-                    Core Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing.
-                  </p>
-                </div>
-
-                {/* High School */}
-                <div className="relative space-y-2">
-                  <div className="absolute -left-[31px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-[#FFFFFF] bg-[#64748B]" />
-                  <div className="flex flex-wrap items-baseline justify-between gap-1">
-                    <h3 className="text-sm font-bold text-[#1E293B]">
-                      Senior Secondary (Class XII — PCM) &amp; Secondary (Class X)
-                    </h3>
-                    <span className="text-xs font-medium text-[#64748B] font-mono">
-                      2020 – 2023
-                    </span>
-                  </div>
-                  <div className="text-xs text-[#64748B]">
-                    Sri Gurunanak Public School (CBSE)
-                  </div>
-                  <div className="flex gap-2 pt-0.5 text-xs">
-                    <span className="font-semibold text-[#1E293B]">Class XII: 88.2%</span>
-                    <span className="text-[#64748B]">•</span>
-                    <span className="font-semibold text-[#1E293B]">Class X: 85.0%</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Right Column: Verified Certifications */}
-            <div className="lg:col-span-5 space-y-6">
-              <h2 className="text-2xl font-bold text-[#1E293B]">
-                Verified Certifications
-              </h2>
-
-              <div className="space-y-4">
-                
-                {/* 1. NPTEL Python for Data Science (IIT Madras - Topper 2%) */}
-                <div className="portfolio-card p-4 space-y-2 border-l-4 border-l-[#4F46E5]">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2 text-[#4F46E5]">
-                      <Award className="h-5 w-5 shrink-0" />
-                      <h3 className="text-sm font-bold text-[#1E293B]">
-                        NPTEL — Python for Data Science
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="text-xs text-[#64748B]">
-                    Conducted by <strong>IIT Madras</strong>. Achieved <strong>84% Score</strong> with prestigious <strong>Top 2% (Topper Tag)</strong> &amp; Elite + Silver Medal distinction.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    <span className="font-mono text-[10px] font-bold text-[#4F46E5] bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
-                      🏆 TOPPER 2% NATIONWIDE
-                    </span>
-                    <span className="font-mono text-[10px] font-bold text-[#0D9488] bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
-                      Score: 84% • Elite + Silver
-                    </span>
-                  </div>
-                </div>
-
-                {/* 2. NPTEL The Joy of Computing using Python (IIT Ropar - Prof. Sudarshan) */}
-                <div className="portfolio-card p-4 space-y-2 border-l-4 border-l-[#0EA5E9]">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2 text-[#0EA5E9]">
-                      <Award className="h-5 w-5 shrink-0" />
-                      <h3 className="text-sm font-bold text-[#1E293B]">
-                        NPTEL — The Joy of Computing using Python
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="text-xs text-[#64748B]">
-                    Conducted by <strong>IIT Ropar (Prof. Sudarshan Iyengar)</strong>. Scored <strong>87% (Elite + Silver Medal / Silver Badge)</strong>. Rigorous algorithmic computation and Python foundations.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    <span className="font-mono text-[10px] font-bold text-[#0EA5E9] bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
-                      Score: 87% • Silver Medal
-                    </span>
-                    <span className="font-mono text-[10px] font-medium text-[#64748B] bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
-                      IIT Ropar (Prof. Sudarshan)
-                    </span>
-                  </div>
-                </div>
-
-                {/* 3. Microsoft Azure DBA */}
-                <div className="portfolio-card p-4 space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2 text-[#4F46E5]">
-                      <Award className="h-5 w-5 shrink-0" />
-                      <h3 className="text-sm font-bold text-[#1E293B]">
-                        Microsoft Certified: Azure Database Administrator Associate
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="text-xs text-[#64748B]">
-                    Validates core cloud database administration, Azure SQL architecture, query optimization, security, and performance tuning.
-                  </p>
-                  <div className="font-mono text-[10px] font-semibold text-[#4F46E5] bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 inline-block">
-                    Credential ID: 647C0C2C5B35FA32
-                  </div>
-                </div>
-
-                {/* 4. Microsoft AI SQL */}
-                <div className="portfolio-card p-4 space-y-2">
-                  <div className="flex items-center gap-2 text-[#0D9488]">
-                    <Award className="h-5 w-5 shrink-0" />
-                    <h3 className="text-sm font-bold text-[#1E293B]">
-                      Microsoft Certified: Implement SQL Solutions Using AI Tools
-                    </h3>
-                  </div>
-                  <p className="text-xs text-[#64748B]">
-                    Advanced automated database design, intelligent query optimization, and AI-driven data modeling on Azure SQL.
-                  </p>
-                </div>
-
-                {/* 5. Infosys Springboard */}
-                <div className="portfolio-card p-4 space-y-2">
-                  <div className="flex items-center gap-2 text-[#F97316]">
-                    <Award className="h-5 w-5 shrink-0" />
-                    <h3 className="text-sm font-bold text-[#1E293B]">
-                      Infosys Springboard — Java Programming Fundamentals
-                    </h3>
-                  </div>
-                  <p className="text-xs text-[#64748B]">
-                    Comprehensive object-oriented programming, exception handling, data structures, and multithreading fundamentals.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
+          {/* Embedded Full Interactive Terminal */}
+          <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+            <DeveloperTerminal />
           </div>
         </section>
 
-        {/* 6. CONTACT SECTION (NO HEAVY FORM - DIRECT CHANNELS) */}
-        <section id="contact" className="space-y-6 pt-4 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-2 text-[#4F46E5] text-xs font-mono uppercase tracking-wider font-semibold">
-            <Mail className="h-4 w-4" /> Get In Touch
+        {/* SECTION 4: AMAZON LEADERSHIP PRINCIPLES ALIGNMENT */}
+        <section id="amazon-standards" className="space-y-6 pt-10 border-t border-white/5">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 font-mono text-xs font-semibold text-amber-400 mb-2">
+              <Flame className="h-3.5 w-3.5 text-amber-400" />
+              <span>BIG TECH ENGINEERING EXCELLENCE</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Amazon Leadership Principles Alignment
+            </h2>
+            <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+              Concrete evidence demonstrating how my engineering research and production systems align directly with Amazon LP standards.
+            </p>
           </div>
 
-          <div className="portfolio-card p-8 md:p-10 text-center max-w-3xl mx-auto space-y-6 bg-[#FFFFFF]">
-            <div className="space-y-2">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1E293B]">
-                Let's Build Something Exceptional Together
-              </h2>
-              <p className="text-sm text-[#64748B] max-w-xl mx-auto">
-                I am actively seeking Software Development Engineer (SDE) and Cloud Systems internship &amp; full-time opportunities. Reach out directly via email or LinkedIn.
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-2.5">
+              <div className="w-8 h-8 rounded-lg bg-eco-500/10 border border-eco-500/20 text-eco-400 flex items-center justify-center font-mono font-bold text-sm">
+                01
+              </div>
+              <h3 className="text-base font-bold text-white">Dive Deep</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Profiled Linux process schedulers under PM2, isolating microservice network round-trip bottlenecks down to a <strong>61 µs median routing decision latency</strong> across 7 AWS geographic regions.
               </p>
             </div>
 
-            {/* Direct Channels */}
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-              <a 
-                href="mailto:rashmipd870@gmail.com" 
-                className="inline-flex items-center gap-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all hover:-translate-y-0.5"
-              >
-                <Mail className="h-4 w-4" /> Email: rashmipd870@gmail.com
-              </a>
-              <a 
-                href="https://linkedin.com/in/rashmi-pandey-590a22340" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0EA5E9] hover:bg-[#0284C7] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-sky-500/20 transition-all hover:-translate-y-0.5"
-              >
-                <Linkedin className="h-4 w-4" /> Connect on LinkedIn
-              </a>
-              <a 
-                href="https://github.com/rashmipandey870" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="inline-flex items-center gap-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4F6FB] border border-[#CBD5E1] px-6 py-3 text-sm font-semibold text-[#1E293B] shadow-sm transition-all hover:-translate-y-0.5"
-              >
-                <Github className="h-4 w-4" /> GitHub Profile
-              </a>
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-2.5">
+              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">
+                02
+              </div>
+              <h3 className="text-base font-bold text-white">Customer Obsession</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Guaranteed a verified <strong>0.0% SLA breach rate</strong> across all evaluation trials, ensuring enterprise customers experience zero downtime or latency violations even during simulated regional grid outages.
+              </p>
             </div>
 
-            <div className="pt-4 border-t border-[#E2E8F0] flex flex-wrap items-center justify-center gap-6 text-xs text-[#64748B]">
-              <span>📍 Bokaro Steel City / Ranchi, Jharkhand, India</span>
-              <span>•</span>
-              <span>📞 +91 87093 68696</span>
-              <span>•</span>
-              <a 
-                href={resumeUrl}
-                download="Rashmi_Pandey_Resume.pdf"
-                className="font-semibold text-[#4F46E5] hover:underline"
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-2.5">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-sm">
+                03
+              </div>
+              <h3 className="text-base font-bold text-white">Invent &amp; Simplify</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Formulated complex carbon-aware workload distribution into decoupled microservices and replaced manual tournament spreadsheets with automated combinatorial graph algorithms for 100+ athletes.
+              </p>
+            </div>
+
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-2.5">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold text-sm">
+                04
+              </div>
+              <h3 className="text-base font-bold text-white">Deliver Results</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Constructed 61 sequential production commits in EXAMORA with zero framework bloat; earned <strong>NPTEL Topper (Top 2% Nationwide)</strong> honors; completed intensive research internship at NIAMT Ranchi.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 5: TECHNICAL SKILLS MATRIX */}
+        <section id="skills" className="space-y-6 pt-10 border-t border-white/5">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+              <Cpu className="h-3.5 w-3.5 text-eco-400" />
+              <span>CORE COMPETENCIES</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Technical Arsenal &amp; Systems Architecture
+            </h2>
+            <p className="text-slate-400 text-sm mt-1">
+              Grouped by systems domain with zero vague percentage bars.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* Languages */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-eco-400">
+                <Code2 className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">Languages &amp; Core CS</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['Java 17 (JDK)', 'Python 3', 'C', 'SQL', 'JavaScript (ES6+)', 'Bash Scripting', 'Data Structures & Algorithms', 'OOP Design'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Cloud & AWS */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-cyan-400">
+                <Cloud className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">Cloud &amp; Infrastructure</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['AWS (7 Geographic Regions)', 'AWS EC2', 'AWS CloudWatch API', 'AWS S3 & IAM', 'Microsoft Azure', 'PM2 Process Supervisor', 'Linux / Unix CLI', 'Docker Basics'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-cyan-300 border border-cyan-500/20">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Backend & Systems */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-indigo-400">
+                <Server className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">Backend &amp; Distributed Systems</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['Jakarta Servlets 6.0', 'Apache Tomcat 11', 'Node.js & Express.js', 'RESTful API Design', 'Microservices', 'Lyapunov Optimization', 'Retrofit 2', 'Apache PDFBox'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Databases */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-amber-400">
+                <Database className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">Databases &amp; Storage</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['Azure SQL', 'MySQL (ACID Transactions)', 'MongoDB Atlas', 'Relational Schema Normalization', 'Database Indexing & Tuning', 'Mongoose ODM'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Data Science & Python */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-emerald-400">
+                <Sparkles className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">Data Science &amp; Python</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['Python for Data Science (IIT-M Topper)', 'Joy of Computing (IIT-R)', 'Pandas & NumPy', 'Statistical EDA', 'Scikit-learn', 'Algorithmic Optimization'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-emerald-300 border border-emerald-500/20">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Tools & Practices */}
+            <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
+              <div className="flex items-center gap-2 text-slate-400">
+                <ShieldCheck className="h-5 w-5" />
+                <h3 className="font-bold text-white text-base">DevOps &amp; Practices</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                {['Git & GitHub (1,200+ commits)', 'Postman API Testing', 'Maven', 'Android Studio', 'Chaos Engineering', 'Zero-Trust Architecture', 'JWT Authentication'].map((s) => (
+                  <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 6: HOLOGRAPHIC VERIFIED CREDENTIALS VAULT */}
+        <section id="credentials" className="space-y-6 pt-10 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+                <Award className="h-3.5 w-3.5 text-eco-400" />
+                <span>OFFICIAL VERIFIED BADGES</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Verified Credentials &amp; Certifications
+              </h2>
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                Officially accredited certifications with verifiable scores, IDs, and topper recognitions.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Cert 1: NPTEL IIT Madras */}
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-cyan-400 border-white/5 space-y-3 relative overflow-hidden">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-bold uppercase">
+                      🏆 TOPPER 2% NATIONWIDE
+                    </span>
+                    <span className="font-mono text-[10px] text-slate-400">Score: 84%</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white">
+                    NPTEL — Python for Data Science
+                  </h3>
+                  <div className="text-xs font-mono text-cyan-300">Indian Institute of Technology Madras (IIT Madras)</div>
+                </div>
+                <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 shrink-0">
+                  <Award className="h-6 w-6" />
+                </div>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Awarded <strong>Elite + Silver Medal</strong> and recognized as a <strong>Nationwide Topper in the Top 2%</strong> of all candidates. Comprehensive coverage of statistical EDA, Pandas, NumPy data processing, regression, and Scikit-learn pipelines.
+              </p>
+            </div>
+
+            {/* Cert 2: NPTEL IIT Ropar */}
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-indigo-400 border-white/5 space-y-3 relative overflow-hidden">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-bold uppercase">
+                      🥈 ELITE + SILVER BADGE
+                    </span>
+                    <span className="font-mono text-[10px] text-slate-400">Score: 87%</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white">
+                    NPTEL — The Joy of Computing using Python
+                  </h3>
+                  <div className="text-xs font-mono text-indigo-300">Indian Institute of Technology Ropar (Prof. Sudarshan Iyengar)</div>
+                </div>
+                <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 shrink-0">
+                  <Award className="h-6 w-6" />
+                </div>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Taught by <strong>Prof. Sudarshan Iyengar</strong>. Achieved an <strong>87% Score (Elite + Silver Medal / Silver Badge)</strong> demonstrating advanced algorithmic thinking, recursion, combinatorial logic, and computational problem-solving.
+              </p>
+            </div>
+
+            {/* Cert 3: Microsoft Azure DBA */}
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-eco-400 border-white/5 space-y-3 relative overflow-hidden">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-eco-500/10 text-eco-400 border border-eco-500/20 font-bold uppercase">
+                      MICROSOFT CERTIFIED
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white">
+                    Azure Database Administrator Associate
+                  </h3>
+                  <div className="text-xs font-mono text-slate-400">Credential ID: <strong className="text-white">647C0C2C5B35FA32</strong></div>
+                </div>
+                <div className="p-2 rounded-xl bg-eco-500/10 text-eco-400 shrink-0">
+                  <Database className="h-6 w-6" />
+                </div>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Validates enterprise cloud database management, high-availability architecture, security governance, query plan optimization, and performance tuning on Microsoft Azure SQL infrastructure.
+              </p>
+            </div>
+
+            {/* Cert 4: Microsoft SQL AI Tools & Infosys */}
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-amber-400 border-white/5 space-y-3 relative overflow-hidden">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold uppercase">
+                      ENTERPRISE SOFTWARE
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white">
+                    Implement SQL Solutions Using AI-Assisted Tools
+                  </h3>
+                  <div className="text-xs font-mono text-slate-400">Microsoft &bull; AI-Assisted Query Optimization</div>
+                </div>
+                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
+                  <Sparkles className="h-6 w-6" />
+                </div>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Automated database schema design, indexing strategies, and AI-assisted SQL query profiling. Additional credential: <strong>Infosys Springboard — Java Programming Fundamentals</strong> (OOP, multithreading, and collections).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 7: RESEARCH & EDUCATION TIMELINE */}
+        <section id="experience" className="space-y-6 pt-10 border-t border-white/5">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+              <Briefcase className="h-3.5 w-3.5 text-eco-400" />
+              <span>CAREER &amp; ACADEMIC TRACK</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Research Internship &amp; Education
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* NIAMT Internship */}
+            <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-eco-400 font-bold uppercase">Summer Research Internship</span>
+                <span className="font-mono text-xs text-slate-500">Jun 2026 – Jul 2026</span>
+              </div>
+              <h3 className="text-lg font-bold text-white">
+                Distributed Systems &amp; Cloud Infrastructure Intern
+              </h3>
+              <div className="text-xs font-mono text-cyan-300">
+                National Institute of Advanced Manufacturing Technology (NIAMT), Ranchi &bull; Under Dr. Rahul Mishra
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Formulated and benchmarked <strong>DVQ</strong> across 7 AWS geographic regions. Modeled workload placement as a Lyapunov drift-plus-penalty optimization problem to balance strict latency SLAs against dynamic regional carbon emissions. Achieved a 35.87% carbon reduction with zero SLA breaches across all synthetic trials.
+              </p>
+            </div>
+
+            {/* Amity Education */}
+            <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-cyan-400 font-bold uppercase">Undergraduate Degree</span>
+                <span className="font-mono text-xs text-slate-500">2024 – 2028</span>
+              </div>
+              <h3 className="text-lg font-bold text-white">
+                B.Tech in Computer Science &amp; Engineering
+              </h3>
+              <div className="text-xs font-mono text-emerald-300">
+                Amity University Jharkhand, Ranchi &bull; <strong>CGPA: 8.00 / 10.0</strong>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Core Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing. Secondary (CBSE Class XII PCM: 88.2% | Class X: 85.0%).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 8: CONTACT & RECRUITER ACTION */}
+        <section id="contact" className="pt-10 border-t border-white/5 pb-16">
+          <div className="glass-panel rounded-2xl border border-white/10 p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-eco-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/10 px-4 py-1.5 font-mono text-xs font-semibold text-eco-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-eco-500"></span>
+              </span>
+              <span>AVAILABLE FOR SDE / CLOUD INTERNSHIPS &amp; ROLES</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Ready to Dive Deep &amp; Build Resilient Systems
+            </h2>
+            <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Targeting Software Development Engineer (SDE) and Cloud Systems Engineer opportunities. Let's discuss how my distributed systems and Java backend acumen can add immediate value to your team.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <a
+                href="mailto:rashmipd870@gmail.com"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-semibold text-sm shadow-lg shadow-eco-500/25 hover:opacity-95 transition-opacity"
               >
-                Download ATS Resume (PDF)
+                <Mail className="h-4 w-4" />
+                <span>rashmipd870@gmail.com</span>
               </a>
+
+              <a
+                href="https://www.linkedin.com/in/rashmi-pandey-590a22340"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-colors"
+              >
+                <Linkedin className="h-4 w-4 text-cyan-400" />
+                <span>LinkedIn Profile</span>
+              </a>
+
+              <a
+                href="https://github.com/rashmipandey870"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-colors"
+              >
+                <Github className="h-4 w-4 text-slate-400" />
+                <span>GitHub Repositories</span>
+              </a>
+
+              <button
+                onClick={() => setResumeOpen(true)}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-amber-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-colors"
+              >
+                <Download className="h-4 w-4 text-amber-400" />
+                <span>ATS Resume PDF</span>
+              </button>
             </div>
           </div>
         </section>
 
       </main>
 
-      {/* Footer (Zero Black - Soft Slate) */}
-      <footer className="border-t border-[#E2E8F0] bg-[#F4F6FB] py-8 text-center text-xs text-[#64748B]">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Rashmi Pandey. Designed with semantic HTML5 &amp; zero-black architecture.</p>
-          <div className="flex items-center gap-4 font-mono text-[11px]">
-            <button onClick={() => setTerminalOpen(true)} className="hover:text-[#4F46E5] transition-colors">
-              Open Dev Console (⌘K)
-            </button>
-            <span>•</span>
-            <a href="#hero" className="hover:text-[#4F46E5] transition-colors">Back to Top ↑</a>
+      {/* FOOTER */}
+      <footer className="border-t border-white/5 py-8 bg-dark-950 font-mono text-xs text-slate-500 text-center">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            &copy; 2026 Rashmi Pandey. Engineered with React, Tailwind CSS &amp; Framer Motion.
+          </div>
+          <div className="flex items-center gap-4 text-slate-400">
+            <span>Kernel: AWS-v5.19</span>
+            <span>&bull;</span>
+            <span className="text-eco-400">SLA: 0.0% Breach</span>
+            <span>&bull;</span>
+            <span className="text-cyan-400">Top 2% NPTEL</span>
           </div>
         </div>
       </footer>
 
-      {/* Resume Modal */}
-      {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
+      {/* FLOATING SDE CANDIDATE AI COPILOT */}
+      <AICopilot />
 
-      {/* ADVANCED TECH HACK: Dev Console / Terminal Modal */}
-      {terminalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="relative w-full max-w-2xl bg-[#FAFAF7] border border-slate-300 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
-            
-            {/* Terminal Topbar */}
-            <div className="bg-[#1E293B] px-4 py-3 flex items-center justify-between text-white">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-400 inline-block" />
-                <span className="h-3 w-3 rounded-full bg-yellow-400 inline-block" />
-                <span className="h-3 w-3 rounded-full bg-green-400 inline-block" />
-                <span className="font-mono text-xs font-semibold ml-2 text-slate-200">
-                  rashmi@cloud-systems-terminal:~ (DVQ v2.6.4)
-                </span>
-              </div>
-              <button 
-                onClick={() => setTerminalOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+      {/* SYSTEM ARCHITECTURE MODAL */}
+      <AnimatePresence>
+        {selectedArchProject && (
+          <ArchitectureModal 
+            project={selectedArchProject} 
+            onClose={() => setSelectedArchProject(null)} 
+          />
+        )}
+      </AnimatePresence>
 
-            {/* Terminal Body */}
-            <div className="p-4 bg-[#0F172A] text-emerald-400 font-mono text-xs space-y-2 h-72 overflow-y-auto">
-              {terminalOutput.map((line, i) => (
-                <div key={i} className="whitespace-pre-wrap leading-relaxed">
-                  {line}
-                </div>
-              ))}
-            </div>
-
-            {/* Quick Command Pills */}
-            <div className="bg-[#1E293B]/90 p-2.5 flex flex-wrap gap-1.5 border-t border-slate-700">
-              {['certs', 'metrics', 'projects', 'resume', 'contact', 'clear'].map((cmd) => (
-                <button
-                  key={cmd}
-                  onClick={() => handleCommand(cmd)}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-[#4F46E5] text-slate-300 hover:text-white text-[11px] font-mono transition-colors"
-                >
-                  ${cmd}
-                </button>
-              ))}
-            </div>
-
-            {/* Terminal Input Bar */}
-            <form 
-              onSubmit={(e) => { e.preventDefault(); handleCommand(); }}
-              className="bg-[#1E293B] px-4 py-3 flex items-center gap-2 border-t border-slate-800 text-white"
-            >
-              <span className="text-[#0EA5E9] font-mono text-xs font-bold">$</span>
-              <input 
-                type="text" 
-                value={terminalInput}
-                onChange={(e) => setTerminalInput(e.target.value)}
-                placeholder="type command (e.g. certs, metrics, resume)..."
-                className="flex-1 bg-transparent border-none outline-none text-white font-mono text-xs placeholder:text-slate-500"
-                autoFocus
-              />
-              <button type="submit" className="text-slate-400 hover:text-white">
-                <CornerDownLeft className="h-4 w-4" />
-              </button>
-            </form>
-
-          </div>
-        </div>
-      )}
+      {/* ATS RESUME MODAL */}
+      <AnimatePresence>
+        {resumeOpen && (
+          <ResumeModal 
+            onClose={() => setResumeOpen(false)} 
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
