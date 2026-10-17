@@ -2,9 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-primary: #FAFAF7;
+  --bg-secondary: #F4F6FB;
+  --bg-card: #FFFFFF;
+  --text-main: #1E293B;
+  --text-body: #334155;
+  --text-muted: #64748B;
+  --border-subtle: #E2E8F0;
+  --border-hover: #CBD5E1;
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --teal: #0D9488;
+  --sky: #0EA5E9;
+  --coral: #F97316;
+  --shadow-card: 0 4px 20px -2px rgba(79, 70, 229, 0.07), 0 2px 8px -2px rgba(14, 165, 233, 0.05);
+  --shadow-hover: 0 12px 28px -4px rgba(79, 70, 229, 0.12), 0 6px 12px -2px rgba(14, 165, 233, 0.08);
+}
+
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
   body {
-    @apply bg-[#0b1120] text-slate-300 font-sans overflow-x-hidden antialiased;
+    background-color: var(--bg-primary);
+    color: var(--text-body);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main);
+    letter-spacing: -0.02em;
   }
 }
 
@@ -15,61 +45,71 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b1120;
+  background: #F4F6FB;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
+  background: #94A3B8;
 }
 
-/* Modern Portfolio Glass & Card Styles */
+/* Card Styling - Light Theme with Soft Colored Shadow */
 .portfolio-card {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
-  transition: all 0.25s ease-in-out;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .portfolio-card:hover {
-  border-color: rgba(59, 130, 246, 0.35);
-  box-shadow: 0 12px 30px -4px rgba(59, 130, 246, 0.12);
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
 }
 
-.portfolio-badge {
-  @apply rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400 border border-blue-500/20;
+/* Badges */
+.badge-indigo {
+  background-color: rgba(79, 70, 229, 0.08);
+  color: #4F46E5;
+  border: 1px solid rgba(79, 70, 229, 0.2);
 }
 
-/* Subtle Grid Background */
-.bg-grid-subtle {
-  background-size: 32px 32px;
-  background-image: 
-    radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+.badge-teal {
+  background-color: rgba(13, 148, 136, 0.08);
+  color: #0D9488;
+  border: 1px solid rgba(13, 148, 136, 0.2);
 }
 
-/* Print Styling for Resume */
-@media print {
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  .no-print {
-    display: none !important;
-  }
-  .print-only {
-    display: block !important;
-  }
-  .portfolio-card {
-    background: transparent !important;
-    border: none !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
+.badge-sky {
+  background-color: rgba(14, 165, 233, 0.08);
+  color: #0EA5E9;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.badge-coral {
+  background-color: rgba(249, 115, 22, 0.08);
+  color: #F97316;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+/* Subtle Light Dot Grid Background */
+.bg-light-pattern {
+  background-color: #FAFAF7;
+  background-image: radial-gradient(#E2E8F0 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
