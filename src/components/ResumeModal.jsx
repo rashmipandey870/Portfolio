@@ -160,15 +160,15 @@ function ResumeModal({ onClose }) {
                   </ul>
                 </div>
 
-                {/* Crop Recommendation */}
+                {/* Faculty Research Paper Tracker */}
                 <div className="space-y-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-xs font-bold text-[#1E293B]">AI-Driven Crop Recommendation System (Machine Learning)</h3>
-                    <span className="text-[10px] font-mono text-[#64748B]">Python • Scikit-learn • XGBoost</span>
+                    <h3 className="text-xs font-bold text-[#1E293B]">Faculty Research Paper Tracker — Publication Metrics System</h3>
+                    <span className="text-[10px] font-mono text-[#64748B]">Node.js • MongoDB Atlas • JWT</span>
                   </div>
                   <ul className="list-disc list-outside pl-4 text-xs text-[#334155] space-y-0.5">
-                    <li>Supervised classification evaluating N, P, K, pH, rainfall, and temperature across 2,200+ agricultural samples.</li>
-                    <li>Achieved 99.2% classification accuracy using Random Forest and XGBoost ensemble algorithms.</li>
+                    <li>Built academic publication analytics platform with Google Forms webhook ingestion and Nodemailer 2FA OTP verification.</li>
+                    <li>Designed indexed MongoDB Atlas collections across ISSN/DOI records, reducing departmental publication turnaround by ~75%.</li>
                   </ul>
                 </div>
 
@@ -247,12 +247,12 @@ function ResumeModal({ onClose }) {
                     <span><strong>Microsoft:</strong> Azure Database Administrator Associate (ID: 647C0C2C5B35FA32)</span>
                   </li>
                   <li className="flex items-start gap-1.5">
-                    <Award className="h-3.5 w-3.5 text-[#0D9488] mt-0.5 shrink-0" />
-                    <span><strong>NPTEL (IIT Madras):</strong> Python for Data Science — Statistical EDA, Scikit-Learn & ML</span>
+                    <Award className="h-3.5 w-3.5 text-[#4F46E5] mt-0.5 shrink-0" />
+                    <span><strong>NPTEL (IIT Madras):</strong> Python for Data Science — <strong>Score: 84% • TOPPER 2% NATIONWIDE</strong> (Elite + Silver Medal)</span>
                   </li>
                   <li className="flex items-start gap-1.5">
                     <Award className="h-3.5 w-3.5 text-[#0EA5E9] mt-0.5 shrink-0" />
-                    <span><strong>NPTEL (IIT Madras):</strong> The Joy of Computing Using Python — Scored 87% (Elite Top Performer)</span>
+                    <span><strong>NPTEL (IIT Ropar):</strong> The Joy of Computing using Python (Prof. Sudarshan Iyengar) — <strong>Score: 87%</strong> (Elite + Silver Medal / Silver Badge)</span>
                   </li>
                   <li className="flex items-start gap-1.5">
                     <Award className="h-3.5 w-3.5 text-[#4F46E5] mt-0.5 shrink-0" />
