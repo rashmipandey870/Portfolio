@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404: Endpoint Not Found | Rashmi Pandey</title>
+  <link rel="icon" type="image/svg+xml" href="/Portfolio/favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #030712; color: #cbd5e1; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-md w-full bg-slate-900/80 border border-emerald-500/30 rounded-2xl p-8 shadow-2xl space-y-5 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+      <span class="w-2 h-2 rounded-full bg-red-400 animate-ping"></span>
+      <span>HTTP 404: RESOURCE_NOT_FOUND</span>
+    </div>
+    
+    <h1 class="text-3xl font-bold text-white tracking-tight">Endpoint Missing</h1>
+    <p class="text-xs text-slate-400 leading-relaxed">
+      The requested route does not exist in this deployment. Redirecting to root terminal...
+    </p>
+
+    <div class="pt-2">
+      <a href="/Portfolio/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-600 text-white text-xs font-bold shadow-lg shadow-emerald-500/20 hover:opacity-95 transition-all">
+        <span>Return to Portfolio Root</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+
+    <div class="text-[10px] text-slate-500 pt-3 border-t border-slate-800">
+      Rashmi Pandey &bull; SDE Candidate Portfolio
+    </div>
+  </div>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/Portfolio/';
+    }, 4000);
+  </script>
+</body>
+</html>

@@ -20,6 +20,7 @@ import {
 
 export default function SystemsAndAlgorithmsLab() {
   const [activeTab, setActiveTab] = useState('dsa'); // 'dsa', 'graph', 'sql'
+  const [showMoreDemos, setShowMoreDemos] = useState(false);
 
   // ----------------------------------------------------
   // LAB 1: PriorityQueue Min-Heap Dynamic Scheduler (Study Planner)
@@ -182,43 +183,55 @@ export default function SystemsAndAlgorithmsLab() {
           </p>
         </div>
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 p-1 bg-dark-950 rounded-xl border border-white/10 font-mono text-xs shrink-0">
-          <button
-            onClick={() => setActiveTab('dsa')}
-            className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
-              activeTab === 'dsa'
-                ? 'bg-eco-500 text-white font-bold'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Binary className="h-3.5 w-3.5" />
-            <span>Min-Heap Scheduler</span>
-          </button>
+        {/* Tab Switcher / More Demos Toggle */}
+        <div className="flex items-center gap-2">
+          {showMoreDemos ? (
+            <div className="flex items-center gap-1.5 p-1 bg-dark-950 rounded-xl border border-white/10 font-mono text-xs shrink-0">
+              <button
+                onClick={() => setActiveTab('dsa')}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
+                  activeTab === 'dsa'
+                    ? 'bg-eco-500 text-white font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Binary className="h-3.5 w-3.5" />
+                <span>Min-Heap</span>
+              </button>
 
-          <button
-            onClick={() => setActiveTab('graph')}
-            className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
-              activeTab === 'graph'
-                ? 'bg-cyan-500 text-white font-bold'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <GitBranch className="h-3.5 w-3.5" />
-            <span>Graph Bracket Engine</span>
-          </button>
+              <button
+                onClick={() => setActiveTab('graph')}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
+                  activeTab === 'graph'
+                    ? 'bg-cyan-500 text-white font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <GitBranch className="h-3.5 w-3.5" />
+                <span>Graph Bracket</span>
+              </button>
 
-          <button
-            onClick={() => setActiveTab('sql')}
-            className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
-              activeTab === 'sql'
-                ? 'bg-indigo-500 text-white font-bold'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Database className="h-3.5 w-3.5" />
-            <span>Azure SQL B-Tree</span>
-          </button>
+              <button
+                onClick={() => setActiveTab('sql')}
+                className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors ${
+                  activeTab === 'sql'
+                    ? 'bg-indigo-500 text-white font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Database className="h-3.5 w-3.5" />
+                <span>Azure SQL B-Tree</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowMoreDemos(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dark-950 border border-white/10 hover:border-cyan-500/30 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+            >
+              <span>More Demos (2)</span>
+              <ChevronRight className="h-3.5 w-3.5 text-cyan-400" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -332,6 +345,24 @@ export default function SystemsAndAlgorithmsLab() {
               )}
             </div>
           </div>
+
+          {!showMoreDemos && (
+            <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs text-slate-400 font-mono">
+                Algorithms Lab: PriorityQueue Min-Heap active.
+              </span>
+              <button
+                onClick={() => {
+                  setShowMoreDemos(true);
+                  setActiveTab('graph');
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-dark-950 border border-white/10 hover:border-cyan-500/30 text-xs font-mono text-cyan-300 hover:text-white transition-colors"
+              >
+                <span>Explore Graph Bracket &amp; Azure SQL Demos (2)</span>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
         </div>
       )}
 

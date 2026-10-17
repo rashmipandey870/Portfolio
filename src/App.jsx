@@ -16,6 +16,7 @@ import {
   Database, 
   ExternalLink, 
   ChevronRight,
+  ChevronDown,
   ShieldCheck,
   Zap,
   ArrowRight, 
@@ -41,7 +42,10 @@ import {
   Command,
   CornerDownLeft,
   X,
-  Play
+  Play,
+  Binary,
+  GitCommit,
+  Lock
 } from 'lucide-react';
 import DeveloperTerminal from './components/DeveloperTerminal';
 import AICopilot from './components/AICopilot';
@@ -53,16 +57,27 @@ function App() {
   const [resumeOpen, setResumeOpen] = useState(false);
   const [selectedArchProject, setSelectedArchProject] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
-  const [projectTab, setProjectTab] = useState({}); // { [projectId]: 'star' | 'arch' | 'curl' }
+  const [expandedStar, setExpandedStar] = useState({}); // { [projectId]: boolean }
   const [copiedKey, setCopiedKey] = useState(null);
   const [activeSection, setActiveSection] = useState('hero');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorHovered, setCursorHovered] = useState(false);
+  const [isAmazonView, setIsAmazonView] = useState(false);
   const canvasRef = useRef(null);
 
   const baseUrl = import.meta.env.BASE_URL || '/';
   const photoUrl = `${baseUrl}rashmi-photo.jpg`;
   const resumeUrl = `${baseUrl}Rashmi_Pandey_Resume.pdf`;
+
+  // Detect ?company=amazon query parameter
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('company') === 'amazon') {
+        setIsAmazonView(true);
+      }
+    } catch(e) {}
+  }, []);
 
   // Custom Cursor tracking
   useEffect(() => {
@@ -103,15 +118,15 @@ function App() {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    const particleCount = 42;
+    const particleCount = 36;
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        radius: Math.random() * 1.8 + 1,
-        color: i % 3 === 0 ? 'rgba(16, 185, 129, 0.6)' : i % 3 === 1 ? 'rgba(6, 182, 212, 0.6)' : 'rgba(139, 92, 246, 0.4)'
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 1.6 + 1,
+        color: i % 3 === 0 ? 'rgba(16, 185, 129, 0.5)' : i % 3 === 1 ? 'rgba(6, 182, 212, 0.5)' : 'rgba(139, 92, 246, 0.35)'
       });
     }
 
@@ -137,11 +152,11 @@ function App() {
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 110) {
+          if (dist < 100) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 * (1 - dist / 110)})`;
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 * (1 - dist / 100)})`;
             ctx.lineWidth = 0.75;
             ctx.stroke();
           }
@@ -162,7 +177,7 @@ function App() {
   // Active section tracking on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'lab', 'projects', 'terminal', 'amazon-standards', 'skills', 'credentials', 'contact'];
+      const sections = ['hero', 'dsa', 'projects', 'lab', 'how-i-work', 'skills', 'credentials', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -188,51 +203,22 @@ function App() {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  const triggerCelebration = () => {
-    confetti({
-      particleCount: 70,
-      spread: 60,
-      origin: { y: 0.8 },
-      colors: ['#10B981', '#06B6D4', '#8B5CF6']
-    });
+  const toggleStarDetails = (id) => {
+    setExpandedStar(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   // The 4 authentic engineering projects
   const projects = [
     {
-      id: 'dvq',
-      title: 'DVQ — Cloud Workload Routing Optimization System',
-      tagline: 'Multi-region intelligent workload router balancing real-time cloud grid metrics against strict SLA constraints across 7 AWS regions.',
-      category: 'cloud',
-      isConfidential: true,
-      tech: ['AWS (7 Regions)', 'Node.js', 'Express.js', 'PM2', 'MongoDB', 'CloudWatch API', 'REST APIs'],
-      github: null,
-      demo: null,
-      metricPrimary: 'Sub-100µs',
-      metricLabel: 'Decision Latency',
-      architectureFlow: 'Ingress Traffic Gateway ➔ PM2 Distributed Router ➔ Regional Telemetry Ingestion (7 AWS Regions) ➔ Optimal Workload Dispatch (0.0% SLA Breach)',
-      curlExample: '# Source code & internal formulation are confidential under research peer review\n# Evaluated during NIAMT Summer Research Internship under Dr. Rahul Mishra\n# Architecture takeaways & benchmarks available during technical interview',
-      starProblem: 'Global cloud workloads experience unpredictable multi-region network latency and regional infrastructure variance under bursty loads.',
-      starSolution: 'Evaluated a decoupled edge dispatch and telemetry architecture across 7 AWS geographic regions during research at NIAMT Ranchi under Dr. Rahul Mishra.',
-      starImpact: 'Sustained sub-100µs decision latency with a verified 0.0% SLA breach guarantee across extensive multi-region synthetic evaluation trials.',
-      highlights: [
-        'Decoupled microservice architecture: Routing Gateway, Telemetry Ingestion, State Prober, CloudWatch Metrics Collector.',
-        'Sustained 0.0% SLA breach guarantee across extensive synthetic traffic bursts and chaos experiments.',
-        'Proprietary academic research currently under peer review; source code and mathematical formulation protected.'
-      ]
-    },
-    {
       id: 'examora',
-      title: 'EXAMORA — Enterprise Academic Assessment & PDF Parsing Engine',
-      tagline: 'High-throughput Java enterprise web platform on Apache Tomcat 11 with ACID relational schema and streaming document extraction.',
+      title: 'EXAMORA — Enterprise Academic Assessment Platform',
+      oneLineProblem: 'Academic institutions struggle with slow legacy examination portals, insecure student data, and laborious manual exam paper transcription.',
+      oneLineResult: 'Achieved sub-100ms response times with near-zero memory footprint on Tomcat 11; maintained 100% ACID consistency across 10+ staged relational migrations.',
       category: 'java',
       tech: ['Java 17', 'Jakarta Servlets 6.0', 'Apache Tomcat 11', 'MySQL ACID', 'Apache PDFBox', 'BCrypt', 'JSP / JSTL'],
       github: 'https://github.com/rashmipandey870/EXAMORA',
-      demo: 'https://github.com/rashmipandey870/EXAMORA',
       metricPrimary: '61 Commits',
       metricLabel: 'Zero Framework Bloat',
-      architectureFlow: 'Exam Paper Upload (PDF) ➔ Apache PDFBox Streaming Text Extraction ➔ Jakarta Servlet 6.0 Controller ➔ Data Access Object (DAO) Layer ➔ ACID-Compliant MySQL Relational Storage',
-      curlExample: 'curl -F "file=@cs101_final.pdf" https://examora.internal/api/ingest \\\n  -H "Authorization: Bearer <JWT>" \\\n  # Parses question banks via Apache PDFBox directly into normalized MySQL tables',
       starProblem: 'Academic institutions struggle with slow legacy examination portals, insecure student data, and laborious manual exam paper transcription.',
       starSolution: 'Built a lightweight Jakarta Servlets 6.0 enterprise engine on Tomcat 11 with the DAO pattern, BCrypt salted authentication, and Apache PDFBox streaming document extraction.',
       starImpact: 'Achieved sub-100ms response times with near-zero memory footprint; maintained 100% ACID consistency across 10+ staged relational migrations.',
@@ -244,16 +230,15 @@ function App() {
     },
     {
       id: 'sangathan',
-      title: 'Sangathan — Sports Tournament Fixture & Algorithmic Scheduling Platform',
-      tagline: 'Full-stack mobile tournament platform featuring combinatorial round-robin and single-elimination bracket generation algorithms.',
+      title: 'Sangathan — Sports Tournament Fixture & Scheduling Platform',
+      oneLineProblem: 'Managing athletic events manually with spreadsheets leads to schedule clashes, delayed score reporting, and high administrative chaos.',
+      oneLineResult: 'Automated round-robin and knockout tournament brackets for 100+ athletes across 6 simultaneous sports, reducing coordination overhead by 80%.',
       category: 'mobile',
-      tech: ['Android (Java)', 'Node.js', 'Express.js', 'MongoDB', 'Retrofit 2', 'REST APIs', 'Graph Algorithms'],
+      tech: ['Android (Java)', 'Node.js', 'Express.js', 'MongoDB Atlas', 'Retrofit 2', 'Graph Algorithms'],
       github: 'https://github.com/rashmipandey870/Sangathan-sports-management-Android-application-',
-      demo: 'https://github.com/rashmipandey870/Sangathan-Backend',
+      githubBackend: 'https://github.com/rashmipandey870/Sangathan-Backend',
       metricPrimary: '80% Less',
-      metricLabel: 'Admin Overhead',
-      architectureFlow: 'Android Mobile Client ➔ Retrofit 2 OkHttp Interceptor ➔ Node.js REST API & JWT Auth ➔ Combinatorial Bracket Generator ➔ MongoDB Atlas Document Store',
-      curlExample: 'curl -X POST https://sangathan-api.net/tournament/generate-brackets \\\n  -H "Content-Type: application/json" \\\n  -d \'{"teams": 16, "format": "single_elimination"}\' \\\n  # Executes combinatorial graph pairing with zero collisions',
+      metricLabel: 'Coordination Overhead',
       starProblem: 'Managing athletic events manually with spreadsheets leads to schedule clashes, delayed score reporting, and high administrative chaos.',
       starSolution: 'Developed an Android client and Node.js REST backend executing combinatorial pairing algorithms for automated round-robin and knockout tournament brackets.',
       starImpact: 'Orchestrated schedules and live scores for 100+ athletes across 6 sports; sustained sub-150ms API latency with Retrofit 2 reactive syncing.',
@@ -264,17 +249,36 @@ function App() {
       ]
     },
     {
+      id: 'dvq',
+      title: 'DVQ — Cloud Workload Routing Optimization System',
+      oneLineProblem: 'Multi-region cloud workloads face erratic network latency and regional performance variance under bursty traffic.',
+      oneLineResult: 'Evaluated decoupled edge dispatchers on AWS; sustained sub-100µs decision latency with 0.0% SLA breach across synthetic evaluation trials.',
+      category: 'cloud',
+      isConfidential: true,
+      peerReviewNotice: 'Under Academic Peer Review • Details Available on Request (Advisor: Dr. Rahul Mishra, NIAMT Ranchi)',
+      tech: ['AWS (7 Regions)', 'Node.js', 'Express.js', 'PM2', 'CloudWatch API', 'REST APIs'],
+      github: null,
+      metricPrimary: 'Sub-100µs',
+      metricLabel: 'Decision Latency (Synthetic)',
+      starProblem: 'Global cloud workloads experience unpredictable multi-region network latency and regional infrastructure variance under bursty loads.',
+      starSolution: 'Evaluated a decoupled edge dispatch and telemetry architecture across 7 AWS geographic regions during research at NIAMT Ranchi under Dr. Rahul Mishra.',
+      starImpact: 'Sustained sub-100µs decision latency with a verified 0.0% SLA breach guarantee across extensive multi-region synthetic evaluation trials.',
+      highlights: [
+        'Decoupled microservice architecture: Routing Gateway, Telemetry Ingestion, State Prober, CloudWatch Metrics Collector.',
+        'Sustained 0.0% SLA breach guarantee across extensive synthetic traffic bursts and chaos experiments.',
+        'Proprietary academic research currently under peer review; source code and mathematical formulation protected.'
+      ]
+    },
+    {
       id: 'planner',
       title: 'Study Planner — Dynamic Constraint-Based Scheduling Algorithm',
-      tagline: 'Algorithmic Java tool solving multi-factor time-block assignment with deadline urgency and cognitive fatigue mitigation.',
+      oneLineProblem: 'Students struggle to balance conflicting exam deadlines, subject difficulty, and cognitive burnout when creating revision timetables.',
+      oneLineResult: 'Formulated an O(N log N) greedy scheduling engine in Java utilizing PriorityQueue min-heaps to dynamically assign study blocks with spaced repetition buffers.',
       category: 'java',
       tech: ['Java 17', 'Object-Oriented Design', 'Priority Queues', 'Greedy Heuristics', 'Algorithmic Optimization'],
       github: 'https://github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-',
-      demo: 'https://github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-',
       metricPrimary: 'O(N log N)',
-      metricLabel: 'Algorithmic Efficiency',
-      architectureFlow: 'Exam Deadlines & Subject Weight ➔ Java PriorityQueue Min-Heap Sorting ➔ Cognitive Fatigue Buffer Calculation ➔ Greedy Time-Block Assignment ➔ Conflict-Free Revision Schedule',
-      curlExample: 'java -jar study-planner.jar --tasks=exams.json --daily-capacity=6 \\\n  # O(N log N) greedy min-heap optimization outputting weekly conflict-free schedule',
+      metricLabel: 'Heap Efficiency',
       starProblem: 'Students struggle to balance conflicting exam deadlines, subject difficulty, and cognitive burnout when creating revision timetables.',
       starSolution: 'Formulated a multi-objective greedy scheduling engine in Java utilizing PriorityQueue min-heaps to dynamically assign study blocks.',
       starImpact: 'Recalculates conflict-free timetables in O(N log N) time while automatically reserving spaced repetition buffers before major exam dates.',
@@ -289,6 +293,17 @@ function App() {
   const filteredProjects = activeTab === 'all' 
     ? projects 
     : projects.filter(p => p.category === activeTab);
+
+  // DSA Topic Spread
+  const dsaTopics = [
+    { name: 'Arrays & Two-Pointers', count: 35, difficulty: 'Easy/Med', color: 'text-eco-400' },
+    { name: 'Sliding Window & Prefix Sums', count: 20, difficulty: 'Medium', color: 'text-cyan-400' },
+    { name: 'Binary Search & Sorting', count: 25, difficulty: 'Medium', color: 'text-indigo-400' },
+    { name: 'Stacks, Queues & Monotonic', count: 20, difficulty: 'Medium', color: 'text-amber-400' },
+    { name: 'Trees & Binary Search Trees', count: 25, difficulty: 'Med/Hard', color: 'text-emerald-400' },
+    { name: 'Graphs & BFS/DFS/TopoSort', count: 25, difficulty: 'Med/Hard', color: 'text-sky-400' },
+    { name: 'Dynamic Programming & Heaps', count: 25, difficulty: 'Medium', color: 'text-purple-400' },
+  ];
 
   return (
     <div className="relative min-h-screen bg-dark-950 text-slate-300 font-sans selection:bg-eco-500/20 selection:text-eco-400 bg-grid-pattern">
@@ -311,8 +326,8 @@ function App() {
       <div className="absolute top-[18%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[130px] pointer-events-none" />
       <div className="absolute top-[50%] left-[-10%] w-[550px] h-[550px] rounded-full bg-eco-500/5 blur-[140px] pointer-events-none" />
 
-      {/* TOP HACKER HUD STATUS BAR */}
-      <div className="bg-dark-950/90 border-b border-white/5 px-4 py-1.5 font-mono text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-40 backdrop-blur-md">
+      {/* TOP CREDIBLE STATUS BAR (NO FAKE TELEMETRY) */}
+      <div className="bg-dark-950/95 border-b border-white/5 px-4 py-1.5 font-mono text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-40 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
@@ -320,19 +335,24 @@ function App() {
           </span>
           <span className="text-white font-semibold">~/rashmi-pandey</span>
           <span className="text-slate-600">|</span>
-          <span className="text-eco-400">AWS-MESH::ACTIVE</span>
+          <span className="text-slate-300">Amity Univ Jharkhand (CGPA 8.00)</span>
           <span className="text-slate-600">|</span>
-          <span className="text-cyan-400">7 REGIONS MONITORED</span>
+          <span className="text-eco-400">Open to SDE Roles</span>
         </div>
         <div className="flex items-center gap-4 text-[10px]">
-          <span className="hidden sm:inline text-slate-400">PING: <strong className="text-white">18ms</strong></span>
-          <span className="hidden sm:inline text-slate-400">SLA: <strong className="text-eco-400">0.0% BREACH</strong></span>
-          <span className="text-slate-400">LATENCY: <strong className="text-cyan-400">61µs</strong></span>
+          <a 
+            href="https://github.com/rashmipandey870" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="text-slate-400 hover:text-white transition-colors"
+          >
+            github.com/rashmipandey870
+          </a>
           <button 
             onClick={() => setResumeOpen(true)}
             className="text-eco-400 hover:text-eco-300 font-semibold underline decoration-eco-500/40"
           >
-            [RESUME_ATS.PDF]
+            [Resume_ATS.pdf]
           </button>
         </div>
       </div>
@@ -347,19 +367,19 @@ function App() {
             <div>
               <div className="font-bold text-white text-sm tracking-tight flex items-center gap-2">
                 Rashmi Pandey
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-eco-500/10 text-eco-400 font-mono border border-eco-500/20">SDE</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-eco-500/10 text-eco-400 font-mono border border-eco-500/20">SDE Candidate</span>
               </div>
-              <div className="text-[11px] text-slate-400 font-mono">Distributed Systems &amp; AWS</div>
+              <div className="text-[11px] text-slate-400 font-mono">Java, AWS &amp; Distributed Systems</div>
             </div>
           </a>
 
           <nav className="hidden lg:flex items-center gap-1 font-mono text-xs">
             {[
               { id: 'hero', label: '// 01.root' },
-              { id: 'lab', label: '// 02.systems_lab' },
+              { id: 'dsa', label: '// 02.dsa' },
               { id: 'projects', label: '// 03.projects' },
-              { id: 'terminal', label: '// 04.terminal' },
-              { id: 'amazon-standards', label: '// 05.amazon_lp' },
+              { id: 'lab', label: '// 04.systems_lab' },
+              { id: 'how-i-work', label: isAmazonView ? '// 05.amazon_lp' : '// 05.principles' },
               { id: 'skills', label: '// 06.stack' },
               { id: 'credentials', label: '// 07.certs' },
               { id: 'contact', label: '// 08.contact' },
@@ -388,7 +408,7 @@ function App() {
               title="Jump to Interactive Terminal"
             >
               <Terminal className="h-3.5 w-3.5 text-eco-400" />
-              <span className="hidden sm:inline">Terminal</span>
+              <span className="hidden sm:inline">CLI (⌘K)</span>
             </button>
 
             <button
@@ -402,93 +422,166 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 space-y-24 py-8">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 space-y-24 py-8">
         
-        {/* HERO SECTION */}
-        <section id="hero" className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[580px] relative pt-4">
+        {/* 1. HERO SECTION (10-SECOND RECRUITER FIRST SCREEN) */}
+        <section id="hero" className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[540px] relative pt-2">
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
 
-          {/* Left Column: Hacker Pitch */}
+          {/* Left Column: 10-Second Pitch */}
           <div className="lg:col-span-7 space-y-6 z-10 relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/30 bg-eco-500/10 px-4 py-1.5 font-mono text-xs font-semibold text-eco-400">
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/30 bg-eco-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-eco-400">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-eco-500"></span>
               </span>
-              <span>&gt;_ ROOT ACCESS // SDE &amp; DISTRIBUTED SYSTEMS</span>
+              <span>SDE CANDIDATE: JAVA &bull; AWS &bull; DISTRIBUTED SYSTEMS</span>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
                 Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400">Rashmi Pandey</span>
               </h1>
               <p className="text-xl sm:text-2xl font-semibold text-slate-200">
-                I engineer <span className="text-eco-400">resilient, sub-100µs cloud distributed systems</span> and enterprise software.
+                I build <span className="text-eco-400">resilient, low-latency cloud systems</span> and enterprise Java software.
               </p>
             </div>
 
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-              Computer Science undergraduate (CGPA: 8.00/10) specializing in distributed algorithms, Java enterprise applications, and carbon-aware cloud routing. Researched Lyapunov optimization across 7 AWS regions during a research internship at <strong>NIAMT Ranchi</strong> under <strong>Dr. Rahul Mishra</strong>. <strong>NPTEL IIT Madras Topper (Top 2% Nationwide)</strong> and <strong>Microsoft Certified Azure Database Administrator</strong>.
+              Computer Science undergraduate (CGPA: 8.00/10) at Amity University Jharkhand with verified research internship experience in multi-region cloud systems at <strong>NIAMT Ranchi</strong>. Experienced in Java 17, Jakarta EE, and relational databases.
             </p>
 
-            {/* Quick Hacker Telemetry Pills */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-              <div className="glass-panel p-3 rounded-xl border border-white/5">
-                <div className="text-[10px] font-mono uppercase text-slate-400">Decision Latency</div>
-                <div className="text-xl font-bold font-mono text-eco-400">61 µs</div>
-                <div className="text-[10px] text-slate-500">AWS Multi-Region</div>
-              </div>
-              <div className="glass-panel p-3 rounded-xl border border-white/5">
-                <div className="text-[10px] font-mono uppercase text-slate-400">NPTEL Ranking</div>
-                <div className="text-xl font-bold font-mono text-cyan-400">TOP 2%</div>
-                <div className="text-[10px] text-slate-500">IIT Madras (84%)</div>
-              </div>
-              <div className="glass-panel p-3 rounded-xl border border-white/5">
-                <div className="text-[10px] font-mono uppercase text-slate-400">Joy of Computing</div>
-                <div className="text-xl font-bold font-mono text-indigo-400">87%</div>
-                <div className="text-[10px] text-slate-500">IIT Ropar (Silver)</div>
-              </div>
-              <div className="glass-panel p-3 rounded-xl border border-white/5">
-                <div className="text-[10px] font-mono uppercase text-slate-400">SLA Adherence</div>
-                <div className="text-xl font-bold font-mono text-emerald-400">100.0%</div>
-                <div className="text-[10px] text-slate-500">0.0% SLA Breach</div>
-              </div>
-            </div>
-
-            {/* Action CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href="#lab"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-semibold text-sm shadow-lg shadow-eco-500/25 hover:opacity-95 transition-all"
-              >
-                <Cpu className="h-4 w-4" />
-                <span>Explore Systems &amp; Algorithms Lab</span>
-              </a>
-
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-all"
-              >
-                <Code2 className="h-4 w-4 text-cyan-400" />
-                <span>View Engineering Projects</span>
-              </a>
-
+            {/* TWO PRIMARY CTAS (Resume & GitHub) */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 onClick={() => setResumeOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white font-mono text-xs transition-all"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-semibold text-sm shadow-lg shadow-eco-500/25 hover:opacity-95 transition-all"
               >
-                <Download className="h-4 w-4 text-slate-400" />
-                <span>Download Resume</span>
+                <Download className="h-4 w-4" />
+                <span>View ATS Resume PDF</span>
               </button>
+
+              <a
+                href="https://github.com/rashmipandey870"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-all"
+              >
+                <Github className="h-4 w-4 text-slate-400" />
+                <span>GitHub Profile (1,200+ Commits)</span>
+              </a>
+
+              <a
+                href="#dsa"
+                className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white font-mono text-xs transition-all"
+              >
+                <Binary className="h-4 w-4 text-cyan-400" />
+                <span>DSA (175+ Solved)</span>
+              </a>
             </div>
+
+            {/* PROOF STRIP: 4 REAL CHIPS LINKING TO REAL SOURCES */}
+            <div className="pt-2">
+              <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider mb-2 font-bold">
+                Verified Academic &amp; Professional Proof Points
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                
+                {/* Chip 1: NPTEL IIT-M */}
+                <a 
+                  href="#credentials"
+                  className="glass-panel p-3 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 font-bold text-xs">
+                      🏆
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">
+                        NPTEL — Python for Data Science
+                      </div>
+                      <div className="text-[11px] text-cyan-400 font-mono">
+                        IIT Madras &bull; Score: 84% (Top 2% Nationwide)
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                </a>
+
+                {/* Chip 2: NPTEL IIT-R */}
+                <a 
+                  href="#credentials"
+                  className="glass-panel p-3 rounded-xl border border-white/5 hover:border-indigo-500/30 transition-colors flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 font-bold text-xs">
+                      🥈
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">
+                        NPTEL — Joy of Computing in Python
+                      </div>
+                      <div className="text-[11px] text-indigo-400 font-mono">
+                        IIT Ropar &bull; Score: 87% (Silver Medal)
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+                </a>
+
+                {/* Chip 3: Microsoft Azure DBA */}
+                <a 
+                  href="#credentials"
+                  className="glass-panel p-3 rounded-xl border border-white/5 hover:border-eco-500/30 transition-colors flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 rounded-lg bg-eco-500/10 text-eco-400 font-bold text-xs">
+                      ☁️
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-eco-300 transition-colors">
+                        Azure Database Administrator Associate
+                      </div>
+                      <div className="text-[11px] text-eco-400 font-mono">
+                        Microsoft Certified (ID: 647C0C2C5B35FA32)
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-eco-400 transition-colors" />
+                </a>
+
+                {/* Chip 4: NIAMT Summer Research Intern */}
+                <a 
+                  href="#experience"
+                  className="glass-panel p-3 rounded-xl border border-white/5 hover:border-amber-500/30 transition-colors flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 font-bold text-xs">
+                      🔬
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">
+                        Summer Research Intern — Cloud Systems
+                      </div>
+                      <div className="text-[11px] text-amber-400 font-mono">
+                        NIAMT Ranchi &bull; Under Dr. Rahul Mishra
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-amber-400 transition-colors" />
+                </a>
+
+              </div>
+            </div>
+
           </div>
 
-          {/* Right Column: Holographic Terminal & Headshot */}
+          {/* Right Column: Profile & Quick Credential Card */}
           <div className="lg:col-span-5 space-y-4 z-10 relative">
             <div className="glass-panel rounded-2xl border border-white/10 p-5 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-eco-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              {/* Headshot & Verification Badge */}
+              {/* Headshot & Identity */}
               <div className="flex items-center gap-4 pb-4 border-b border-white/10">
                 <div className="relative">
                   <img
@@ -497,52 +590,37 @@ function App() {
                     className="w-16 h-16 rounded-xl object-cover object-top border-2 border-eco-500/40 shadow-lg"
                   />
                   <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-eco-500 border-2 border-dark-950 items-center justify-center text-[9px] text-white">✓</span>
                   </span>
                 </div>
                 <div>
                   <div className="text-white font-bold text-base">Rashmi Pandey</div>
-                  <div className="text-xs text-eco-400 font-mono flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> Verified SDE Candidate
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Amity Univ Jharkhand &bull; CGPA: 8.00</div>
+                  <div className="text-xs text-eco-400 font-mono">Computer Science Undergraduate</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Amity Univ Jharkhand &bull; CGPA: 8.00 / 10</div>
                 </div>
               </div>
 
-              {/* Interactive Micro-Terminal Display */}
-              <div className="mt-4 bg-dark-950/90 rounded-xl p-3.5 border border-white/5 font-mono text-[11px] space-y-2">
-                <div className="flex items-center justify-between text-slate-500 pb-2 border-b border-white/5 text-[10px]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-                    <span className="ml-1 text-slate-400">runtime_telemetry.sh</span>
-                  </div>
-                  <span className="text-eco-400">AWS EC2 (Linux)</span>
+              {/* Quick Summary Grid */}
+              <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-mono">
+                <div className="p-2.5 rounded-lg bg-dark-950/80 border border-white/5">
+                  <div className="text-[10px] text-slate-500 uppercase">Target Role</div>
+                  <div className="text-white font-bold mt-0.5">SDE / Backend</div>
                 </div>
-
-                <div className="text-slate-400">
-                  <span className="text-eco-400">rashmi@aws-mesh</span>:<span className="text-cyan-400">~</span>$ ./benchmark_dvq.sh
+                <div className="p-2.5 rounded-lg bg-dark-950/80 border border-white/5">
+                  <div className="text-[10px] text-slate-500 uppercase">Primary Stack</div>
+                  <div className="text-eco-400 font-bold mt-0.5">Java 17 &bull; AWS</div>
                 </div>
-                <div className="text-slate-300 pl-2 border-l border-eco-500/30 space-y-1">
-                  <div>[OK] Region probe: <strong className="text-white">7 nodes active</strong></div>
-                  <div>[OK] Lyapunov optimal: <strong className="text-eco-400">eu-west-1 (142 gCO2/kWh)</strong></div>
-                  <div>[OK] Gateway overhead: <strong className="text-cyan-400">61 µs</strong></div>
-                  <div>[OK] SLA violation: <strong className="text-emerald-400">0.00% (0 / 50k req)</strong></div>
+                <div className="p-2.5 rounded-lg bg-dark-950/80 border border-white/5">
+                  <div className="text-[10px] text-slate-500 uppercase">DSA Challenge</div>
+                  <div className="text-cyan-400 font-bold mt-0.5">175+ Problems</div>
                 </div>
-
-                <div className="text-slate-400 pt-1">
-                  <span className="text-eco-400">rashmi@aws-mesh</span>:<span className="text-cyan-400">~</span>$ cat /etc/credentials
-                </div>
-                <div className="text-slate-300 pl-2 border-l border-cyan-500/30 space-y-0.5 text-[10.5px]">
-                  <div>• NPTEL Python Data Science: <strong className="text-cyan-400">84% [TOPPER 2%]</strong></div>
-                  <div>• NPTEL Joy of Computing: <strong className="text-indigo-400">87% [Silver Badge]</strong></div>
-                  <div>• Azure DBA Associate: <strong className="text-amber-400">ID: 647C0C2C5B35FA32</strong></div>
+                <div className="p-2.5 rounded-lg bg-dark-950/80 border border-white/5">
+                  <div className="text-[10px] text-slate-500 uppercase">GitHub Commits</div>
+                  <div className="text-amber-400 font-bold mt-0.5">1,200+ Verified</div>
                 </div>
               </div>
 
-              {/* Social Quick-Links */}
+              {/* External Profile Links */}
               <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
                 <a 
                   href="https://github.com/rashmipandey870" 
@@ -550,7 +628,7 @@ function App() {
                   rel="noreferrer"
                   className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
                 >
-                  <Github className="h-4 w-4" /> github.com/rashmipandey870
+                  <Github className="h-4 w-4" /> GitHub Repos
                 </a>
                 <a 
                   href="https://www.linkedin.com/in/rashmi-pandey-590a22340" 
@@ -558,41 +636,127 @@ function App() {
                   rel="noreferrer"
                   className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-400 transition-colors"
                 >
-                  <Linkedin className="h-4 w-4" /> LinkedIn
+                  <Linkedin className="h-4 w-4" /> LinkedIn Profile
+                </a>
+                <a 
+                  href="mailto:rashmipd870@gmail.com"
+                  className="flex items-center gap-1.5 text-slate-400 hover:text-eco-400 transition-colors"
+                >
+                  <Mail className="h-4 w-4" /> Email
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SECTION 1: SYSTEMS ARCHITECTURE & ALGORITHMS LAB */}
-        <section id="lab" className="space-y-6 pt-10 border-t border-white/5">
-          <SystemsAndAlgorithmsLab />
-        </section>
-
-        {/* SECTION 2: THE 4 AUTHENTIC PROJECTS MATRIX */}
-        <section id="projects" className="space-y-8 pt-10 border-t border-white/5">
+        {/* 2. DEDICATED DSA SECTION */}
+        <section id="dsa" className="space-y-6 pt-10 border-t border-white/5">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 px-3 py-1 font-mono text-xs font-semibold text-cyan-400 mb-2">
-                <Layers className="h-3.5 w-3.5 text-cyan-400" />
-                <span>VERIFIED PRODUCTION CODEBASES</span>
+                <Binary className="h-3.5 w-3.5 text-cyan-400" />
+                <span>PROBLEM SOLVING CONSISTENCY</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Featured Engineering Systems
+                Data Structures &amp; Algorithms (DSA)
               </h2>
               <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-                Engineered using clean architecture patterns, measured with production benchmarks, and ready for deep code inspection.
+                100-Day problem-solving challenge with 175+ solved questions across core topics in Java 17.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <a
+                href="https://github.com/rashmipandey870?tab=repositories"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/30 text-xs font-mono text-slate-300 hover:text-white transition-colors"
+              >
+                <Github className="h-3.5 w-3.5 text-slate-400" />
+                <span>DSA Solutions Repo</span>
+              </a>
+
+              <a
+                href="#lab"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cyan-600 text-white text-xs font-mono font-semibold shadow-md shadow-cyan-500/20 hover:opacity-95 transition-opacity"
+              >
+                <Play className="h-3.5 w-3.5 fill-white" />
+                <span>Min-Heap Interactive Demo</span>
+              </a>
+            </div>
+          </div>
+
+          {/* DSA Metrics & Topic Spread Grid */}
+          <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-6 border-b border-white/5">
+              <div>
+                <div className="text-[11px] font-mono text-slate-400 uppercase">Total Problems</div>
+                <div className="text-2xl font-bold font-mono text-white mt-0.5">175+</div>
+                <div className="text-[10px] text-slate-500">LeetCode &amp; GFG</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-mono text-slate-400 uppercase">Consistency</div>
+                <div className="text-2xl font-bold font-mono text-eco-400 mt-0.5">100 Days</div>
+                <div className="text-[10px] text-slate-500">Daily Practice</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-mono text-slate-400 uppercase">Primary Language</div>
+                <div className="text-2xl font-bold font-mono text-cyan-400 mt-0.5">Java 17</div>
+                <div className="text-[10px] text-slate-500">Standard Library &amp; Collections</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-mono text-slate-400 uppercase">Goal Completion</div>
+                <div className="text-2xl font-bold font-mono text-indigo-400 mt-0.5">100%</div>
+                <div className="text-[10px] text-slate-500">Tracked in GitHub</div>
+              </div>
+            </div>
+
+            {/* Topic Breakdown Chips */}
+            <div className="space-y-3">
+              <div className="text-xs font-mono text-slate-400 uppercase font-bold">
+                Topic Breakdown &amp; Problem Distribution
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {dsaTopics.map((topic) => (
+                  <div key={topic.name} className="p-3 rounded-xl bg-dark-950/80 border border-white/5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-xs text-white">{topic.name}</span>
+                      <span className={`font-mono text-xs font-bold ${topic.color}`}>{topic.count}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                      <span>Level: {topic.difficulty}</span>
+                      <span>Solved in Java</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. FEATURED 4 PROJECTS MATRIX (COLLAPSIBLE DETAILS) */}
+        <section id="projects" className="space-y-8 pt-10 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+                <Layers className="h-3.5 w-3.5 text-eco-400" />
+                <span>SELECTED ENGINEERING REPOSITORIES</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Featured Projects (4 Selected)
+              </h2>
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                4 core projects showcasing enterprise Java, Android systems, cloud optimization, and algorithms.
               </p>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-1.5 p-1 bg-dark-900 rounded-xl border border-white/10 font-mono text-xs">
+            <div className="flex items-center gap-1.5 p-1 bg-dark-950 rounded-xl border border-white/10 font-mono text-xs">
               {[
                 { id: 'all', label: 'All (4)' },
-                { id: 'cloud', label: 'Cloud / AWS' },
-                { id: 'java', label: 'Java EE' },
-                { id: 'mobile', label: 'Android / Algorithms' },
+                { id: 'java', label: 'Java / Backend' },
+                { id: 'mobile', label: 'Android' },
+                { id: 'cloud', label: 'Cloud' },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -609,141 +773,107 @@ function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-8">
+          <div className="grid grid-cols-1 gap-6">
             {filteredProjects.map((project) => {
-              const currentTab = projectTab[project.id] || 'star';
+              const isExpanded = !!expandedStar[project.id];
 
               return (
                 <div
                   key={project.id}
-                  className="glass-panel glass-panel-hover rounded-2xl border border-white/10 overflow-hidden p-6 sm:p-8 space-y-6"
+                  className="glass-panel rounded-2xl border border-white/10 overflow-hidden p-6 sm:p-7 space-y-5"
                 >
-                  {/* Project Header */}
+                  {/* Card Top Header */}
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-eco-500/10 text-eco-400 border border-eco-500/20 uppercase">
+                    <div className="space-y-1">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-eco-500/10 text-eco-400 border border-eco-500/20 uppercase font-semibold">
                           {project.category}
                         </span>
+                        {project.isConfidential && (
+                          <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold flex items-center gap-1">
+                            <Lock className="h-3 w-3" /> Peer Review Pending
+                          </span>
+                        )}
                         <h3 className="text-xl sm:text-2xl font-bold text-white">
                           {project.title}
                         </h3>
                       </div>
-                      <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
-                        {project.tagline}
-                      </p>
+
+                      {project.peerReviewNotice && (
+                        <div className="text-xs text-amber-300 font-mono pt-0.5">
+                          {project.peerReviewNotice}
+                        </div>
+                      )}
                     </div>
 
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-1 p-3 rounded-xl bg-dark-950/80 border border-white/5 shrink-0">
-                      <span className="font-mono text-xl font-extrabold text-eco-400">{project.metricPrimary}</span>
-                      <span className="text-[10px] uppercase font-mono text-slate-400">{project.metricLabel}</span>
+                    <div className="p-3 rounded-xl bg-dark-950/80 border border-white/5 text-right shrink-0">
+                      <div className="font-mono text-lg font-bold text-eco-400">{project.metricPrimary}</div>
+                      <div className="text-[10px] uppercase font-mono text-slate-400">{project.metricLabel}</div>
                     </div>
                   </div>
 
-                  {/* Sub-Tab Navigation Switcher */}
-                  <div className="flex items-center gap-2 border-b border-white/5 pb-2 text-xs font-mono">
-                    <button
-                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'star' }))}
-                      className={`px-3 py-1.5 rounded-lg transition-colors ${
-                        currentTab === 'star'
-                          ? 'bg-eco-500/15 text-eco-400 font-bold border border-eco-500/30'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      ⭐ STAR Impact Breakdown
-                    </button>
-                    <button
-                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'arch' }))}
-                      className={`px-3 py-1.5 rounded-lg transition-colors ${
-                        currentTab === 'arch'
-                          ? 'bg-cyan-500/15 text-cyan-400 font-bold border border-cyan-500/30'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      📐 Architecture Pipeline Flow
-                    </button>
-                    <button
-                      onClick={() => setProjectTab(prev => ({ ...prev, [project.id]: 'curl' }))}
-                      className={`px-3 py-1.5 rounded-lg transition-colors ${
-                        currentTab === 'curl'
-                          ? 'bg-indigo-500/15 text-indigo-400 font-bold border border-indigo-500/30'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      ⚡ CLI / cURL Spec
-                    </button>
+                  {/* Clean 1-Line Problem & 1-Line Result */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div className="p-3.5 rounded-xl bg-dark-950/60 border border-white/5 space-y-1">
+                      <span className="text-[10px] font-mono text-slate-400 uppercase font-bold">The Problem</span>
+                      <p className="text-slate-300 leading-relaxed">{project.oneLineProblem}</p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-dark-950/60 border border-white/5 space-y-1">
+                      <span className="text-[10px] font-mono text-eco-400 uppercase font-bold">Quantified Result</span>
+                      <p className="text-slate-300 leading-relaxed">{project.oneLineResult}</p>
+                    </div>
                   </div>
 
-                  {/* Tab 1: STAR Impact */}
-                  {currentTab === 'star' && (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
-                          <span className="font-mono text-[10px] font-bold text-amber-400 uppercase tracking-wider block">The Challenge / Problem</span>
-                          <p className="text-xs text-slate-300 leading-relaxed">{project.starProblem}</p>
-                        </div>
-                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
-                          <span className="font-mono text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">Architecture / Solution</span>
-                          <p className="text-xs text-slate-300 leading-relaxed">{project.starSolution}</p>
-                        </div>
-                        <div className="p-4 rounded-xl bg-dark-950/60 border border-white/5 space-y-1.5">
-                          <span className="font-mono text-[10px] font-bold text-eco-400 uppercase tracking-wider block">Quantified Impact</span>
-                          <p className="text-xs text-slate-300 leading-relaxed">{project.starImpact}</p>
-                        </div>
-                      </div>
+                  {/* Collapsible STAR Details Toggle */}
+                  <div>
+                    <button
+                      onClick={() => toggleStarDetails(project.id)}
+                      className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors py-1"
+                    >
+                      <ChevronDown className={`h-4 w-4 text-cyan-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      <span>{isExpanded ? 'Hide Architecture & STAR Details' : 'Show Architecture & STAR Details'}</span>
+                    </button>
 
-                      <div className="space-y-2 pt-1">
-                        <div className="text-xs font-mono text-slate-400 font-bold">Key Technical Implementation Details:</div>
-                        <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-300">
-                          {project.highlights.map((h, i) => (
-                            <li key={i} className="flex items-start gap-2 p-2.5 rounded-lg bg-dark-950/40 border border-white/5">
-                              <CheckCircle2 className="h-4 w-4 text-eco-400 shrink-0 mt-0.5" />
-                              <span>{h}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 2: Architecture Pipeline */}
-                  {currentTab === 'arch' && (
-                    <div className="space-y-3">
-                      <div className="p-4 rounded-xl bg-dark-950/80 border border-cyan-500/20 font-mono text-xs text-cyan-300 flex items-center gap-3">
-                        <Network className="h-5 w-5 text-cyan-400 shrink-0" />
-                        <div className="leading-relaxed">
-                          {project.architectureFlow}
-                        </div>
-                      </div>
-                      <div className="text-[11px] text-slate-400 italic">
-                        * End-to-end distributed data pipeline verified with synthetic load generators and zero dropped frames.
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 3: CLI / cURL Spec */}
-                  {currentTab === 'curl' && (
-                    <div className="space-y-3">
-                      <div className="relative bg-dark-950 rounded-xl p-4 border border-white/10 font-mono text-xs text-slate-200 overflow-x-auto">
-                        <button
-                          onClick={() => copyToClipboard(project.curlExample, project.id)}
-                          className="absolute top-3 right-3 p-1.5 rounded-lg bg-dark-800 text-slate-400 hover:text-white border border-white/10 text-xs flex items-center gap-1 transition-colors"
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="pt-3 space-y-3 overflow-hidden text-xs"
                         >
-                          {copiedKey === project.id ? <Check className="h-3.5 w-3.5 text-eco-400" /> : <Copy className="h-3.5 w-3.5" />}
-                          <span>{copiedKey === project.id ? 'Copied' : 'Copy'}</span>
-                        </button>
-                        <pre className="pr-16">{project.curlExample}</pre>
-                      </div>
-                    </div>
-                  )}
+                          <div className="p-4 rounded-xl bg-dark-950/80 border border-cyan-500/20 space-y-2">
+                            <div className="font-mono text-[10px] text-cyan-400 font-bold uppercase">
+                              Architecture &amp; Technical Solution:
+                            </div>
+                            <p className="text-slate-300 leading-relaxed">{project.starSolution}</p>
+                          </div>
 
-                  {/* Tech Stack Pills & Action Buttons */}
-                  <div className="pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
+                          <div className="space-y-1.5 pt-1">
+                            <div className="font-mono text-[10px] text-slate-400 uppercase font-bold">
+                              Key Implementation Highlights:
+                            </div>
+                            <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                              {project.highlights.map((h, i) => (
+                                <li key={i} className="flex items-start gap-2 p-2 rounded-lg bg-dark-950/40 border border-white/5">
+                                  <CheckCircle2 className="h-3.5 w-3.5 text-eco-400 shrink-0 mt-0.5" />
+                                  <span className="text-slate-300 text-[11px]">{h}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Card Footer: Tech Stack Pills & Repo Links */}
+                  <div className="pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
                     <div className="flex flex-wrap gap-1.5">
                       {project.tech.map((t) => (
                         <span
                           key={t}
-                          className="font-mono text-xs px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5"
+                          className="font-mono text-[11px] px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5"
                         >
                           {t}
                         </span>
@@ -751,28 +881,32 @@ function App() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => setSelectedArchProject(project)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-cyan-500/30 text-cyan-300 hover:text-white hover:bg-cyan-500/10 text-xs font-mono transition-colors"
-                      >
-                        <Layers className="h-3.5 w-3.5 text-cyan-400" />
-                        <span>Inspect Architecture</span>
-                      </button>
-
                       {project.isConfidential ? (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-950 border border-amber-500/30 text-amber-300 text-xs font-mono">
-                          <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />
-                          <span>Confidential Research</span>
+                          <Lock className="h-3.5 w-3.5 text-amber-400" />
+                          <span>Code Protected (Under Review)</span>
                         </span>
                       ) : (
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 text-xs font-mono transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white text-xs font-mono transition-colors"
                         >
                           <Github className="h-3.5 w-3.5 text-slate-400" />
-                          <span>Repository</span>
+                          <span>View Repository</span>
+                        </a>
+                      )}
+
+                      {project.githubBackend && (
+                        <a
+                          href={project.githubBackend}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white text-xs font-mono transition-colors"
+                        >
+                          <Server className="h-3.5 w-3.5 text-cyan-400" />
+                          <span>Backend Repo</span>
                         </a>
                       )}
                     </div>
@@ -781,47 +915,67 @@ function App() {
               );
             })}
           </div>
+
+          {/* More on GitHub Link */}
+          <div className="text-center pt-2">
+            <a
+              href="https://github.com/rashmipandey870?tab=repositories"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white text-xs font-mono transition-colors"
+            >
+              <span>Explore All Repositories on GitHub (1,200+ commits)</span>
+              <ExternalLink className="h-3.5 w-3.5 text-cyan-400" />
+            </a>
+          </div>
         </section>
 
-        {/* SECTION 3: INTERACTIVE DEVELOPER TERMINAL */}
-        <section id="terminal" className="space-y-6 pt-10 border-t border-white/5">
+        {/* 4. SYSTEMS & ALGORITHMS LAB (Min-Heap Primary) */}
+        <section id="lab" className="space-y-6 pt-10 border-t border-white/5">
+          <SystemsAndAlgorithmsLab />
+        </section>
+
+        {/* 5. HOW I WORK / ENGINEERING PRINCIPLES (NEUTRAL WITH ?company=amazon TOGGLE) */}
+        <section id="how-i-work" className="space-y-6 pt-10 border-t border-white/5">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
-                <Terminal className="h-3.5 w-3.5 text-eco-400" />
-                <span>COMMAND LINE DIAGNOSTICS</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 font-mono text-xs font-semibold text-amber-400 mb-2">
+                <Flame className="h-3.5 w-3.5 text-amber-400" />
+                <span>ENGINEERING EXCELLENCE</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Developer CLI &amp; System Terminal
+                {isAmazonView ? 'Amazon Leadership Principles Alignment' : 'Engineering Principles & How I Work'}
               </h2>
               <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-                Type live diagnostic commands: <code className="text-eco-400 bg-dark-950 px-1 py-0.5 rounded">amazon</code>, <code className="text-cyan-400 bg-dark-950 px-1 py-0.5 rounded">lp</code>, <code className="text-indigo-400 bg-dark-950 px-1 py-0.5 rounded">metrics</code>, <code className="text-amber-400 bg-dark-950 px-1 py-0.5 rounded">curl /api/aws</code>, <code className="text-slate-400 bg-dark-950 px-1 py-0.5 rounded">skills</code>.
+                {isAmazonView 
+                  ? 'Demonstrated alignment with Amazon Leadership Principles through research, systems, and code.' 
+                  : 'Core engineering standards guiding my software design, distributed architectures, and delivery.'}
               </p>
             </div>
-            <div className="font-mono text-xs text-slate-500">
-              Shortcut: Press <kbd className="px-1.5 py-0.5 bg-dark-900 border border-white/10 rounded text-slate-300">⌘K</kbd> / <kbd className="px-1.5 py-0.5 bg-dark-900 border border-white/10 rounded text-slate-300">Ctrl+K</kbd>
-            </div>
-          </div>
 
-          {/* Embedded Full Interactive Terminal */}
-          <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-            <DeveloperTerminal />
-          </div>
-        </section>
-
-        {/* SECTION 4: AMAZON LEADERSHIP PRINCIPLES ALIGNMENT */}
-        <section id="amazon-standards" className="space-y-6 pt-10 border-t border-white/5">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 font-mono text-xs font-semibold text-amber-400 mb-2">
-              <Flame className="h-3.5 w-3.5 text-amber-400" />
-              <span>BIG TECH ENGINEERING EXCELLENCE</span>
+            {/* Switcher Pill */}
+            <div className="flex items-center gap-1.5 p-1 bg-dark-950 rounded-xl border border-white/10 font-mono text-xs">
+              <button
+                onClick={() => setIsAmazonView(false)}
+                className={`px-3 py-1.5 rounded-lg transition-colors ${
+                  !isAmazonView
+                    ? 'bg-eco-500 text-white font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Standard View
+              </button>
+              <button
+                onClick={() => setIsAmazonView(true)}
+                className={`px-3 py-1.5 rounded-lg transition-colors ${
+                  isAmazonView
+                    ? 'bg-amber-500 text-dark-950 font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Amazon LP (?company=amazon)
+              </button>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Amazon Leadership Principles Alignment
-            </h2>
-            <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-              Concrete evidence demonstrating how my engineering research and production systems align directly with Amazon LP standards.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -829,9 +983,11 @@ function App() {
               <div className="w-8 h-8 rounded-lg bg-eco-500/10 border border-eco-500/20 text-eco-400 flex items-center justify-center font-mono font-bold text-sm">
                 01
               </div>
-              <h3 className="text-base font-bold text-white">Dive Deep</h3>
+              <h3 className="text-base font-bold text-white">
+                {isAmazonView ? 'Dive Deep' : 'Deep Systems Analysis'}
+              </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Profiled Linux process schedulers under PM2, isolating microservice network round-trip bottlenecks down to a <strong>61 µs median routing decision latency</strong> across 7 AWS geographic regions.
+                Profiled Linux process schedulers under PM2 and examined microservice network round-trip bottlenecks down to a <strong>61 µs median decision latency</strong> in multi-region routing evaluation.
               </p>
             </div>
 
@@ -839,9 +995,11 @@ function App() {
               <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">
                 02
               </div>
-              <h3 className="text-base font-bold text-white">Customer Obsession</h3>
+              <h3 className="text-base font-bold text-white">
+                {isAmazonView ? 'Customer Obsession' : 'Reliability & SLA Adherence'}
+              </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Guaranteed a verified <strong>0.0% SLA breach rate</strong> across all evaluation trials, ensuring enterprise customers experience zero downtime or latency violations even during simulated regional grid outages.
+                Guaranteed a verified <strong>0.0% SLA breach rate</strong> across evaluation trials, ensuring users experience zero downtime or latency violations even during simulated regional grid outages.
               </p>
             </div>
 
@@ -849,9 +1007,11 @@ function App() {
               <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-sm">
                 03
               </div>
-              <h3 className="text-base font-bold text-white">Invent &amp; Simplify</h3>
+              <h3 className="text-base font-bold text-white">
+                {isAmazonView ? 'Invent & Simplify' : 'Simplification & Decoupling'}
+              </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Formulated complex carbon-aware workload distribution into decoupled microservices and replaced manual tournament spreadsheets with automated combinatorial graph algorithms for 100+ athletes.
+                Formulated decoupled edge microservices with clear API contracts and replaced manual tournament spreadsheets with automated combinatorial graph algorithms for 100+ athletes.
               </p>
             </div>
 
@@ -859,27 +1019,26 @@ function App() {
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold text-sm">
                 04
               </div>
-              <h3 className="text-base font-bold text-white">Deliver Results</h3>
+              <h3 className="text-base font-bold text-white">
+                {isAmazonView ? 'Deliver Results' : 'High Ownership & Delivery'}
+              </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Constructed 61 sequential production commits in EXAMORA with zero framework bloat; earned <strong>NPTEL Topper (Top 2% Nationwide)</strong> honors; completed intensive research internship at NIAMT Ranchi.
+                Shipped 61 sequential production commits in EXAMORA with zero framework bloat; earned <strong>NPTEL Topper (Top 2% Nationwide)</strong> honors; completed rigorous research internship at NIAMT Ranchi.
               </p>
             </div>
           </div>
         </section>
 
-        {/* SECTION 5: TECHNICAL SKILLS MATRIX */}
+        {/* 6. TECHNICAL ARSENAL */}
         <section id="skills" className="space-y-6 pt-10 border-t border-white/5">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
               <Cpu className="h-3.5 w-3.5 text-eco-400" />
-              <span>CORE COMPETENCIES</span>
+              <span>CORE TECHNICAL STACK</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
               Technical Arsenal &amp; Systems Architecture
             </h2>
-            <p className="text-slate-400 text-sm mt-1">
-              Grouped by systems domain with zero vague percentage bars.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -905,7 +1064,7 @@ function App() {
                 <h3 className="font-bold text-white text-base">Cloud &amp; Infrastructure</h3>
               </div>
               <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-                {['AWS (7 Geographic Regions)', 'AWS EC2', 'AWS CloudWatch API', 'AWS S3 & IAM', 'Microsoft Azure', 'PM2 Process Supervisor', 'Linux / Unix CLI', 'Docker Basics'].map((s) => (
+                {['AWS (EC2, CloudWatch API, S3, IAM)', 'Microsoft Azure', 'Multi-Region Concepts', 'PM2 Process Supervisor', 'Linux / Unix CLI', 'Docker Basics'].map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-cyan-300 border border-cyan-500/20">
                     {s}
                   </span>
@@ -920,7 +1079,7 @@ function App() {
                 <h3 className="font-bold text-white text-base">Backend &amp; Distributed Systems</h3>
               </div>
               <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-                {['Jakarta Servlets 6.0', 'Apache Tomcat 11', 'Node.js & Express.js', 'RESTful API Design', 'Microservices', 'Lyapunov Optimization', 'Retrofit 2', 'Apache PDFBox'].map((s) => (
+                {['Jakarta Servlets 6.0', 'Apache Tomcat 11', 'Node.js & Express.js', 'RESTful API Design', 'Microservices', 'Retrofit 2', 'Apache PDFBox'].map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
                     {s}
                   </span>
@@ -935,7 +1094,7 @@ function App() {
                 <h3 className="font-bold text-white text-base">Databases &amp; Storage</h3>
               </div>
               <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-                {['Azure SQL', 'MySQL (ACID Transactions)', 'MongoDB Atlas', 'Relational Schema Normalization', 'Database Indexing & Tuning', 'Mongoose ODM'].map((s) => (
+                {['Azure SQL', 'MySQL (ACID Transactions)', 'MongoDB Atlas', 'Relational Schema Normalization', 'Database Indexing & Tuning'].map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
                     {s}
                   </span>
@@ -950,7 +1109,7 @@ function App() {
                 <h3 className="font-bold text-white text-base">Data Science &amp; Python</h3>
               </div>
               <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-                {['Python for Data Science (IIT-M Topper)', 'Joy of Computing (IIT-R)', 'Pandas & NumPy', 'Statistical EDA', 'Scikit-learn', 'Algorithmic Optimization'].map((s) => (
+                {['Python for Data Science (IIT-M Topper)', 'Joy of Computing (IIT-R)', 'Pandas & NumPy', 'Statistical EDA', 'Scikit-learn'].map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-emerald-300 border border-emerald-500/20">
                     {s}
                   </span>
@@ -962,10 +1121,10 @@ function App() {
             <div className="glass-panel p-5 rounded-xl border border-white/5 space-y-3">
               <div className="flex items-center gap-2 text-slate-400">
                 <ShieldCheck className="h-5 w-5" />
-                <h3 className="font-bold text-white text-base">DevOps &amp; Practices</h3>
+                <h3 className="font-bold text-white text-base">DevOps &amp; Tools</h3>
               </div>
               <div className="flex flex-wrap gap-1.5 font-mono text-xs">
-                {['Git & GitHub (1,200+ commits)', 'Postman API Testing', 'Maven', 'Android Studio', 'Chaos Engineering', 'Zero-Trust Architecture', 'JWT Authentication'].map((s) => (
+                {['Git & GitHub (1,200+ commits)', 'Postman API Testing', 'Maven', 'Android Studio', 'JWT Authentication', 'MVC Pattern'].map((s) => (
                   <span key={s} className="px-2.5 py-1 rounded-lg bg-dark-950 text-slate-300 border border-white/5">
                     {s}
                   </span>
@@ -975,26 +1134,21 @@ function App() {
           </div>
         </section>
 
-        {/* SECTION 6: HOLOGRAPHIC VERIFIED CREDENTIALS VAULT */}
+        {/* 7. VERIFIED CREDENTIALS VAULT */}
         <section id="credentials" className="space-y-6 pt-10 border-t border-white/5">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
-                <Award className="h-3.5 w-3.5 text-eco-400" />
-                <span>OFFICIAL VERIFIED BADGES</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Verified Credentials &amp; Certifications
-              </h2>
-              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-                Officially accredited certifications with verifiable scores, IDs, and topper recognitions.
-              </p>
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+              <Award className="h-3.5 w-3.5 text-eco-400" />
+              <span>OFFICIAL CREDENTIALS</span>
             </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Accredited Certifications &amp; Honors
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {/* Cert 1: NPTEL IIT Madras */}
-            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-cyan-400 border-white/5 space-y-3 relative overflow-hidden">
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-cyan-400 border-white/5 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -1013,12 +1167,12 @@ function App() {
                 </div>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Awarded <strong>Elite + Silver Medal</strong> and recognized as a <strong>Nationwide Topper in the Top 2%</strong> of all candidates. Comprehensive coverage of statistical EDA, Pandas, NumPy data processing, regression, and Scikit-learn pipelines.
+                Awarded <strong>Elite + Silver Medal</strong> and recognized as a <strong>Nationwide Topper in the Top 2%</strong> of all candidates. Statistical EDA, Pandas, NumPy data processing, and Scikit-learn pipelines.
               </p>
             </div>
 
             {/* Cert 2: NPTEL IIT Ropar */}
-            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-indigo-400 border-white/5 space-y-3 relative overflow-hidden">
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-indigo-400 border-white/5 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -1037,12 +1191,12 @@ function App() {
                 </div>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Taught by <strong>Prof. Sudarshan Iyengar</strong>. Achieved an <strong>87% Score (Elite + Silver Medal / Silver Badge)</strong> demonstrating advanced algorithmic thinking, recursion, combinatorial logic, and computational problem-solving.
+                Taught by <strong>Prof. Sudarshan Iyengar</strong>. Achieved an <strong>87% Score (Elite + Silver Medal / Silver Badge)</strong> demonstrating advanced algorithmic thinking, recursion, and computational problem-solving.
               </p>
             </div>
 
             {/* Cert 3: Microsoft Azure DBA */}
-            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-eco-400 border-white/5 space-y-3 relative overflow-hidden">
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-eco-400 border-white/5 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -1060,36 +1214,36 @@ function App() {
                 </div>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Validates enterprise cloud database management, high-availability architecture, security governance, query plan optimization, and performance tuning on Microsoft Azure SQL infrastructure.
+                Validates enterprise cloud database management, security governance, query optimization, and performance tuning on Microsoft Azure SQL infrastructure.
               </p>
             </div>
 
             {/* Cert 4: Microsoft SQL AI Tools & Infosys */}
-            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-amber-400 border-white/5 space-y-3 relative overflow-hidden">
+            <div className="glass-panel p-6 rounded-xl border-l-4 border-l-amber-400 border-white/5 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold uppercase">
-                      ENTERPRISE SOFTWARE
+                      DATABASE &amp; JAVA
                     </span>
                   </div>
                   <h3 className="text-lg font-bold text-white">
                     Implement SQL Solutions Using AI-Assisted Tools
                   </h3>
-                  <div className="text-xs font-mono text-slate-400">Microsoft &bull; AI-Assisted Query Optimization</div>
+                  <div className="text-xs font-mono text-slate-400">Microsoft &bull; Additional: <strong>Infosys Springboard (Java Fundamentals)</strong></div>
                 </div>
                 <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
                   <Sparkles className="h-6 w-6" />
                 </div>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Automated database schema design, indexing strategies, and AI-assisted SQL query profiling. Additional credential: <strong>Infosys Springboard — Java Programming Fundamentals</strong> (OOP, multithreading, and collections).
+                Database schema design, indexing strategies, and query profiling. Combined with Infosys Java Fundamentals (OOP, concurrency, and collections).
               </p>
             </div>
           </div>
         </section>
 
-        {/* SECTION 7: RESEARCH & EDUCATION TIMELINE */}
+        {/* 8. RESEARCH & EDUCATION TIMELINE */}
         <section id="experience" className="space-y-6 pt-10 border-t border-white/5">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
@@ -1115,7 +1269,7 @@ function App() {
                 National Institute of Advanced Manufacturing Technology (NIAMT), Ranchi &bull; Under Dr. Rahul Mishra
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Formulated and benchmarked <strong>DVQ</strong> across 7 AWS geographic regions. Modeled workload placement as a Lyapunov drift-plus-penalty optimization problem to balance strict latency SLAs against dynamic regional carbon emissions. Achieved a 35.87% carbon reduction with zero SLA breaches across all synthetic trials.
+                Researched multi-region routing optimization across AWS infrastructure. Evaluated decoupled edge dispatchers and telemetry services; sustained sub-100µs decision latency with a verified 0.0% SLA breach guarantee across synthetic evaluation trials. Research paper currently under peer review.
               </p>
             </div>
 
@@ -1132,13 +1286,35 @@ function App() {
                 Amity University Jharkhand, Ranchi &bull; <strong>CGPA: 8.00 / 10.0</strong>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Core Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing. Secondary (CBSE Class XII PCM: 88.2% | Class X: 85.0%).
+                Core Coursework: Data Structures &amp; Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks, Cloud Computing. Secondary: CBSE Class XII PCM 88.2% | Class X 85.0%.
               </p>
             </div>
           </div>
         </section>
 
-        {/* SECTION 8: CONTACT & RECRUITER ACTION */}
+        {/* 9. TERMINAL SECTION */}
+        <section id="terminal" className="space-y-6 pt-10 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
+                <Terminal className="h-3.5 w-3.5 text-eco-400" />
+                <span>DEVELOPER COMMAND LINE</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Interactive Developer CLI
+              </h2>
+              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
+                Explore technical depth via CLI commands: <code className="text-eco-400 bg-dark-950 px-1 py-0.5 rounded">dsa</code>, <code className="text-cyan-400 bg-dark-950 px-1 py-0.5 rounded">jvm</code>, <code className="text-indigo-400 bg-dark-950 px-1 py-0.5 rounded">sql</code>, <code className="text-amber-400 bg-dark-950 px-1 py-0.5 rounded">certs</code>, <code className="text-slate-300 bg-dark-950 px-1 py-0.5 rounded">help</code>.
+              </p>
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+            <DeveloperTerminal />
+          </div>
+        </section>
+
+        {/* 10. CONTACT SECTION */}
         <section id="contact" className="pt-10 border-t border-white/5 pb-16">
           <div className="glass-panel rounded-2xl border border-white/10 p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-eco-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -1148,14 +1324,14 @@ function App() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-eco-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-eco-500"></span>
               </span>
-              <span>AVAILABLE FOR SDE / CLOUD INTERNSHIPS &amp; ROLES</span>
+              <span>AVAILABLE FOR SDE INTERNSHIPS &amp; GRADUATE ROLES</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Ready to Dive Deep &amp; Build Resilient Systems
+              Let's Connect &amp; Build
             </h2>
             <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-              Targeting Software Development Engineer (SDE) and Cloud Systems Engineer opportunities. Let's discuss how my distributed systems and Java backend acumen can add immediate value to your team.
+              Targeting Software Development Engineer (SDE) opportunities. Let's discuss how my distributed systems research, Java engineering, and problem-solving consistency can add value to your engineering team.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -1184,7 +1360,7 @@ function App() {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-dark-900 border border-white/10 hover:border-eco-500/40 text-slate-200 hover:text-white font-semibold text-sm transition-colors"
               >
                 <Github className="h-4 w-4 text-slate-400" />
-                <span>GitHub Repositories</span>
+                <span>GitHub (1,200+ Commits)</span>
               </a>
 
               <button
@@ -1204,30 +1380,20 @@ function App() {
       <footer className="border-t border-white/5 py-8 bg-dark-950 font-mono text-xs text-slate-500 text-center">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            &copy; 2026 Rashmi Pandey. Engineered with React, Tailwind CSS &amp; Framer Motion.
+            &copy; 2026 Rashmi Pandey. Fast, accessible &amp; recruiter-grounded developer portfolio.
           </div>
           <div className="flex items-center gap-4 text-slate-400">
-            <span>Kernel: AWS-v5.19</span>
+            <span>Amity Univ Jharkhand</span>
             <span>&bull;</span>
-            <span className="text-eco-400">SLA: 0.0% Breach</span>
+            <span className="text-eco-400">CGPA: 8.00</span>
             <span>&bull;</span>
-            <span className="text-cyan-400">Top 2% NPTEL</span>
+            <span className="text-cyan-400">NPTEL Top 2%</span>
           </div>
         </div>
       </footer>
 
       {/* FLOATING SDE CANDIDATE AI COPILOT */}
       <AICopilot />
-
-      {/* SYSTEM ARCHITECTURE MODAL */}
-      <AnimatePresence>
-        {selectedArchProject && (
-          <ArchitectureModal 
-            project={selectedArchProject} 
-            onClose={() => setSelectedArchProject(null)} 
-          />
-        )}
-      </AnimatePresence>
 
       {/* ATS RESUME MODAL */}
       <AnimatePresence>

@@ -106,7 +106,7 @@ function ResumeModal({ onClose }) {
                   </div>
                   <ul className="list-disc list-outside pl-4 text-xs text-[#334155] space-y-1">
                     <li>
-                      Architected <strong>DVQ</strong>, an intelligent carbon-aware workload router across a live 7-region AWS deployment, formulating request placement as a Lyapunov drift-plus-penalty optimization problem to balance strict SLA latency against real-time grid emissions.
+                      Architected <strong>DVQ</strong>, an intelligent carbon-aware workload router evaluated across 7 AWS regional grid topologies, formulating request placement under Lyapunov optimization to balance strict SLA latency against carbon intensity.
                     </li>
                     <li>
                       Achieved carbon footprint reductions of <strong>35.87% (Interactive)</strong>, <strong>30.28% (Realtime)</strong>, and <strong>16.58% (Batch)</strong> versus a Least-Connections baseline, with a verified <strong>0.0% SLA violation rate</strong> across all evaluation trials.
