@@ -247,16 +247,20 @@ function ResumeModal({ onClose }) {
                     <span><strong>Microsoft:</strong> Azure Database Administrator Associate (ID: 647C0C2C5B35FA32)</span>
                   </li>
                   <li className="flex items-start gap-1.5">
+                    <Award className="h-3.5 w-3.5 text-[#0D9488] mt-0.5 shrink-0" />
+                    <span><strong>NPTEL (IIT Madras):</strong> Python for Data Science — Statistical EDA, Scikit-Learn & ML</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
                     <Award className="h-3.5 w-3.5 text-[#0EA5E9] mt-0.5 shrink-0" />
+                    <span><strong>NPTEL (IIT Madras):</strong> The Joy of Computing Using Python — Scored 87% (Elite Top Performer)</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <Award className="h-3.5 w-3.5 text-[#4F46E5] mt-0.5 shrink-0" />
                     <span><strong>Microsoft:</strong> SQL Solutions by Using AI-Assisted Tools</span>
                   </li>
                   <li className="flex items-start gap-1.5">
-                    <Award className="h-3.5 w-3.5 text-[#0D9488] mt-0.5 shrink-0" />
-                    <span><strong>NPTEL (IIT Madras):</strong> Joy of Computing Using Python (87% Elite)</span>
-                  </li>
-                  <li className="flex items-start gap-1.5">
                     <Award className="h-3.5 w-3.5 text-[#F97316] mt-0.5 shrink-0" />
-                    <span><strong>Infosys Springboard:</strong> Java Fundamentals</span>
+                    <span><strong>Infosys Springboard:</strong> Java Programming Fundamentals</span>
                   </li>
                 </ul>
               </section>

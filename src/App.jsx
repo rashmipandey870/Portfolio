@@ -447,7 +447,7 @@ function App() {
             <div className="space-y-1 pt-3 md:pt-0 md:px-4">
               <span className="text-[10px] font-mono font-bold text-[#0EA5E9] uppercase tracking-wider block">Verified Credentials</span>
               <p className="text-sm font-bold text-[#1E293B]">Microsoft Azure DBA Associate</p>
-              <p className="text-xs text-[#64748B]">NPTEL (IIT Madras) 87% Elite, Infosys Springboard</p>
+              <p className="text-xs text-[#64748B]">NPTEL Python for Data Science • NPTEL Joy of Computing (87% Elite)</p>
             </div>
 
             <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
@@ -893,19 +893,40 @@ function App() {
                   </p>
                 </div>
 
-                {/* NPTEL IIT Madras */}
+                {/* NPTEL Python for Data Science */}
                 <div className="portfolio-card p-4 space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2 text-[#0D9488]">
                       <Award className="h-5 w-5 shrink-0" />
                       <h3 className="text-sm font-bold text-[#1E293B]">
-                        NPTEL — Python for Data Science / Joy of Computing
+                        NPTEL — Python for Data Science
                       </h3>
                     </div>
                   </div>
                   <p className="text-xs text-[#64748B]">
-                    Conducted by <strong>IIT Madras</strong>. Scored <strong>87% (Elite Top Performer)</strong> covering data structures, algorithmic manipulation, and scientific computing.
+                    Conducted by <strong>IIT Madras</strong>. Comprehensive training in statistical data analysis, data wrangling with <strong>Pandas & NumPy</strong>, feature engineering, and supervised machine learning model development with <strong>Scikit-learn</strong>. Directly applied to the 99.2% accuracy Crop Recommendation system.
                   </p>
+                  <div className="font-mono text-[11px] font-semibold text-[#0D9488] bg-teal-50 px-2 py-0.5 rounded border border-teal-200 inline-block">
+                    IIT Madras Certified • Machine Learning & Analytics
+                  </div>
+                </div>
+
+                {/* NPTEL The Joy of Computing using Python */}
+                <div className="portfolio-card p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2 text-[#0EA5E9]">
+                      <Award className="h-5 w-5 shrink-0" />
+                      <h3 className="text-sm font-bold text-[#1E293B]">
+                        NPTEL — The Joy of Computing using Python
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-xs text-[#64748B]">
+                    Conducted by <strong>IIT Madras</strong>. Achieved <strong>87% Score (Elite Top Performer)</strong>. Covers algorithmic problem solving, computational complexity, recursion, data structures manipulation, and Python programming mastery.
+                  </p>
+                  <div className="font-mono text-[11px] font-semibold text-[#0EA5E9] bg-sky-50 px-2 py-0.5 rounded border border-sky-200 inline-block">
+                    Score: 87% • Elite Top Performer
+                  </div>
                 </div>
 
                 {/* Infosys Springboard */}
