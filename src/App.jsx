@@ -78,7 +78,7 @@ function App() {
         response = 'System Telemetry: 61µs Gateway Decision Latency • 35.8% Carbon Reduction • 0.0% SLA Breach • 1,200+ GitHub Commits';
         break;
       case 'projects':
-        response = 'Active Repos: 1. DVQ (AWS Multi-Region) | 2. EXAMORA (Jakarta EE) | 3. Sangathan (Android/Node) | 4. Paper-Tracker | 5. Study-Planner';
+        response = 'Active Repos: 1. DVQ (AWS Multi-Region) | 2. EXAMORA (Jakarta EE) | 3. Sangathan (Android/Java) | 4. Study-Planner (Java DSA)';
         break;
       case 'resume':
         window.open(resumeUrl, '_blank');
@@ -195,27 +195,6 @@ function App() {
         'Automated tournament bracket math eliminating manual pairing collisions for 100+ participants.',
         'Architected 10+ RESTful backend endpoints in Node.js/Express with sub-150ms response times.',
         'Implemented Retrofit 2 with OkHttp interceptors for rock-solid mobile client synchronization.'
-      ]
-    },
-    {
-      id: 'papertracker',
-      title: 'Faculty Research Paper Tracker — Publication & Metrics System',
-      tagline: 'Academic publication management platform featuring two-factor OTP verification and automated Google Forms webhook ingestion.',
-      category: 'cloud',
-      tech: ['Node.js', 'Express.js', 'MongoDB Atlas', 'Mongoose', 'JWT Auth', 'Nodemailer OTP', 'REST APIs'],
-      github: 'https://github.com/rashmipandey870',
-      demo: 'https://github.com/rashmipandey870',
-      metricPrimary: '75%',
-      metricLabel: 'Turnaround Reduction',
-      architectureFlow: 'Google Forms Paper Submissions ➔ Ingestion Webhook Handler ➔ Nodemailer OTP Faculty Authentication ➔ Indexed MongoDB Query Engine ➔ Citation Metrics Dashboard',
-      curlExample: 'curl -X POST https://research-tracker.org/api/auth/verify-otp \\\n  -d \'{"email":"faculty@amity.edu", "otp":"489120"}\' \\\n  # Stateless JWT session minted with RBAC permissions',
-      starProblem: 'University departments lose publication records and struggle during accreditation audits due to fragmented paper submissions.',
-      starSolution: 'Built a centralized publication analytics repository with automated Google Forms intake, Nodemailer OTP verification, and indexed MongoDB querying.',
-      starImpact: 'Eliminated publication submission lag by 75%; ensured zero unauthorized modifications using stateless JWT authentication.',
-      highlights: [
-        'Automated paper intake via Google Forms ingestion webhooks, reducing manual clerical work.',
-        'Implemented two-factor authentication via Nodemailer OTP and stateless JWT token authorization.',
-        'Designed indexed MongoDB schemas supporting multi-attribute querying across ISSN and DOI records.'
       ]
     },
     {

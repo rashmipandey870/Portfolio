@@ -160,15 +160,15 @@ function ResumeModal({ onClose }) {
                   </ul>
                 </div>
 
-                {/* Faculty Research Paper Tracker */}
+                {/* Study Planner */}
                 <div className="space-y-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-xs font-bold text-[#1E293B]">Faculty Research Paper Tracker — Publication Metrics System</h3>
-                    <span className="text-[10px] font-mono text-[#64748B]">Node.js • MongoDB Atlas • JWT</span>
+                    <h3 className="text-xs font-bold text-[#1E293B]">Study Planner — Dynamic Constraint-Based Scheduling</h3>
+                    <span className="text-[10px] font-mono text-[#64748B]">Java 17 • PriorityQueue • Greedy</span>
                   </div>
                   <ul className="list-disc list-outside pl-4 text-xs text-[#334155] space-y-0.5">
-                    <li>Built academic publication analytics platform with Google Forms webhook ingestion and Nodemailer 2FA OTP verification.</li>
-                    <li>Designed indexed MongoDB Atlas collections across ISSN/DOI records, reducing departmental publication turnaround by ~75%.</li>
+                    <li>Engineered multi-factor study timetable generator in Java using PriorityQueue min-heap and cognitive load balancing.</li>
+                    <li>Achieved conflict-free O(N log N) schedule recalculation with automated spaced-repetition revision buffers.</li>
                   </ul>
                 </div>
 
