@@ -28,7 +28,11 @@ import {
   Clock,
   Cloud,
   Check,
-  Copy
+  Copy,
+  Download,
+  Terminal,
+  Activity,
+  Network
 } from 'lucide-react';
 import ResumeModal from './components/ResumeModal';
 
@@ -38,6 +42,10 @@ function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const photoUrl = `${baseUrl}rashmi-photo.jpg`;
+  const resumeUrl = `${baseUrl}Rashmi_Pandey_Resume.pdf`;
+
   const copyEmail = () => {
     navigator.clipboard.writeText('rashmipd870@gmail.com');
     setCopiedEmail(true);
@@ -46,7 +54,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
+      const sections = ['hero', 'recruiter-summary', 'about', 'skills', 'projects', 'experience', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -76,7 +84,8 @@ function App() {
       github: 'https://github.com/rashmipandey870',
       demo: 'https://github.com/rashmipandey870',
       metricPrimary: '61 µs',
-      metricLabel: 'Gateway Decision Latency',
+      metricLabel: 'Decision Latency',
+      architectureFlow: 'Ingress Traffic ➔ PM2 Decision Gateway (61 µs) ➔ Lyapunov Drift-Plus-Penalty Engine ➔ Live Carbon & RTT Telemetry (7 AWS Regions) ➔ Optimal Workload Dispatch (0% SLA Breach)',
       starProblem: 'Global multi-region cloud workloads face erratic regional carbon emissions and unpredictable network latency under varying traffic bursts.',
       starSolution: 'Architected a decoupled 6-microservice architecture on AWS formulated via Lyapunov drift-plus-penalty optimization to route requests dynamically across 7 AWS regions.',
       starImpact: 'Cut workload carbon footprint by 35.87% (Interactive) and 30.28% (Realtime) with a 0.0% SLA violation rate and 61 µs median routing decision latency.',
@@ -96,6 +105,7 @@ function App() {
       demo: 'https://github.com/rashmipandey870/EXAMORA',
       metricPrimary: '61 Commits',
       metricLabel: 'Zero Framework Bloat',
+      architectureFlow: 'Exam Paper Upload (PDF) ➔ Apache PDFBox Streaming Text Extraction ➔ Jakarta Servlet 6.0 Controller ➔ Data Access Object (DAO) Layer ➔ ACID-Compliant MySQL Relational Storage',
       starProblem: 'Academic institutions struggle with slow legacy examination portals, insecure student data, and laborious manual exam paper transcription.',
       starSolution: 'Built a lightweight Jakarta Servlets 6.0 enterprise engine on Tomcat 11 with the DAO pattern, BCrypt salted authentication, and Apache PDFBox streaming document extraction.',
       starImpact: 'Achieved sub-100ms response times with near-zero memory footprint; maintained 100% ACID consistency across 10+ staged relational migrations.',
@@ -115,6 +125,7 @@ function App() {
       demo: 'https://github.com/rashmipandey870/Sangathan-Backend',
       metricPrimary: '80% Less',
       metricLabel: 'Admin Overhead',
+      architectureFlow: 'Android Mobile Client ➔ Retrofit 2 OkHttp Interceptor ➔ Node.js REST API & JWT Auth ➔ Combinatorial Bracket Generator ➔ MongoDB Atlas Document Store',
       starProblem: 'Managing athletic events manually with spreadsheets leads to schedule clashes, delayed score reporting, and high administrative chaos.',
       starSolution: 'Developed an Android client and Node.js REST backend executing combinatorial pairing algorithms for automated round-robin and knockout tournament brackets.',
       starImpact: 'Orchestrated schedules and live scores for 100+ athletes across 6 sports; sustained sub-150ms API latency with Retrofit 2 reactive syncing.',
@@ -134,6 +145,7 @@ function App() {
       demo: 'https://github.com/rashmipandey870',
       metricPrimary: '99.2%',
       metricLabel: 'Model Accuracy',
+      architectureFlow: 'Soil NPK & Climate Inputs (2,200+ records) ➔ Data Preprocessing & Min-Max Scaling ➔ Random Forest / XGBoost Ensemble Training ➔ Feature Importance Ranking ➔ High-Yield Crop Prediction',
       starProblem: 'Farmers face severe yield loss and economic instability due to improper crop selection that fails to account for regional soil chemistry.',
       starSolution: 'Engineered an end-to-end data science pipeline benchmarking Random Forest, XGBoost, and Decision Tree classifiers on 2,200+ soil and weather data samples.',
       starImpact: 'Achieved 99.2% classification accuracy; delivered actionable feature importance rankings across Nitrogen, Phosphorus, Potassium, rainfall, and temperature.',
@@ -153,6 +165,7 @@ function App() {
       demo: 'https://github.com/rashmipandey870',
       metricPrimary: '75%',
       metricLabel: 'Turnaround Reduction',
+      architectureFlow: 'Google Forms Paper Submissions ➔ Ingestion Webhook Handler ➔ Nodemailer OTP Faculty Authentication ➔ Indexed MongoDB Query Engine ➔ Citation Metrics Dashboard',
       starProblem: 'University departments lose publication records and struggle during accreditation audits due to fragmented paper submissions.',
       starSolution: 'Built a centralized publication analytics repository with automated Google Forms intake, Nodemailer OTP verification, and indexed MongoDB querying.',
       starImpact: 'Eliminated publication submission lag by 75%; ensured zero unauthorized modifications using stateless JWT authentication.',
@@ -172,6 +185,7 @@ function App() {
       demo: 'https://github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-',
       metricPrimary: 'O(N log N)',
       metricLabel: 'Algorithmic Efficiency',
+      architectureFlow: 'Exam Deadlines & Subject Weight ➔ Java PriorityQueue Min-Heap Sorting ➔ Cognitive Fatigue Buffer Calculation ➔ Greedy Time-Block Assignment ➔ Conflict-Free Revision Schedule',
       starProblem: 'Students struggle to balance conflicting exam deadlines, subject difficulty, and cognitive burnout when creating revision timetables.',
       starSolution: 'Formulated a multi-objective greedy scheduling engine in Java utilizing PriorityQueue min-heaps to dynamically assign study blocks.',
       starImpact: 'Recalculates conflict-free timetables in O(N log N) time while automatically reserving spaced repetition buffers before major exam dates.',
@@ -190,12 +204,12 @@ function App() {
   return (
     <div className="min-h-screen bg-[#FAFAF7] text-[#334155] font-sans selection:bg-indigo-100 selection:text-indigo-800 bg-light-pattern">
       
-      {/* Subtle Background Radial Glows (Light Tints - Zero Black) */}
+      {/* Subtle Background Radial Glows (Zero Black) */}
       <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-100/50 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       {/* Sticky Minimal Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-[#E2E8F0] bg-[#FAFAF7]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-[#E2E8F0] bg-[#FAFAF7]/92 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
           <a href="#hero" className="flex items-center gap-2 font-mono text-base font-bold tracking-tight text-[#1E293B] group">
             <span className="text-[#4F46E5] group-hover:text-[#0D9488] transition-colors">&lt;</span>
@@ -226,7 +240,7 @@ function App() {
               href="#experience" 
               className={`text-sm font-medium transition-colors ${activeSection === 'experience' ? 'text-[#4F46E5] font-semibold' : 'text-[#64748B] hover:text-[#1E293B]'}`}
             >
-              Experience & Education
+              Experience
             </a>
             <a 
               href="#contact" 
@@ -236,106 +250,210 @@ function App() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <a 
+              href={resumeUrl}
+              download="Rashmi_Pandey_Resume.pdf"
+              className="inline-flex items-center justify-center rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:shadow-indigo-500/20 active:scale-95"
+            >
+              <Download className="h-3.5 w-3.5 mr-1" />
+              Resume (PDF)
+            </a>
             <button 
               onClick={() => setResumeOpen(true)}
-              className="inline-flex items-center justify-center rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all hover:shadow-indigo-500/20 active:scale-95"
+              className="hidden sm:inline-flex items-center justify-center rounded-lg border border-[#CBD5E1] bg-[#FFFFFF] hover:bg-[#F4F6FB] px-3 py-1.5 text-xs font-semibold text-[#1E293B] shadow-sm transition-all"
             >
-              <FileText className="h-3.5 w-3.5 mr-1.5" />
-              Resume (PDF)
+              <FileText className="h-3.5 w-3.5 mr-1 text-[#4F46E5]" />
+              Quick View
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 pb-24 pt-10 space-y-20">
+      <main className="mx-auto max-w-6xl px-6 pb-24 pt-8 space-y-16">
         
-        {/* 1. HERO SECTION */}
-        <section id="hero" className="py-6 md:py-12">
-          <div className="space-y-6 max-w-3xl">
+        {/* 1. HERO SECTION (WITH PROFESSIONAL HEADSHOT & METRIC PILLS) */}
+        <section id="hero" className="py-6 md:py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Status Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/80 px-4 py-1.5 text-xs font-semibold text-[#4F46E5]">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4F46E5]"></span>
-              </span>
-              SDE Candidate • Cloud Systems & Distributed Architecture
+            {/* Left Content Column */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Recruiter Ready Pill */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/90 px-4 py-1.5 text-xs font-semibold text-[#4F46E5] shadow-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4F46E5]"></span>
+                </span>
+                Targeting Software Development Engineer (SDE) & Cloud Systems Roles
+              </div>
+              
+              <h1 className="text-4xl font-extrabold tracking-tight text-[#1E293B] sm:text-5xl md:text-6xl leading-[1.12]">
+                Hi, I'm <span className="bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#0D9488] bg-clip-text text-transparent">Rashmi Pandey</span>.
+              </h1>
+              
+              <p className="text-xl sm:text-2xl text-[#1E293B] font-semibold leading-relaxed">
+                I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
+              </p>
+
+              <p className="text-base text-[#64748B] leading-relaxed">
+                Computer Science & Engineering undergraduate at <strong>Amity University (CGPA 8.00 / 10.0)</strong> with hands-on research in distributed systems at NIAMT Ranchi, Lyapunov workload optimization, and production Java backends.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-3.5 pt-1">
+                <a 
+                  href="#projects" 
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:-translate-y-0.5 active:scale-95"
+                >
+                  View Featured Projects <ChevronRight className="h-4 w-4" />
+                </a>
+                <a 
+                  href={resumeUrl}
+                  download="Rashmi_Pandey_Resume.pdf"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4F6FB] border border-[#CBD5E1] px-5 py-3 text-sm font-semibold text-[#1E293B] shadow-sm transition-all hover:-translate-y-0.5"
+                >
+                  <Download className="h-4 w-4 text-[#4F46E5]" /> Download Resume
+                </a>
+                <button 
+                  onClick={() => setResumeOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#F4F6FB] hover:bg-[#E2E8F0] border border-[#E2E8F0] px-4 py-3 text-sm font-medium text-[#475569] transition-all"
+                >
+                  <FileText className="h-4 w-4 text-[#0EA5E9]" /> ATS CV
+                </button>
+              </div>
+
+              {/* Quick Contact & Social Icons */}
+              <div className="flex flex-wrap items-center gap-5 pt-2 text-[#64748B]">
+                <a 
+                  href="https://github.com/rashmipandey870" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                >
+                  <Github className="h-4 w-4" /> GitHub (1,200+ Contributions)
+                </a>
+                <a 
+                  href="https://linkedin.com/in/rashmi-pandey-590a22340" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                >
+                  <Linkedin className="h-4 w-4" /> LinkedIn
+                </a>
+                <button 
+                  onClick={copyEmail}
+                  className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-semibold focus:outline-none"
+                >
+                  {copiedEmail ? <Check className="h-4 w-4 text-[#0D9488]" /> : <Mail className="h-4 w-4" />}
+                  <span>{copiedEmail ? 'Email Copied!' : 'rashmipd870@gmail.com'}</span>
+                </button>
+              </div>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div className="portfolio-card p-3.5">
+                  <div className="font-mono text-2xl font-bold text-[#4F46E5]">61 µs</div>
+                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">Gateway Decision Latency</div>
+                </div>
+                <div className="portfolio-card p-3.5">
+                  <div className="font-mono text-2xl font-bold text-[#0D9488]">35.8%</div>
+                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">Cloud Carbon Cut</div>
+                </div>
+                <div className="portfolio-card p-3.5">
+                  <div className="font-mono text-2xl font-bold text-[#0EA5E9]">0.0%</div>
+                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">SLA Violation Rate</div>
+                </div>
+                <div className="portfolio-card p-3.5">
+                  <div className="font-mono text-2xl font-bold text-[#F97316]">8.00 / 10</div>
+                  <div className="text-[11px] text-[#64748B] mt-1 font-medium">B.Tech CSE CGPA</div>
+                </div>
+              </div>
+
             </div>
+
+            {/* Right Headshot & Executive Badge Column */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center">
+              <div className="relative w-full max-w-[340px]">
+                
+                {/* Decorative Soft Colored Glow Behind Card */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-indigo-200 via-sky-200 to-teal-100 rounded-3xl blur-xl opacity-60 pointer-events-none" />
+
+                {/* Profile Container Card */}
+                <div className="relative portfolio-card p-4 sm:p-5 bg-white border border-[#CBD5E1] shadow-xl text-center space-y-4">
+                  
+                  {/* Photo Frame */}
+                  <div className="relative mx-auto w-48 h-56 sm:w-56 sm:h-64 rounded-2xl overflow-hidden border-2 border-indigo-100 shadow-md bg-[#F4F6FB]">
+                    <img 
+                      src={photoUrl} 
+                      alt="Rashmi Pandey — Software Development Engineer Candidate" 
+                      className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        // Fallback in case of missing asset
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    
+                    {/* Verified Candidate Overlay Tag */}
+                    <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-white/95 backdrop-blur-sm border border-slate-200 px-2 py-1 text-[11px] font-bold text-[#1E293B] shadow-sm flex items-center justify-center gap-1.5">
+                      <ShieldCheck className="h-3.5 w-3.5 text-[#0D9488]" />
+                      <span>Verified SDE Candidate</span>
+                    </div>
+                  </div>
+
+                  {/* Profile Header Details */}
+                  <div className="space-y-1">
+                    <h2 className="text-xl font-bold text-[#1E293B]">Rashmi Pandey</h2>
+                    <p className="text-xs font-semibold text-[#4F46E5]">B.Tech CSE • Amity University Jharkhand</p>
+                    <p className="text-[11px] text-[#64748B]">Bokaro Steel City / Ranchi, India</p>
+                  </div>
+
+                  {/* Floating Badges inside card */}
+                  <div className="grid grid-cols-2 gap-2 text-left pt-1 border-t border-[#E2E8F0]">
+                    <div className="p-2 rounded-lg bg-[#F4F6FB] border border-[#E2E8F0]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#4F46E5] block">Certification</span>
+                      <span className="text-[11px] font-bold text-[#1E293B] line-clamp-1">Azure Database Admin</span>
+                    </div>
+                    <div className="p-2 rounded-lg bg-[#F4F6FB] border border-[#E2E8F0]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D9488] block">Research</span>
+                      <span className="text-[11px] font-bold text-[#1E293B] line-clamp-1">NIAMT Cloud Testbed</span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* RECRUITER 30-SECOND SNAPSHOT BANNER */}
+        <section id="recruiter-summary" className="portfolio-card p-5 sm:p-6 bg-gradient-to-r from-indigo-50/60 via-white to-sky-50/60 border border-indigo-200/80">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-slate-200">
             
-            <h1 className="text-4xl font-extrabold tracking-tight text-[#1E293B] sm:text-5xl md:text-6xl leading-[1.15]">
-              Hi, I'm <span className="bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#0D9488] bg-clip-text text-transparent">Rashmi Pandey</span>.
-            </h1>
-            
-            <p className="text-xl sm:text-2xl text-[#1E293B] font-medium leading-relaxed">
-              I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
-            </p>
-
-            <p className="text-base text-[#64748B] leading-relaxed">
-              Computer Science undergraduate at Amity University (CGPA 8.00/10) with hands-on research in distributed systems, Lyapunov workload optimization, and production Java backends.
-            </p>
-
-            {/* CTAs & Social Links */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a 
-                href="#projects" 
-                className="inline-flex items-center gap-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all hover:-translate-y-0.5"
-              >
-                View Projects <ChevronRight className="h-4 w-4" />
-              </a>
-              <button 
-                onClick={() => setResumeOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4F6FB] border border-[#CBD5E1] px-6 py-3 text-sm font-semibold text-[#1E293B] shadow-sm transition-all hover:-translate-y-0.5"
-              >
-                <FileText className="h-4 w-4 text-[#4F46E5]" /> Download Resume
-              </button>
+            <div className="space-y-1 md:pr-4">
+              <span className="text-[10px] font-mono font-bold text-[#4F46E5] uppercase tracking-wider block">Target Role</span>
+              <p className="text-sm font-bold text-[#1E293B]">SDE &amp; Cloud Systems Engineer</p>
+              <p className="text-xs text-[#64748B]">Internship &amp; Full-Time (Immediate / 2026-28)</p>
             </div>
 
-            {/* Quick Contact & Social Icons */}
-            <div className="flex flex-wrap items-center gap-5 pt-3 text-[#64748B]">
-              <a 
-                href="https://github.com/rashmipandey870" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-medium"
-              >
-                <Github className="h-4 w-4" /> GitHub
-              </a>
-              <a 
-                href="https://linkedin.com/in/rashmi-pandey-590a22340" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-medium"
-              >
-                <Linkedin className="h-4 w-4" /> LinkedIn
-              </a>
-              <button 
-                onClick={copyEmail}
-                className="hover:text-[#4F46E5] transition-colors flex items-center gap-1.5 text-xs font-medium focus:outline-none"
-              >
-                {copiedEmail ? <Check className="h-4 w-4 text-[#0D9488]" /> : <Mail className="h-4 w-4" />}
-                <span>{copiedEmail ? 'Copied to Clipboard!' : 'rashmipd870@gmail.com'}</span>
-              </button>
+            <div className="space-y-1 pt-3 md:pt-0 md:px-4">
+              <span className="text-[10px] font-mono font-bold text-[#0D9488] uppercase tracking-wider block">Primary Competencies</span>
+              <p className="text-sm font-bold text-[#1E293B]">Java 17, AWS, Distributed Systems</p>
+              <p className="text-xs text-[#64748B]">Jakarta EE, Tomcat 11, MySQL ACID, Node.js</p>
             </div>
 
-            {/* Key Metrics Banner */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
-              <div className="portfolio-card p-4">
-                <div className="font-mono text-2xl font-bold text-[#4F46E5]">61 µs</div>
-                <div className="text-xs text-[#64748B] mt-1 font-medium">Gateway Decision Latency</div>
-              </div>
-              <div className="portfolio-card p-4">
-                <div className="font-mono text-2xl font-bold text-[#0D9488]">35.8%</div>
-                <div className="text-xs text-[#64748B] mt-1 font-medium">Cloud Carbon Cut</div>
-              </div>
-              <div className="portfolio-card p-4">
-                <div className="font-mono text-2xl font-bold text-[#0EA5E9]">0.0%</div>
-                <div className="text-xs text-[#64748B] mt-1 font-medium">SLA Violation Rate</div>
-              </div>
-              <div className="portfolio-card p-4">
-                <div className="font-mono text-2xl font-bold text-[#F97316]">8.00 / 10</div>
-                <div className="text-xs text-[#64748B] mt-1 font-medium">B.Tech CSE CGPA</div>
-              </div>
+            <div className="space-y-1 pt-3 md:pt-0 md:px-4">
+              <span className="text-[10px] font-mono font-bold text-[#0EA5E9] uppercase tracking-wider block">Verified Credentials</span>
+              <p className="text-sm font-bold text-[#1E293B]">Microsoft Azure DBA Associate</p>
+              <p className="text-xs text-[#64748B]">NPTEL (IIT Madras) 87% Elite, Infosys Springboard</p>
+            </div>
+
+            <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
+              <span className="text-[10px] font-mono font-bold text-[#F97316] uppercase tracking-wider block">Location &amp; Work Auth</span>
+              <p className="text-sm font-bold text-[#1E293B]">India (Open to Relocation / Remote)</p>
+              <p className="text-xs text-[#64748B]">Indian Citizen • rashmipd870@gmail.com</p>
             </div>
 
           </div>
@@ -354,7 +472,7 @@ function App() {
               </h2>
               <div className="space-y-3 text-base text-[#334155] leading-relaxed">
                 <p>
-                  I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a 0.0% SLA breach rate.
+                  I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi under Dr. Rahul Mishra, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a verified 0.0% SLA breach rate.
                 </p>
                 <p>
                   My engineering philosophy focuses on building from fundamental principles: I write clean, raw Jakarta Servlets on Apache Tomcat 11 with ACID relational databases rather than relying on heavy abstractions, and design combinatorial graph algorithms to eliminate scheduling bottlenecks.
@@ -365,7 +483,7 @@ function App() {
               </div>
             </div>
 
-            <div className="md:col-span-4 portfolio-card p-6 space-y-4 bg-[#F4F6FB]/60">
+            <div className="md:col-span-4 portfolio-card p-6 space-y-4 bg-[#F4F6FB]/70">
               <h3 className="text-xs font-bold text-[#1E293B] uppercase tracking-wider font-mono">
                 Amazon Leadership Principles
               </h3>
@@ -497,7 +615,7 @@ function App() {
           </div>
         </section>
 
-        {/* 4. PROJECTS SECTION */}
+        {/* 4. PROJECTS SECTION (WITH ARCHITECTURE BLUEPRINTS) */}
         <section id="projects" className="space-y-6 pt-4 border-t border-[#E2E8F0]">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -508,7 +626,7 @@ function App() {
                 Featured Projects
               </h2>
               <p className="text-sm text-[#64748B] mt-0.5">
-                Every project built in STAR format with verified engineering metrics.
+                Every project built in STAR format with verified engineering metrics and architecture pipelines.
               </p>
             </div>
 
@@ -561,6 +679,19 @@ function App() {
                     </span>
                   </div>
                 </div>
+
+                {/* Architecture Pipeline Flow Banner */}
+                {p.architectureFlow && (
+                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+                    <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#4F46E5] uppercase tracking-wider">
+                      <Network className="h-3.5 w-3.5" />
+                      <span>Architecture & Data Flow Blueprint</span>
+                    </div>
+                    <div className="font-mono text-[11px] text-[#334155] leading-relaxed overflow-x-auto py-1">
+                      {p.architectureFlow}
+                    </div>
+                  </div>
+                )}
 
                 {/* STAR Breakdown */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
@@ -843,12 +974,13 @@ function App() {
               <span>•</span>
               <span>📞 +91 87093 68696</span>
               <span>•</span>
-              <button 
-                onClick={() => setResumeOpen(true)}
+              <a 
+                href={resumeUrl}
+                download="Rashmi_Pandey_Resume.pdf"
                 className="font-semibold text-[#4F46E5] hover:underline"
               >
-                View ATS Resume (PDF)
-              </button>
+                Download ATS Resume (PDF)
+              </a>
             </div>
           </div>
         </section>

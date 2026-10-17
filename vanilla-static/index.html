@@ -15,7 +15,7 @@
   <meta property="og:title" content="Rashmi Pandey | Software Development Engineer & Cloud Systems" />
   <meta property="og:description" content="I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends." />
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Inter & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -74,7 +74,10 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="#contact" class="btn btn-primary btn-sm">Resume (PDF)</a>
+        <a href="Rashmi_Pandey_Resume.pdf" download="Rashmi_Pandey_Resume.pdf" class="btn btn-primary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Resume (PDF)
+        </a>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
@@ -84,72 +87,132 @@
 
   <main class="main-wrapper">
     
-    <!-- 1. HERO SECTION -->
+    <!-- 1. HERO SECTION WITH PROFESSIONAL PHOTO -->
     <section id="hero" class="hero-section">
-      <div class="hero-content">
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          <span>SDE Candidate • Cloud Systems & Distributed Architecture</span>
+      <div class="hero-layout">
+        
+        <!-- Left Hero Details -->
+        <div class="hero-content">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span>Targeting Software Development Engineer (SDE) Roles</span>
+          </div>
+
+          <h1 class="hero-headline">
+            Hi, I'm <span class="gradient-text">Rashmi Pandey</span>.
+          </h1>
+
+          <p class="hero-value-prop">
+            I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
+          </p>
+
+          <p class="hero-subtext">
+            Computer Science undergraduate at Amity University (CGPA 8.00/10) with hands-on research in distributed systems at NIAMT Ranchi, Lyapunov workload optimization, and production Java backends.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary">
+              View Projects
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="Rashmi_Pandey_Resume.pdf" download="Rashmi_Pandey_Resume.pdf" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download Resume
+            </a>
+          </div>
+
+          <div class="hero-social-links">
+            <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              GitHub (1,200+ Contributions)
+            </a>
+            <a href="https://linkedin.com/in/rashmi-pandey-590a22340" target="_blank" rel="noreferrer" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              LinkedIn
+            </a>
+            <button class="social-link btn-copy" id="copyEmailBtn" aria-label="Copy email address">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span id="copyEmailText">rashmipd870@gmail.com</span>
+            </button>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value color-indigo">61 µs</div>
+              <div class="metric-label">Gateway Decision Latency</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value color-teal">35.8%</div>
+              <div class="metric-label">Cloud Carbon Cut</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value color-sky">0.0%</div>
+              <div class="metric-label">SLA Breach Rate</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value color-coral">8.00 / 10</div>
+              <div class="metric-label">B.Tech CSE CGPA</div>
+            </div>
+          </div>
         </div>
 
-        <h1 class="hero-headline">
-          Hi, I'm <span class="gradient-text">Rashmi Pandey</span>.
-        </h1>
+        <!-- Right Hero Headshot Card -->
+        <div class="hero-photo-wrapper">
+          <div class="photo-card">
+            <div class="photo-frame">
+              <img src="rashmi-photo.jpg" alt="Rashmi Pandey — SDE & Cloud Systems Candidate" class="profile-image" />
+              <div class="photo-verified-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <span>Verified SDE Candidate</span>
+              </div>
+            </div>
 
-        <p class="hero-value-prop">
-          I build resilient, low-latency cloud systems on AWS with sub-100µs decision latency and Jakarta EE enterprise backends.
-        </p>
+            <div class="photo-caption">
+              <h2 class="photo-name">Rashmi Pandey</h2>
+              <p class="photo-title">B.Tech CSE • Amity University</p>
+              <p class="photo-location">Bokaro Steel City / Ranchi, India</p>
+            </div>
 
-        <p class="hero-subtext">
-          Computer Science undergraduate at Amity University (CGPA 8.00/10) with hands-on research in distributed systems, Lyapunov workload optimization, and production Java backends.
-        </p>
-
-        <div class="hero-cta-group">
-          <a href="#projects" class="btn btn-primary">
-            View Projects
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </a>
-          <a href="#contact" class="btn btn-secondary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            Download Resume
-          </a>
-        </div>
-
-        <div class="hero-social-links">
-          <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            GitHub
-          </a>
-          <a href="https://linkedin.com/in/rashmi-pandey-590a22340" target="_blank" rel="noreferrer" class="social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-            LinkedIn
-          </a>
-          <button class="social-link btn-copy" id="copyEmailBtn" aria-label="Copy email address">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            <span id="copyEmailText">rashmipd870@gmail.com</span>
-          </button>
-        </div>
-
-        <!-- Metrics Grid -->
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-value color-indigo">61 µs</div>
-            <div class="metric-label">Gateway Decision Latency</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value color-teal">35.8%</div>
-            <div class="metric-label">Cloud Carbon Cut</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value color-sky">0.0%</div>
-            <div class="metric-label">SLA Breach Rate</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value color-coral">8.00 / 10</div>
-            <div class="metric-label">B.Tech CSE CGPA</div>
+            <div class="photo-badges">
+              <div class="photo-badge-item">
+                <span class="badge-label color-indigo">Certification</span>
+                <span class="badge-text">Azure Database Admin</span>
+              </div>
+              <div class="photo-badge-item">
+                <span class="badge-label color-teal">Research</span>
+                <span class="badge-text">NIAMT Cloud Testbed</span>
+              </div>
+            </div>
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- RECRUITER 30-SECOND SNAPSHOT STRIP -->
+    <section class="card recruiter-summary-card">
+      <div class="summary-columns">
+        <div class="summary-col">
+          <span class="summary-kicker color-indigo">Target Role</span>
+          <p class="summary-primary">SDE &amp; Cloud Systems Engineer</p>
+          <p class="summary-secondary">Internship &amp; Full-Time (Immediate / 2026-28)</p>
+        </div>
+        <div class="summary-col">
+          <span class="summary-kicker color-teal">Core Tech Stack</span>
+          <p class="summary-primary">Java 17, AWS, Distributed Systems</p>
+          <p class="summary-secondary">Jakarta EE, Tomcat 11, MySQL ACID, Node.js</p>
+        </div>
+        <div class="summary-col">
+          <span class="summary-kicker color-sky">Verified Credentials</span>
+          <p class="summary-primary">Microsoft Azure DBA Associate</p>
+          <p class="summary-secondary">NPTEL (IIT Madras) 87% Elite, Infosys Springboard</p>
+        </div>
+        <div class="summary-col">
+          <span class="summary-kicker color-coral">Location &amp; Work Auth</span>
+          <p class="summary-primary">India (Open to Relocation / Remote)</p>
+          <p class="summary-secondary">Indian Citizen • rashmipd870@gmail.com</p>
+        </div>
       </div>
     </section>
 
@@ -165,7 +228,7 @@
           <h2 class="section-title">Engineered for High-Scale, Low-Latency Problem Solving</h2>
           <div class="narrative-body">
             <p>
-              I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a verified 0.0% SLA breach rate.
+              I am a Computer Science undergraduate focused on distributed systems, cloud computing, and backend performance engineering. During my Summer Research Internship at NIAMT Ranchi under Dr. Rahul Mishra, I engineered <strong>DVQ</strong>, an intelligent multi-region cloud router that achieved <strong>61 µs decision latency</strong> and slashed carbon emissions by <strong>35.8%</strong> across 7 live AWS regions with a verified 0.0% SLA breach rate.
             </p>
             <p>
               My engineering philosophy focuses on building from fundamental principles: I write clean, raw Jakarta Servlets on Apache Tomcat 11 with ACID relational databases rather than relying on heavy abstractions, and design combinatorial graph algorithms to eliminate scheduling bottlenecks.
@@ -206,10 +269,7 @@
       <div class="skills-grid">
         <!-- Languages -->
         <div class="card skill-card">
-          <h3 class="skill-category color-indigo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-            Languages
-          </h3>
+          <h3 class="skill-category color-indigo">Languages</h3>
           <div class="pill-group">
             <span class="pill pill-indigo">Java 17</span>
             <span class="pill pill-indigo">Python 3</span>
@@ -222,10 +282,7 @@
 
         <!-- Cloud & Systems -->
         <div class="card skill-card">
-          <h3 class="skill-category color-sky">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
-            Cloud &amp; Infrastructure
-          </h3>
+          <h3 class="skill-category color-sky">Cloud &amp; Infrastructure</h3>
           <div class="pill-group">
             <span class="pill pill-sky">AWS (EC2, CloudWatch, S3, IAM)</span>
             <span class="pill pill-sky">Multi-Region Architecture</span>
@@ -238,10 +295,7 @@
 
         <!-- Backend & Distributed Systems -->
         <div class="card skill-card">
-          <h3 class="skill-category color-teal">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-            Backend &amp; Systems
-          </h3>
+          <h3 class="skill-category color-teal">Backend &amp; Systems</h3>
           <div class="pill-group">
             <span class="pill pill-teal">Jakarta Servlets 6.0</span>
             <span class="pill pill-teal">Apache Tomcat 11</span>
@@ -254,10 +308,7 @@
 
         <!-- Databases & Storage -->
         <div class="card skill-card">
-          <h3 class="skill-category color-coral">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-            Databases &amp; Storage
-          </h3>
+          <h3 class="skill-category color-coral">Databases &amp; Storage</h3>
           <div class="pill-group">
             <span class="pill pill-coral">Azure SQL</span>
             <span class="pill pill-coral">MySQL (ACID, Migrations)</span>
@@ -269,10 +320,7 @@
 
         <!-- Data Science & Machine Learning -->
         <div class="card skill-card">
-          <h3 class="skill-category color-indigo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            Data Science &amp; ML
-          </h3>
+          <h3 class="skill-category color-indigo">Data Science &amp; ML</h3>
           <div class="pill-group">
             <span class="pill pill-indigo">Scikit-learn</span>
             <span class="pill pill-indigo">XGBoost</span>
@@ -285,10 +333,7 @@
 
         <!-- Tools & Practices -->
         <div class="card skill-card">
-          <h3 class="skill-category color-teal">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            Tools &amp; Practices
-          </h3>
+          <h3 class="skill-category color-teal">Tools &amp; Practices</h3>
           <div class="pill-group">
             <span class="pill pill-teal">Git &amp; GitHub</span>
             <span class="pill pill-teal">Docker Basics</span>
@@ -302,7 +347,7 @@
       </div>
     </section>
 
-    <!-- 4. PROJECTS SECTION -->
+    <!-- 4. PROJECTS SECTION WITH ARCHITECTURE PIPELINES -->
     <section id="projects" class="content-section">
       <div class="section-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
@@ -310,7 +355,7 @@
       </div>
 
       <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">Engineered using the STAR format with verifiable, benchmarked production metrics.</p>
+      <p class="section-subtitle">Engineered using the STAR format with verifiable production metrics and architecture pipelines.</p>
 
       <div class="projects-list">
         
@@ -325,6 +370,16 @@
               <span class="metric-pill-val">61 µs</span>
               <span class="metric-pill-lbl">Decision Latency</span>
             </div>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Architecture &amp; Request Flow Blueprint</span>
+            </div>
+            <p class="arch-pipeline">
+              Ingress Traffic ➔ PM2 Decision Gateway (61 µs) ➔ Lyapunov Drift-Plus-Penalty Engine ➔ Live Carbon &amp; RTT Telemetry (7 AWS Regions) ➔ Optimal Workload Dispatch (0% SLA Breach)
+            </p>
           </div>
 
           <div class="star-grid">
@@ -361,10 +416,7 @@
               <span class="pill pill-sky">Electricity Maps API</span>
             </div>
             <div class="project-actions">
-              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                Repository
-              </a>
+              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">Repository</a>
             </div>
           </div>
         </article>
@@ -380,6 +432,16 @@
               <span class="metric-pill-val">61 Commits</span>
               <span class="metric-pill-lbl">Zero Framework Bloat</span>
             </div>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Architecture &amp; Request Flow Blueprint</span>
+            </div>
+            <p class="arch-pipeline">
+              Exam Paper Upload (PDF) ➔ Apache PDFBox Streaming Text Extraction ➔ Jakarta Servlet 6.0 Controller ➔ Data Access Object (DAO) Layer ➔ ACID-Compliant MySQL Relational Storage
+            </p>
           </div>
 
           <div class="star-grid">
@@ -416,10 +478,7 @@
               <span class="pill pill-sky">BCrypt</span>
             </div>
             <div class="project-actions">
-              <a href="https://github.com/rashmipandey870/EXAMORA" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                Repository
-              </a>
+              <a href="https://github.com/rashmipandey870/EXAMORA" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">Repository</a>
             </div>
           </div>
         </article>
@@ -435,6 +494,16 @@
               <span class="metric-pill-val">80% Less</span>
               <span class="metric-pill-lbl">Admin Overhead</span>
             </div>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Architecture &amp; Request Flow Blueprint</span>
+            </div>
+            <p class="arch-pipeline">
+              Android Mobile Client ➔ Retrofit 2 OkHttp Interceptor ➔ Node.js REST API &amp; JWT Auth ➔ Combinatorial Bracket Generator ➔ MongoDB Atlas Document Store
+            </p>
           </div>
 
           <div class="star-grid">
@@ -470,13 +539,8 @@
               <span class="pill pill-sky">Retrofit 2</span>
             </div>
             <div class="project-actions">
-              <a href="https://github.com/rashmipandey870/Sangathan-sports-management-Android-application-" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                Mobile Repo
-              </a>
-              <a href="https://github.com/rashmipandey870/Sangathan-Backend" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">
-                Backend Repo
-              </a>
+              <a href="https://github.com/rashmipandey870/Sangathan-sports-management-Android-application-" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">Mobile Repo</a>
+              <a href="https://github.com/rashmipandey870/Sangathan-Backend" target="_blank" rel="noreferrer" class="btn btn-primary btn-sm">Backend Repo</a>
             </div>
           </div>
         </article>
@@ -492,6 +556,16 @@
               <span class="metric-pill-val">99.2%</span>
               <span class="metric-pill-lbl">Model Accuracy</span>
             </div>
+          </div>
+
+          <div class="arch-box">
+            <div class="arch-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>Architecture &amp; Request Flow Blueprint</span>
+            </div>
+            <p class="arch-pipeline">
+              Soil NPK &amp; Climate Inputs (2,200+ records) ➔ Data Preprocessing &amp; Scaling ➔ Random Forest / XGBoost Ensemble Training ➔ Feature Importance Ranking ➔ High-Yield Crop Prediction
+            </p>
           </div>
 
           <div class="star-grid">
@@ -528,10 +602,7 @@
               <span class="pill pill-sky">NumPy</span>
             </div>
             <div class="project-actions">
-              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                Repository
-              </a>
+              <a href="https://github.com/rashmipandey870" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm">Repository</a>
             </div>
           </div>
         </article>
@@ -674,6 +745,8 @@
           <span>📍 Bokaro / Ranchi, Jharkhand, India</span>
           <span>•</span>
           <span>📞 +91 87093 68696</span>
+          <span>•</span>
+          <a href="Rashmi_Pandey_Resume.pdf" download="Rashmi_Pandey_Resume.pdf" class="color-indigo" style="font-weight: 600;">Download ATS Resume (PDF)</a>
         </div>
       </div>
     </section>
