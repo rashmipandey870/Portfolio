@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rashmi Pandey - Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.4in 0.45in 0.4in 0.45in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.35;
+      color: #1e293b;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: #0369a1;
+      text-decoration: none;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+    }
+    .name {
+      font-size: 20pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .title {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #4338ca;
+      margin-bottom: 4px;
+    }
+    .contact {
+      font-size: 8.5pt;
+      color: #475569;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .contact span {
+      display: inline-block;
+    }
+    .section {
+      margin-bottom: 7px;
+    }
+    .section-title {
+      font-size: 9.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-bottom: 1.5px solid #0f172a;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+    .item-title {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 9.5pt;
+    }
+    .item-subtitle {
+      font-weight: 600;
+      color: #4338ca;
+      font-size: 9pt;
+    }
+    .item-date {
+      font-size: 8.5pt;
+      font-family: monospace;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 9pt;
+    }
+    .skills-row {
+      display: flex;
+    }
+    .skills-category {
+      font-weight: 700;
+      color: #0f172a;
+      width: 145px;
+      flex-shrink: 0;
+    }
+    .skills-list {
+      color: #334155;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 14px;
+      margin-top: 1px;
+      margin-bottom: 3px;
+    }
+    li {
+      color: #334155;
+      font-size: 9pt;
+      margin-bottom: 1.5px;
+      line-height: 1.32;
+    }
+    li strong {
+      color: #0f172a;
+    }
+    .cert-item {
+      font-size: 8.8pt;
+      color: #334155;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .cert-item strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="name">Rashmi Pandey</div>
+    <div class="title">Software Development Engineer (SDE) Candidate &bull; Core Java, AWS &amp; Distributed Systems Focus</div>
+    <div class="contact">
+      <span><strong>Email:</strong> <a href="mailto:rashmipd870@gmail.com">rashmipd870@gmail.com</a></span>
+      <span>&bull;</span>
+      <span><strong>Phone:</strong> +91 87093 68696</span>
+      <span>&bull;</span>
+      <span><strong>Location:</strong> Bokaro / Ranchi, India</span>
+      <span>&bull;</span>
+      <span><strong>Portfolio:</strong> <a href="https://rashmipandey870.github.io/Portfolio/">rashmipandey870.github.io</a></span>
+      <span>&bull;</span>
+      <span><strong>GitHub:</strong> <a href="https://github.com/rashmipandey870">github.com/rashmipandey870</a></span>
+      <span>&bull;</span>
+      <span><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/rashmi-pandey-590a22340">linkedin.com/in/rashmi-pandey-590a22340</a></span>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="item-header">
+      <div>
+        <span class="item-title">Amity University Jharkhand</span> &mdash; <span class="item-subtitle">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</span>
+      </div>
+      <div class="item-date">2024 &ndash; 2028</div>
+    </div>
+    <div style="font-size: 8.8pt; color: #475569; margin-top: 1px;">
+      <strong>CGPA: 8.00 / 10.0</strong> &bull; Senior Secondary (Class XII): 88.2% &bull; Secondary (Class X): 85.0%
+    </div>
+  </div>
+
+  <!-- TECHNICAL SKILLS -->
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skills-row">
+        <div class="skills-category">Languages:</div>
+        <div class="skills-list">Java (Core Java, Multithreading, OOP, Java 17), SQL (MySQL, T-SQL), Python 3, JavaScript (ES6+), C/C++</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-category">Backend &amp; Architecture:</div>
+        <div class="skills-list">Jakarta EE (Servlets 6.0, DAO Pattern, JDBC), RESTful APIs, Node.js, Express, Tomcat 11, Concurrency</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-category">Databases &amp; Systems:</div>
+        <div class="skills-list">MySQL (InnoDB, B-Tree Indexing, ACID Transactions), Azure SQL, MongoDB Atlas, Redis (Caching)</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-category">Cloud &amp; DevOps:</div>
+        <div class="skills-list">AWS (EC2, CloudWatch, S3, IAM, Lambda), Microsoft Azure, Docker, Linux/Unix Shell, Git, Maven, PM2</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-category">Core Competencies:</div>
+        <div class="skills-list">Data Structures &amp; Algorithms, Distributed Systems, Database Internals, Latency Optimization, Object-Oriented Design</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESEARCH & EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Research &amp; Engineering Experience</div>
+    <div class="item-header">
+      <div>
+        <span class="item-title">National Institute of Advanced Manufacturing Technology (NIAMT), Ranchi</span>
+      </div>
+      <div class="item-date">Jun 2026 &ndash; Jul 2026</div>
+    </div>
+    <div class="item-subtitle" style="margin-bottom: 2px;">Summer Research Intern &mdash; Distributed Systems &amp; Cloud Infrastructure (Guided by Dr. Rahul Mishra)</div>
+    <ul>
+      <li>Architected <strong>DVQ</strong>, an intelligent carbon-aware workload router evaluated across 7 AWS regional grid topologies, formulating request placement under Lyapunov optimization to balance strict latency SLAs against carbon intensity.</li>
+      <li>Achieved carbon footprint reductions of <strong>35.87% (Interactive)</strong>, <strong>30.28% (Realtime)</strong>, and <strong>16.58% (Batch)</strong> versus Least-Connections baseline, with a verified <strong>0.0% SLA violation rate</strong> across all evaluation trials.</li>
+      <li>Maintained a median routing decision overhead of <strong>sub-100&micro;s</strong> under Linux PM2 supervision; evaluated system resilience under synthetic chaos tests with simulated regional AWS grid outages and traffic surges.</li>
+    </ul>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Key Engineering Projects</div>
+
+    <!-- EXAMORA -->
+    <div style="margin-bottom: 4px;">
+      <div class="item-header">
+        <div>
+          <span class="item-title">EXAMORA &mdash; Enterprise Academic Testing &amp; Evaluation Platform</span>
+          <span style="font-size: 8.5pt; color: #4338ca; font-weight: 600;">(Java 17, Jakarta EE, Tomcat 11, MySQL)</span>
+        </div>
+        <div class="item-date"><a href="https://github.com/rashmipandey870/EXAMORA">github.com/rashmipandey870/EXAMORA</a></div>
+      </div>
+      <ul>
+        <li>Constructed a high-throughput examination portal utilizing native <strong>Jakarta Servlets 6.0</strong> with the <strong>Data Access Object (DAO)</strong> pattern over raw JDBC connection pooling, eliminating framework runtime overhead.</li>
+        <li>Engineered an <strong>ACID-compliant relational MySQL schema</strong> across 10+ staged migrations; implemented composite B-Tree indexes on (exam_id, student_id) and row-level locks to guarantee data integrity during concurrent exam submissions.</li>
+        <li>Implemented BCrypt cryptographic password hashing (salt rounds = 12) for secure authentication; built an ingestion pipeline with Apache PDFBox to parse and index multi-page question bank documents.</li>
+      </ul>
+    </div>
+
+    <!-- Sangathan -->
+    <div style="margin-bottom: 4px;">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Sangathan &mdash; Algorithmic Tournament Scheduling Platform</span>
+          <span style="font-size: 8.5pt; color: #4338ca; font-weight: 600;">(Android Java, Node.js, Express, MongoDB)</span>
+        </div>
+        <div class="item-date"><a href="https://github.com/rashmipandey870/Sangathan">github.com/rashmipandey870/Sangathan</a></div>
+      </div>
+      <ul>
+        <li>Developed an automated tournament management system generating collision-free cyclic round-robin (Berger Algorithm) and knockout bracket graphs for 100+ athletes across 6 simultaneous sports.</li>
+        <li>Built 10+ RESTful backend endpoints in Node.js/Express with indexed MongoDB queries, delivering sub-150ms response times and robust state synchronization via Android Retrofit 2.</li>
+      </ul>
+    </div>
+
+    <!-- PriorityQueue Scheduler -->
+    <div>
+      <div class="item-header">
+        <div>
+          <span class="item-title">PriorityQueue Min-Heap Algorithmic Scheduler &amp; Systems Lab</span>
+          <span style="font-size: 8.5pt; color: #4338ca; font-weight: 600;">(Java, Data Structures &amp; Algorithms)</span>
+        </div>
+        <div class="item-date"><a href="https://rashmipandey870.github.io/Portfolio/">rashmipandey870.github.io</a></div>
+      </div>
+      <ul>
+        <li>Implemented an O(N log N) min-heap scheduling engine that dynamically recalculates priority order balancing task urgency deadlines and cognitive fatigue decay models with sub-millisecond overhead.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS & HONORS -->
+  <div class="section">
+    <div class="section-title">Certifications &amp; Algorithmic Achievements</div>
+    <div class="cert-item">
+      &bull; <strong>Microsoft Certified: Azure Database Administrator Associate</strong> (Credential ID: <strong>647C0C2C5B35FA32</strong>) &mdash; Demonstrated mastery in relational query execution plans, B-Tree index optimization, transaction locking, and high availability.
+    </div>
+    <div class="cert-item">
+      &bull; <strong>NPTEL Elite + Silver (Top 2% Topper): Python for Data Science</strong> &mdash; <strong>IIT Madras</strong> (Score: <strong>84%</strong>).
+    </div>
+    <div class="cert-item">
+      &bull; <strong>NPTEL Elite + Silver: The Joy of Computing using Python</strong> &mdash; <strong>IIT Ropar</strong> (Score: <strong>87%</strong>).
+    </div>
+    <div class="cert-item">
+      &bull; <strong>100 Days of Code (Data Structures &amp; Algorithms):</strong> Solved <strong>175+ curated algorithmic problems</strong> on LeetCode &amp; GitHub covering Trees, Graphs (Dijkstra, BFS/DFS), Dynamic Programming, and Heaps. Active GitHub history with <strong>1,200+ commits</strong>.
+    </div>
+  </div>
+
+</body>
+</html>
