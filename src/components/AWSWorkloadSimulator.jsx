@@ -357,7 +357,7 @@ export default function AWSWorkloadSimulator() {
           <div className="rounded-xl border border-white/10 bg-gradient-to-r from-dark-900 to-dark-950 p-4 flex items-start gap-3">
             <CheckCircle2 className="h-5 w-5 text-eco-400 shrink-0 mt-0.5" />
             <div className="text-xs text-slate-300 leading-relaxed">
-              <strong className="text-white font-semibold">Amazon SDE Evaluation Note:</strong> Under DVQ, the Lyapunov drift-plus-penalty framework guarantees asymptotic convergence to minimal carbon intensity while mathematically bounding the queue backlog ($\mathcal{O}(V)$ trade-off), guaranteeing <span className="text-eco-400 font-bold">0.0% SLA violations</span> even when us-east-1 experiences regional surges.
+              <strong className="text-white font-semibold">Amazon SDE Evaluation Note:</strong> Under DVQ, the Lyapunov drift-plus-penalty framework guarantees asymptotic convergence to minimal carbon intensity while mathematically bounding the queue backlog (O(V) trade-off), guaranteeing <span className="text-eco-400 font-bold">0.0% SLA violations</span> even when us-east-1 experiences regional surges.
             </div>
           </div>
 
