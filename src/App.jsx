@@ -26,7 +26,8 @@ import {
   Sparkles,
   Flame,
   Globe2,
-  FileText
+  FileText,
+  Activity
 } from 'lucide-react';
 import AttendanceDashboard from './components/AttendanceDashboard';
 import DeveloperTerminal from './components/DeveloperTerminal';
