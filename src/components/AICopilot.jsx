@@ -9,9 +9,9 @@ const presetQueries = [
     reply: 'Rashmi is an exceptional fit for Amazon SDE roles because of: 1) Proven Cloud & Distributed Systems acumen (engineered Lyapunov-optimized workload routing across 7 AWS regions with 61µs decision latency); 2) Deep Java & Object-Oriented Engineering (built production-grade Jakarta Servlets 6.0 enterprise apps on Tomcat with ACID relational schemas); 3) High Ownership & Bias for Action (shipped 5+ full-stack systems, 8.00 CGPA, and completed an intensive NIAMT research internship).' 
   },
   { 
-    title: 'DVQ Cloud Architecture', 
-    text: 'Explain the DVQ distributed routing system and its algorithms.', 
-    reply: 'DVQ is a carbon-aware edge routing framework engineered for AWS cloud deployments. Formulated as a Lyapunov drift-plus-penalty optimization problem, it dynamically routes workloads across a 7-region AWS deployment (us-east-1, eu-west-1, ap-south-1, etc.). It achieved 35.87% carbon reduction while strictly maintaining a 0.0% SLA violation rate under simulated traffic spikes and regional grid failures, with a median decision overhead of just 61 µs.' 
+    title: 'Cloud Research & DVQ', 
+    text: 'What is Rashmi\'s cloud research on DVQ?', 
+    reply: 'DVQ is a cloud workload routing optimization system evaluated across AWS infrastructure during Rashmi\'s research internship at NIAMT Ranchi under Dr. Rahul Mishra. The core research achieved sub-100µs decision latency with a verified 0.0% SLA breach guarantee. Note: The proprietary formulation and source code are confidential and currently under academic peer review; high-level systems architecture and benchmark takeaways can be discussed in technical interviews.' 
   },
   { 
     title: 'Java & Systems Skills', 

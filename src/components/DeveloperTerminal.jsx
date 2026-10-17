@@ -32,15 +32,18 @@ function DeveloperTerminal() {
         case 'help':
           newHistory.push({
             type: 'output',
-            content: `Available Commands:
+            content: `Available Developer Commands:
   amazon          - SDE Candidate Evaluation Profile for Amazon Recruiters
   lp              - Alignment with Amazon Leadership Principles
-  projects        - Overview of production & research architectures
-  metrics         - Production metrics (latency, SLA adherence, carbon delta)
+  projects        - Overview of 4 verified engineering systems & confidential research
+  dsa             - Algorithmic architectures (Min-Heap, Graph Pairing, Complexity)
+  jvm             - Java 17 & JVM Internals (Memory Model, JIT, Concurrency, GC)
+  sql             - Azure SQL & Relational Database Engineering (B-Tree, ACID, Tuning)
+  certs           - Verified Credentials (NPTEL Top 2%, Silver Badge, Azure DBA)
+  metrics         - Benchmarks (sub-100µs decision latency, SLA adherence)
   skills          - CS core competencies & backend technologies
   clear           - Wipe terminal output
   curl <endpoint> - Query live simulated API routes:
-                    • curl /api/aws
                     • curl /api/metrics
                     • curl /api/projects
                     • curl /api/skills`
@@ -54,7 +57,7 @@ function DeveloperTerminal() {
 • Candidate: Rashmi Pandey (B.Tech CSE @ Amity University, CGPA 8.00/10)
 • Target: Software Development Engineer (SDE / SDE Intern)
 • Core Strengths:
-  1. Distributed Systems & AWS: Engineered Lyapunov-optimized multi-region routing across 7 AWS regions with sub-100µs decision latency.
+  1. Distributed Systems & AWS: Researched multi-region routing across 7 AWS regions with sub-100µs decision latency & 0.0% SLA breach.
   2. Systems Programming & Java: Deep OOP, Jakarta Servlet 6.0, Tomcat 11, multi-threading, connection pooling, ACID transaction isolation.
   3. Algorithmic Rigor: Combinatorial tournament scheduling (round-robin + knockout graph generation) & constraint satisfaction.
   4. Operational Ownership: Zero SLA violation rate under regional grid chaos tests.`
@@ -68,12 +71,63 @@ function DeveloperTerminal() {
 1. Dive Deep:
    - Measured median routing overhead at 61µs; profiled microservice bottlenecks and network round-trip time.
 2. Customer Obsession & Operational Excellence:
-   - Maintained 0.0% SLA breach guarantee during simulated AWS us-east-1 outages.
+   - Maintained 0.0% SLA breach guarantee during simulated AWS regional failovers.
 3. Invent and Simplify:
-   - Formulated complex carbon-aware workload distribution into decoupled microservices.
-   - Replaced manual tournament spreadsheets with automated combinatorial algorithms for 100+ athletes.
+   - Formulated decoupled edge routing microservices; replaced manual tournament spreadsheets with automated graph algorithms for 100+ athletes.
 4. Deliver Results:
    - Built production-ready Jakarta EE WAR platform with 10+ relational migration stages; completed intensive NIAMT research internship.`
+          });
+          break;
+
+        case 'dsa':
+          newHistory.push({
+            type: 'output',
+            content: `[DATA STRUCTURES & ALGORITHMS IMPLEMENTATION]
+1. PriorityQueue Min-Heap (Study Planner):
+   - Custom Comparator prioritizing deadline urgency and cognitive decay.
+   - Time Complexity: O(N log N) for N task block allocations; O(1) peekMin().
+2. Combinatorial Graph Match Generator (Sangathan):
+   - Cyclic graph pairing (Berger algorithm) for round-robin tournaments.
+   - Full binary tree generation for single-elimination knockout brackets (O(log N) depth).
+3. Greedy Constraint Satisfaction:
+   - Dynamic time-block assignment with spaced repetition buffers.`
+          });
+          break;
+
+        case 'jvm':
+          newHistory.push({
+            type: 'output',
+            content: `[JAVA 17 & JVM RUNTIME ARCHITECTURE]
+• Memory Model (JMM): Eden, Survivor (S0/S1), Tenured (Old Gen), Metaspace.
+• Garbage Collection: Tuned for low-pause G1GC; optimized heap allocation rates.
+• Concurrency: Thread pools (ExecutorService), ReentrantLock, volatile memory fences.
+• Enterprise: Native Jakarta Servlets 6.0, Apache Tomcat 11, HikariCP JDBC connection pooling, BCrypt salting.`
+          });
+          break;
+
+        case 'sql':
+          newHistory.push({
+            type: 'output',
+            content: `[DATABASE ENGINEERING & AZURE DBA SPECIALIZATION]
+• Credential: Microsoft Certified: Azure Database Administrator Associate (ID: 647C0C2C5B35FA32)
+• Indexing: B-Tree Clustered vs Non-Clustered Composite Indexes (IX_Student_Date).
+• Query Execution: Replaced 418ms O(N) Table Scans with 1.2ms O(log N) Index Seeks (3 logical reads).
+• Integrity: 3NF Relational normalization, foreign key cascade constraints, ACID transaction isolation (Read Committed, Repeatable Read).`
+          });
+          break;
+
+        case 'certs':
+          newHistory.push({
+            type: 'output',
+            content: `[VERIFIED CREDENTIALS VAULT]
+1. NPTEL Python for Data Science (IIT Madras)
+   • Score: 84% • TOPPER 2% NATIONWIDE (Elite + Silver Medal)
+2. NPTEL The Joy of Computing using Python (IIT Ropar - Prof. Sudarshan Iyengar)
+   • Score: 87% • Silver Badge (Elite + Silver Medal)
+3. Microsoft Certified: Azure Database Administrator Associate
+   • Credential ID: 647C0C2C5B35FA32
+4. Microsoft Certified: Implement SQL Solutions Using AI-Assisted Tools
+5. Infosys Springboard: Java Programming Fundamentals`
           });
           break;
 
@@ -81,40 +135,43 @@ function DeveloperTerminal() {
           newHistory.push({
             type: 'output',
             content: `CORE COMPETENCIES:
-Languages      : Java 17, Python 3, C/C++, JavaScript (ES6+), SQL
-Cloud & DevOps : AWS (EC2, CloudWatch, Multi-Region), PM2, Git/GitHub, Docker Basics
-Backend & Web  : Jakarta Servlets 6.0, JSP/JSTL, Node.js, Express.js, REST APIs, Retrofit 2
-Databases      : MySQL, MongoDB, Relational Schema Normalization, ACID Transactions
-Algorithms     : Lyapunov Optimization, Combinatorial Graphs, Priority Queues, Dynamic Scheduling`
+Languages      : Java 17, Python 3, C, JavaScript (ES6+), SQL, Bash
+Cloud & DevOps : AWS (EC2, CloudWatch, Multi-Region), Microsoft Azure, PM2, Git/GitHub, Docker Basics
+Backend & Web  : Jakarta Servlets 6.0, Tomcat 11, Node.js, Express.js, REST APIs, Retrofit 2
+Databases      : Azure SQL, MySQL (ACID, Normalized Schemas), MongoDB Atlas, Mongoose
+Algorithms     : PriorityQueue Min-Heaps, Combinatorial Graph Pairing, Greedy Scheduling`
           });
           break;
 
         case 'projects':
           newHistory.push({
             type: 'output',
-            content: `PRODUCTION & RESEARCH WORKLOADS:
-[1] DVQ — Carbon-Aware Distributed Cloud Workload Routing System (2026)
-    • Tech: AWS (7-Region EC2/CloudWatch), Node.js Microservices, Lyapunov Engine, PM2
-    • Impact: 35.87% carbon reduction, 61 µs decision latency, 0.0% SLA violation rate.
+            content: `VERIFIED CODEBASES & CONFIDENTIAL RESEARCH:
+[1] DVQ — Cloud Workload Routing Optimization (NIAMT Summer Research)
+    • Tech: AWS (7-Region EC2/CloudWatch), Node.js Microservices, PM2
+    • Status: [🔒 Confidential Academic Research - Under Peer Review / Source Protected]
+    • Metrics: Sub-100µs decision latency, 0.0% SLA breach guarantee across all trials.
 [2] EXAMORA — Enterprise Academic Assessment & PDF Parsing Engine
-    • Tech: Jakarta Servlets 6.0, Tomcat 11, MySQL, BCrypt, Apache PDFBox, JSTL
-    • Impact: 10+ staged database migrations, secure role-based auth, automated PDF question parsing.
+    • Tech: Java 17, Jakarta Servlets 6.0, Tomcat 11, MySQL ACID, Apache PDFBox
+    • Status: Active GitHub Repository (61 commits) • github.com/rashmipandey870/EXAMORA
 [3] Sangathan — Tournament Fixture & Algorithmic Scheduling Platform
-    • Tech: Android (Java), Retrofit 2, Node.js, Express, MongoDB
-    • Impact: Automated round-robin & knockout bracket generation for 100+ participants, 80% admin overhead cut.`
+    • Tech: Android Java, Retrofit 2, Node.js REST, MongoDB Atlas
+    • Status: Active Repositories • Mobile & Backend
+[4] Study Planner — Dynamic Constraint-Based Scheduling Algorithm
+    • Tech: Java 17, PriorityQueue Min-Heap, Greedy Heuristics
+    • Status: Active Repository • github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-`
           });
           break;
 
         case 'metrics':
           newHistory.push({
             type: 'output',
-            content: `TELEMETRY & PRODUCTION BENCHMARKS:
-• Median Routing Overhead : 61 microseconds
-• Interactive Carbon Delta: -35.87% vs AWS ALB Baseline
-• Real-Time Carbon Delta  : -30.28%
+            content: `PRODUCTION & ALGORITHMIC BENCHMARKS:
+• Median Routing Overhead : 61 microseconds (AWS Multi-Region)
 • SLA Violation Adherence : 0.00% (Strict target met across all trials)
-• Active AWS Regions      : 7 (us-east-1, eu-west-1, us-west-2, ap-south-1, eu-central-1, ap-southeast-1, sa-east-1)
-• REST API Response Latency: < 200ms`
+• Min-Heap Schedule Time : 0.42 milliseconds (O(N log N))
+• B-Tree Index Seek Time  : 1.2 milliseconds (99.6% speedup vs Table Scan)
+• Total GitHub Commits    : 1,200+ verified contributions`
           });
           break;
 
@@ -124,20 +181,7 @@ Algorithms     : Lyapunov Optimization, Combinatorial Graphs, Priority Queues, D
           return;
 
         case 'curl':
-          if (arg === '/api/aws') {
-            newHistory.push({
-              type: 'output',
-              content: JSON.stringify({
-                status: 'HEALTHY',
-                cluster: 'aws-multi-region-prod',
-                regions_deployed: 7,
-                routing_engine: 'Lyapunov Drift-Plus-Penalty (DVQ)',
-                median_latency_us: 61,
-                carbon_reduction_pct: 35.87,
-                sla_violation_pct: 0.0
-              }, null, 2)
-            });
-          } else if (arg === '/api/metrics') {
+          if (arg === '/api/metrics') {
             newHistory.push({
               type: 'output',
               content: JSON.stringify({

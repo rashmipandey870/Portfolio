@@ -171,7 +171,13 @@ export default function ArchitectureModal({ project, onClose }) {
 
         {/* Footer */}
         <div className="bg-dark-950 px-6 py-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            {project.isConfidential && (
+              <div className="inline-flex items-center gap-2 rounded-lg bg-amber-500/10 border border-amber-500/30 px-3.5 py-2 text-xs font-mono text-amber-300">
+                <ShieldCheck className="h-4 w-4 text-amber-400" />
+                <span>Confidential Research (Under Peer Review &bull; Source Protected)</span>
+              </div>
+            )}
             {project.github && (
               <a 
                 href={project.github}

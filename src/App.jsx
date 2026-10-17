@@ -46,7 +46,7 @@ import {
 import DeveloperTerminal from './components/DeveloperTerminal';
 import AICopilot from './components/AICopilot';
 import ResumeModal from './components/ResumeModal';
-import AWSWorkloadSimulator from './components/AWSWorkloadSimulator';
+import SystemsAndAlgorithmsLab from './components/SystemsAndAlgorithmsLab';
 import ArchitectureModal from './components/ArchitectureModal';
 
 function App() {
@@ -162,7 +162,7 @@ function App() {
   // Active section tracking on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'simulator', 'projects', 'terminal', 'amazon-standards', 'skills', 'credentials', 'contact'];
+      const sections = ['hero', 'lab', 'projects', 'terminal', 'amazon-standards', 'skills', 'credentials', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -201,23 +201,24 @@ function App() {
   const projects = [
     {
       id: 'dvq',
-      title: 'DVQ — Carbon-Aware Cloud Workload Routing System',
-      tagline: 'Multi-region intelligent workload router balancing real-time grid carbon intensity against strict SLA constraints across 7 AWS regions.',
+      title: 'DVQ — Cloud Workload Routing Optimization System',
+      tagline: 'Multi-region intelligent workload router balancing real-time cloud grid metrics against strict SLA constraints across 7 AWS regions.',
       category: 'cloud',
-      tech: ['AWS (7 Regions)', 'Node.js', 'Express.js', 'PM2', 'MongoDB', 'CloudWatch API', 'Electricity Maps API'],
-      github: 'https://github.com/rashmipandey870',
-      demo: 'https://github.com/rashmipandey870',
-      metricPrimary: '61 µs',
+      isConfidential: true,
+      tech: ['AWS (7 Regions)', 'Node.js', 'Express.js', 'PM2', 'MongoDB', 'CloudWatch API', 'REST APIs'],
+      github: null,
+      demo: null,
+      metricPrimary: 'Sub-100µs',
       metricLabel: 'Decision Latency',
-      architectureFlow: 'Ingress Traffic ➔ PM2 Decision Gateway (61 µs) ➔ Lyapunov Drift-Plus-Penalty Engine ➔ Live Carbon & RTT Telemetry (7 AWS Regions) ➔ Optimal Workload Dispatch (0% SLA Breach)',
-      curlExample: 'curl -X POST https://dvq-gateway.aws.mesh/v1/route \\\n  -H "Content-Type: application/json" \\\n  -d \'{"slaLatencyMs": 120, "tier": "interactive"}\' \\\n  # Returns optimal region in 61 µs with 0% SLA breach',
-      starProblem: 'Global multi-region cloud workloads face erratic regional carbon emissions and unpredictable network latency under varying traffic bursts.',
-      starSolution: 'Architected a decoupled 6-microservice architecture on AWS formulated via Lyapunov drift-plus-penalty optimization to route requests dynamically across 7 AWS regions.',
-      starImpact: 'Cut workload carbon footprint by 35.87% (Interactive) and 30.28% (Realtime) with a 0.0% SLA violation rate and 61 µs median routing decision latency.',
+      architectureFlow: 'Ingress Traffic Gateway ➔ PM2 Distributed Router ➔ Regional Telemetry Ingestion (7 AWS Regions) ➔ Optimal Workload Dispatch (0.0% SLA Breach)',
+      curlExample: '# Source code & internal formulation are confidential under research peer review\n# Evaluated during NIAMT Summer Research Internship under Dr. Rahul Mishra\n# Architecture takeaways & benchmarks available during technical interview',
+      starProblem: 'Global cloud workloads experience unpredictable multi-region network latency and regional infrastructure variance under bursty loads.',
+      starSolution: 'Evaluated a decoupled edge dispatch and telemetry architecture across 7 AWS geographic regions during research at NIAMT Ranchi under Dr. Rahul Mishra.',
+      starImpact: 'Sustained sub-100µs decision latency with a verified 0.0% SLA breach guarantee across extensive multi-region synthetic evaluation trials.',
       highlights: [
-        'Decoupled 6 microservices: Routing Gateway, Telemetry Ingestion, Carbon Matrix Prober, State Vector Store, CloudWatch Metrics Collector, Dispatcher.',
-        'Sustained 0.0% SLA violation rate across extensive synthetic traffic bursts and chaos experiments.',
-        'Validated automated failover resilience under simulated AWS regional grid outages.'
+        'Decoupled microservice architecture: Routing Gateway, Telemetry Ingestion, State Prober, CloudWatch Metrics Collector.',
+        'Sustained 0.0% SLA breach guarantee across extensive synthetic traffic bursts and chaos experiments.',
+        'Proprietary academic research currently under peer review; source code and mathematical formulation protected.'
       ]
     },
     {
@@ -355,7 +356,7 @@ function App() {
           <nav className="hidden lg:flex items-center gap-1 font-mono text-xs">
             {[
               { id: 'hero', label: '// 01.root' },
-              { id: 'simulator', label: '// 02.aws_lab' },
+              { id: 'lab', label: '// 02.systems_lab' },
               { id: 'projects', label: '// 03.projects' },
               { id: 'terminal', label: '// 04.terminal' },
               { id: 'amazon-standards', label: '// 05.amazon_lp' },
@@ -457,11 +458,11 @@ function App() {
             {/* Action CTA Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="#simulator"
+                href="#lab"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-eco-500 to-cyan-600 text-white font-semibold text-sm shadow-lg shadow-eco-500/25 hover:opacity-95 transition-all"
               >
-                <Play className="h-4 w-4 fill-white" />
-                <span>Launch AWS Simulator</span>
+                <Cpu className="h-4 w-4" />
+                <span>Explore Systems &amp; Algorithms Lab</span>
               </a>
 
               <a
@@ -564,28 +565,9 @@ function App() {
           </div>
         </section>
 
-        {/* SECTION 1: AWS DISTRIBUTED WORKLOAD & LYAPUNOV SIMULATOR */}
-        <section id="simulator" className="space-y-6 pt-10 border-t border-white/5">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-eco-500/20 bg-eco-500/5 px-3 py-1 font-mono text-xs font-semibold text-eco-400 mb-2">
-                <Activity className="h-3.5 w-3.5 text-eco-400" />
-                <span>INTERACTIVE ENGINEERING LAB</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Live AWS Multi-Region Lyapunov Workload Simulator
-              </h2>
-              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-                Test the Lyapunov drift-plus-penalty algorithm across 7 AWS geographic regions. Inject regional grid outages, scale traffic, and observe sub-100µs decision telemetry.
-              </p>
-            </div>
-            <div className="font-mono text-xs text-slate-400 bg-dark-900 border border-white/10 px-3 py-2 rounded-lg">
-              Telemetry Status: <span className="text-eco-400 font-bold">ONLINE (61µs)</span>
-            </div>
-          </div>
-
-          {/* Embedded Full Interactive Simulator Component */}
-          <AWSWorkloadSimulator />
+        {/* SECTION 1: SYSTEMS ARCHITECTURE & ALGORITHMS LAB */}
+        <section id="lab" className="space-y-6 pt-10 border-t border-white/5">
+          <SystemsAndAlgorithmsLab />
         </section>
 
         {/* SECTION 2: THE 4 AUTHENTIC PROJECTS MATRIX */}
@@ -777,15 +759,22 @@ function App() {
                         <span>Inspect Architecture</span>
                       </button>
 
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 text-xs font-mono transition-colors"
-                      >
-                        <Github className="h-3.5 w-3.5 text-slate-400" />
-                        <span>Repository</span>
-                      </a>
+                      {project.isConfidential ? (
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-950 border border-amber-500/30 text-amber-300 text-xs font-mono">
+                          <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />
+                          <span>Confidential Research</span>
+                        </span>
+                      ) : (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 text-xs font-mono transition-colors"
+                        >
+                          <Github className="h-3.5 w-3.5 text-slate-400" />
+                          <span>Repository</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

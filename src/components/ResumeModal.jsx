@@ -127,12 +127,12 @@ function ResumeModal({ onClose }) {
                 {/* DVQ */}
                 <div className="space-y-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-xs font-bold text-[#1E293B]">DVQ — Multi-Region Cloud Workload Routing System</h3>
-                    <span className="text-[10px] font-mono text-[#64748B]">AWS • Node.js • PM2</span>
+                    <h3 className="text-xs font-bold text-[#1E293B]">DVQ — Cloud Workload Routing Optimization (Confidential Research)</h3>
+                    <span className="text-[10px] font-mono text-[#64748B]">AWS • Microservices • NIAMT</span>
                   </div>
                   <ul className="list-disc list-outside pl-4 text-xs text-[#334155] space-y-0.5">
-                    <li>Engineered decoupled 6-microservice architecture processing live telemetry from AWS CloudWatch and Electricity Maps API.</li>
-                    <li>Sub-100µs (61µs median) gateway routing decisions with zero queueing delay under high-throughput traffic.</li>
+                    <li>Researched multi-region routing architectures across AWS during internship at NIAMT Ranchi under Dr. Rahul Mishra (under peer review).</li>
+                    <li>Sustained sub-100µs decision latency with a verified 0.0% SLA breach rate across all synthetic evaluation trials.</li>
                   </ul>
                 </div>
 
