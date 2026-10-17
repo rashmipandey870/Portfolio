@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-dark-950 text-slate-300 font-sans overflow-x-hidden;
+    @apply bg-[#0b1120] text-slate-300 font-sans overflow-x-hidden antialiased;
   }
 }
 
@@ -15,56 +15,43 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #0b1120;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: #1e293b;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #10b981;
+  background: #3b82f6;
 }
 
-/* Glassmorphism Styles */
-.glass-panel {
-  background: rgba(9, 13, 22, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* Modern Portfolio Glass & Card Styles */
+.portfolio-card {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease-in-out;
 }
 
-.glass-panel-hover:hover {
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+.portfolio-card:hover {
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow: 0 12px 30px -4px rgba(59, 130, 246, 0.12);
   transform: translateY(-2px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Neo-brutalist / Glow utilities */
-.glow-text-emerald {
-  text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+.portfolio-badge {
+  @apply rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400 border border-blue-500/20;
 }
 
-.glow-text-cyan {
-  text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-}
-
-.glow-border-emerald {
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
-}
-
-/* Custom Dot Grid Background */
-.bg-grid-pattern {
-  background-size: 30px 30px;
+/* Subtle Grid Background */
+.bg-grid-subtle {
+  background-size: 32px 32px;
   background-image: 
-    radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
-/* Custom cursor hide if needed, but we'll use a neat React cursor */
-.custom-cursor-active {
-  cursor: none;
+    radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 /* Print Styling for Resume */
@@ -79,7 +66,7 @@
   .print-only {
     display: block !important;
   }
-  .glass-panel {
+  .portfolio-card {
     background: transparent !important;
     border: none !important;
     backdrop-filter: none !important;
