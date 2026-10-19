@@ -156,10 +156,13 @@ Algorithms     : PriorityQueue Min-Heaps, Combinatorial Graph Pairing, Greedy Sc
     • Status: Active GitHub Repository (61 commits) • github.com/rashmipandey870/EXAMORA
 [3] Sangathan — Tournament Fixture & Algorithmic Scheduling Platform
     • Tech: Android Java, Retrofit 2, Node.js REST, MongoDB Atlas
-    • Status: Active Repositories • Mobile & Backend
+    • Status: Active Repositories • Client: github.com/rashmipandey870/Sangathan-sports-management-Android-application- | Backend: github.com/rashmipandey870/Sangathan-Backend
 [4] Study Planner — Dynamic Constraint-Based Scheduling Algorithm
     • Tech: Java 17, PriorityQueue Min-Heap, Greedy Heuristics
-    • Status: Active Repository • github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-`
+    • Status: Active Repository • github.com/rashmipandey870/Study-Planner-Scheduling-Algorithm-
+[5] 100 Days of Code — Data Structures & Algorithms
+    • Tech: Java 17, 175+ Curated Interview Problems (Trees, Graphs, DP, Heaps)
+    • Status: Active Repository • github.com/rashmipandey870/100-days-of-code`
           });
           break;
 

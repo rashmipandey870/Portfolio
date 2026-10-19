@@ -623,12 +623,12 @@ function App() {
               {/* External Profile Links */}
               <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
                 <a 
-                  href="https://github.com/rashmipandey870" 
+                  href="https://github.com/rashmipandey870/100-days-of-code" 
                   target="_blank" 
                   rel="noreferrer"
                   className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
                 >
-                  <Github className="h-4 w-4" /> GitHub Repos
+                  <Github className="h-4 w-4" /> 100-Days DSA Repo
                 </a>
                 <a 
                   href="https://www.linkedin.com/in/rashmi-pandey-590a22340" 
@@ -667,7 +667,7 @@ function App() {
 
             <div className="flex items-center gap-2">
               <a
-                href="https://github.com/rashmipandey870?tab=repositories"
+                href="https://github.com/rashmipandey870/100-days-of-code"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-dark-900 border border-white/10 hover:border-cyan-500/30 text-xs font-mono text-slate-300 hover:text-white transition-colors"
